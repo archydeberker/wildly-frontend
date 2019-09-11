@@ -16,10 +16,11 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import ExternalAPI from '../components/ExternalAPI'
 
 export default function AccountDetails(props) {
   
-  const {open, setOpen, userID} = props
+  const {open, setOpen, userID, onLogout} = props
   fetch('http://127.0.0.1:5000/ping').then(results => console.log(results.json()))
   console.log(setOpen)  
   return (
@@ -32,7 +33,10 @@ export default function AccountDetails(props) {
       Logged in user is {userID}
       </Grid>
       <Grid>
-      <Button variant='contained' color='primary' style={{marginTop: 20}}> Logout </Button>
+      <ExternalAPI/>
+      </Grid>
+      <Grid>
+      <Button variant='contained' color='primary' onClick={() => onLogout()} style={{marginTop: 20}}> Logout </Button>
       </Grid>
       </CardContent>
       </Card>

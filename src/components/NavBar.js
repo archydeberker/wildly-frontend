@@ -6,7 +6,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Drawer from './Drawer'
+import Button from '@material-ui/core/Button';
 import AccountDetails from '../pages/AccountDetails'
+import { useAuth0 } from "../react-auth0-wrapper";
 
 
 const User = 'Steph Willis'
@@ -15,6 +17,13 @@ export default function NavBar () {
 
 	const [openDetail, setOpen] = React.useState(false)
 	const toggleVis = () => {console.log('opening account detail'); setOpen(true)}
+	const { loading, isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+
+ if (loading) {
+    return (
+      <div>Loading...</div>
+    );
+  }
 
 return (
 	<div>
@@ -28,11 +37,20 @@ return (
 	<div className='jss10' style={{flex: 1}} ></div>	
 	<IconButton style={{alignSelf: 'right'}} color="inherit" aria-label="user" >
 	<AccountCircle onClick={() => setOpen(true)}/>
-    </IconButton>
-    <Typography variant='light' style={{fontSize:15, weight:'light'}}> {User} </Typography>	
+	</IconButton>
+	<div>{!isAuthenticated && (
+        <Button onClick={() => loginWithRedirect({})} color='button'  style={{fontSize:15, weight:'light'}}> Login </Button>
+
+      )}
+
+      {isAuthenticated && 
+      	<Button><Typography onClick={() => logout()} variant='light' style={{fontSize:15, weight:'light'}}> Logout {user.email} </Typography></Button>}
+    </div>
+    	
 	</Toolbar>
 	</AppBar>
-	<AccountDetails open={openDetail} setOpen={setOpen} userID={User}/>	
+	{isAuthenticated && <AccountDetails open={openDetail} setOpen={setOpen} userID={user.email} onLogout={()=> logout()}/>}
+	{!isAuthenticated && <AccountDetails open={openDetail} setOpen={setOpen} userID= "No User" onLogout={()=> loginWithRedirect()}/>}
 
 	</div>
 	)

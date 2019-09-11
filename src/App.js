@@ -9,7 +9,11 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Tab from '@material-ui/core/Tab';
-import Script from 'react-load-script'
+import Script from 'react-load-script';
+import createAuth0Client from '@auth0/auth0-spa-js';
+import { useAuth0 } from "./react-auth0-wrapper";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Profile from "./components/Profile";
 
 function createMarkup() {
   return {__html: 'https://darksky.net/widget/default-small/42.360082,-71.05888/us12/en.js?width=undefined&height=70&title=Full Forecast&textColor=333333&bgColor=FFFFFF&skyColor=333&fontFamily=Default&customFont=&units=us'};
@@ -50,11 +54,17 @@ class App extends Component {
     this.setState({tabValue: newValue})
   }
 
+
+
   render = () =>
 { return (
+
   <ThemeProvider theme={theme}>
   <div>
+  <header>
    <NavBar/> 
+   </header>
+
    <Tabs
         value={this.state.tabValue}
         onChange={this.handleChange}
@@ -73,7 +83,9 @@ class App extends Component {
    </TabPanel>
    
    </div>
-   </ThemeProvider>)}}
+   </ThemeProvider>
+
+   )}}
 
 //  
 export default App;

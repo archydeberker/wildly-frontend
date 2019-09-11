@@ -5,10 +5,14 @@ const theme = createMuiTheme({
   palette: {
   	primary: {
   		main: teal[800],
+  		contrastText: '#fff',
   	},
     secondary: {
       main: cyan[300],
     },
+    button: {
+    	main: '#FFF'
+    }
   },
 });
 
