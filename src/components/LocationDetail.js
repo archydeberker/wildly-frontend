@@ -16,6 +16,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import {Weather} from '../components/Location'
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 
 export default function LocationDetail(props) {
   
@@ -39,15 +40,12 @@ export default function LocationDetail(props) {
       <CardMedia style={{width: '100%', height: '100%'}}>
       <Grid container spacing={3} flexDirection='row' wrap='nowrap'>
       {location ? (
-
-          <Weather id={location} type='weather-detailed' url={locationMap[location]['detailedWeather']} />
-
+          <Weather id={location} type='Weather' url={locationMap[location]['detailedWeather']} />
   
           )
            : 'Nothing'},
-      {location ? (
-
-               <Weather id={location} type='map' url={mapUrl}/>
+      {location ? (    
+               <Weather id={location} type='Map' url={locationMap[location]['mapUrl']}/>
 
           )
            : 'Nothing'}

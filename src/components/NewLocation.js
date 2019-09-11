@@ -23,9 +23,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
+
 import Input from '@material-ui/core/Input';
 import Terrain from '@material-ui/icons/Terrain';
-
+import Toolbar from '@material-ui/core/Toolbar';
 import Select from 'react-select';
 import activities from '../data/activities'
 
@@ -38,8 +39,12 @@ const NewLocation = (props) => {
                 <CardMedia style={{marginTop: '56.25%', width: '100%', height: '100%', alignContents: 'center'}}
                 title='Add New Location'
 				>
+				<Toolbar>
+				<div className='jss10' style={{flex: 0.5}} ></div>	
                 <AddCircle color='primary' style={{fontSize:'5em'}}/>
+                </Toolbar>
                 </CardMedia>
+                
                 <CardContent style={{width: '100%', height: '100%'}}>
                 <Typography gutterBottom variant="headline" component="h2">
                     Add a new location
@@ -67,10 +72,7 @@ function LocationAdd(props) {
      <div>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add new location</DialogTitle>
-        <DialogContent style={{paddingBottom:'20%'}}>
-          <DialogContentText style={{width: 800}}>
-            Search for a location to add it.
-          </DialogContentText>
+        <DialogContent style={{paddingBottom:'20%', minWidth: 500}}>
  
             <TextField
             autoFocus
@@ -88,12 +90,17 @@ function LocationAdd(props) {
             		),
             }}
           />
+          <InputLabel shrink color='primary' style={{paddingTop: 25}}>
+          Activities
+          </InputLabel>
           <Select
           isMulti
           name="colors"
+          label="activities"
           options={activities}
           className="basic-multi-select"
           classNamePrefix="select"
+          style={{paddingTop: 200}}
           />
 
 
@@ -103,7 +110,7 @@ function LocationAdd(props) {
             Cancel
           </Button>
           <Button onClick={handleClose} color="primary">
-            Subscribe
+            Add
           </Button>
         </DialogActions>
       </Dialog>

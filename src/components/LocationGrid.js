@@ -60,7 +60,9 @@ class LocationGrid extends Component {
     }
 
     locationMapper = (obj, item) => {console.log(item); 
-                                    obj[item.fields.title] = {detailedWeather: item.fields.detailedWeather};
+        // TODO: pass all props here
+                                    obj[item.fields.title] = {detailedWeather: item.fields.detailedWeather,
+                                                              mapUrl: item.fields.mapUrl};
                                     return obj}
 
     onSearchInputChange = (event) => {

@@ -16,21 +16,6 @@ function createMarkup() {
 }
 
 
-function MyComponent() {
-  // return <div style={{height: 100}} dangerouslySetInnerHTML={createMarkup()} />;
-  return '';
-}
-
-
-
-// function createMarkup() {
-//   return {__html: 'First &middot; Second'};
-// }
-
-// function MyComponent() {
-//   return <div dangerouslySetInnerHTML={createMarkup()} />;
-// }
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -62,7 +47,6 @@ class App extends Component {
   }
 
   handleChange = (e, newValue) => {
-    console.log(newValue);
     this.setState({tabValue: newValue})
   }
 

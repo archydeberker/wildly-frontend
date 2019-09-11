@@ -18,20 +18,21 @@ class Weather extends Component{
      super()
      console.log(props)
      this.state = {id: props.id + props.type +'-div' + (Math.ceil(Math.random()*100)).toString(),
-                  url: props.url}
+                  url: props.url,
+                  type: props.type}
   }
 
   render(){
-    return <Grid xs={6} flexGrow={1} alignSelf='center' style={{alignSelf: 'center'}} id={this.state.id}> </Grid>
+    return <Grid xs={6} flexGrow={1} alignSelf='center' style={{alignSelf: 'center', alignContents: 'center'}} id={this.state.id}>
+    
+    </Grid>
   }
 
   componentDidMount() 
   { 
-    console.log(this.state.url);
     postscribe('#'+this.state.id,
     // '<script type="text/javascript" src="https://darksky.net/widget/small/43.0481,-76.1474/us12/en.js?width=undefined&title=Full Forecast&textColor=333333&bgColor=FFFFFF&skyColor=333&fontFamily=Default&customFont=&units=us"></script>'); }
     // "<script type='text/javascript' src='https://darksky.net/widget/default/42.360082,-71.05888/us12/en.js?width=200%&height=350&title=Full Forecast&textColor=333333&bgColor=FFFFFF&transparency=false&skyColor=undefined&fontFamily=Default&customFont=&units=us&htColor=333333&ltColor=C7C7C7&displaySum=no&displayHeader=no'></script>"
-    
     this.state.url 
     );}
 }
