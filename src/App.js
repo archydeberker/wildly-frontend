@@ -1,19 +1,24 @@
 import React, {Component} from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 import './App.css';
 import NavBar from './components/NavBar'
 import theme from './theme'
 import { ThemeProvider } from '@material-ui/styles';
-import LocationView from './pages/locationPage'
+
 import Tabs from '@material-ui/core/Tabs';
 import PhoneIcon from '@material-ui/icons/Phone';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Tab from '@material-ui/core/Tab';
 import Script from 'react-load-script';
-import createAuth0Client from '@auth0/auth0-spa-js';
-import { useAuth0 } from "./react-auth0-wrapper";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Profile from "./components/Profile";
+
+
+import LocationView from './pages/locationPage'
+import SearchBox from './pages/testSearchbox'
+import Splash from "./pages/Splash"
+
+require('dotenv').config();
 
 function createMarkup() {
   return {__html: 'https://darksky.net/widget/default-small/42.360082,-71.05888/us12/en.js?width=undefined&height=70&title=Full Forecast&textColor=333333&bgColor=FFFFFF&skyColor=333&fontFamily=Default&customFont=&units=us'};
@@ -44,7 +49,7 @@ function a11yProps(index) {
   };
 } 
 
-class App extends Component {
+class MainApp extends Component {
   constructor(){
     super()
     this.state = {tabValue: 0}
@@ -87,5 +92,23 @@ class App extends Component {
 
    )}}
 
-//  
-export default App;
+function About() {
+  return <h2>About</h2>;
+}
+
+
+function AppRouter() {
+  return (
+    <Router>
+      <div>
+        <Route path="/" exact component={MainApp} />
+        <Route path="/about/" component={About} />
+        <Route path="/splash/" component={Splash} />
+        <Route path="/search/" component= {SearchBox}/ >
+      </div>
+    </Router>
+  );
+}
+
+export default AppRouter;
+
