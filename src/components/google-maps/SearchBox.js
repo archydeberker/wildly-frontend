@@ -2,6 +2,10 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Terrain from '@material-ui/icons/Terrain';
+import Input from '@material-ui/core/Input'
+import Popper from '@material-ui/core/Popper';
 
 const Wrapper = styled.div`
   position: relative;
@@ -49,9 +53,9 @@ class SearchBox extends Component {
 
   render() {
     return (
-      <Wrapper>
-        <input
-          ref={(ref) => {
+      // <Wrapper>
+                <Input
+          inputRef={(ref) => {
             this.searchInput = ref;
           }}
           type="text"
@@ -59,9 +63,15 @@ class SearchBox extends Component {
           placeholder="Enter a location"
           style={{'width':this.props.width}}
         />
-      </Wrapper>
+
+      // </Wrapper>
+
     );
   }
 }
 
 export default SearchBox;
+
+
+
+

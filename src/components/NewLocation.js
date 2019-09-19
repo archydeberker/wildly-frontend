@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -30,6 +30,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Select from 'react-select';
 import activities from '../data/activities'
 
+import SearchPanel from '../components/google-maps/SearchPanel'
+import { useAuth0} from "../react-auth0-wrapper";
 
 const NewLocation = (props) => {
     return(
@@ -49,6 +51,7 @@ const NewLocation = (props) => {
                 <Typography gutterBottom variant="headline" component="h2">
                     Add a new location
                 </Typography>
+
                 </CardContent>  
                 <CardActions>
                 </CardActions>
@@ -59,39 +62,60 @@ const NewLocation = (props) => {
     )
 }
 
+const registerNewLocation = (location) =>{
+  // const { getTokenSilently } = useAuth0();
+  // const token = getTokenSilently();
+  console.log('inside function')
+  console.log(location)
+  fetch('/api/add-location', {
+    method: 'post',
+    body: JSON.stringify(location),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    //       Authorization: `Bearer ${token}`
+       }
+  })
+}
+
 
 function LocationAdd(props) {
   
   const {handleClickOpen, onClose, open} = props;
+  const [currLocation, setLocation] = useState([])
 
+  function onSelect(places) {
+    console.log('New location selected')
+    const new_location = places.pop()
+    console.log(new_location)
+
+    const location = {'name': new_location.vicinity,
+                      'longitude': new_location.geometry.location.lng(),
+                      'latitude': new_location.geometry.location.lat(),
+                              }
+
+
+    console.log(location)
+
+    setLocation(location)
+
+
+  }
+  
   function handleClose() {
+    registerNewLocation(currLocation)
     onClose();
   }
 
     return (
      <div>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog style={{ overflowY: 'visible' }} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add new location</DialogTitle>
-        <DialogContent style={{paddingBottom:'20%', minWidth: 500}}>
- 
-            <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Location"
-            type="email"
-            icon='search'
-            fullWidth
-            InputProps={{
-            	startAdornment: (
-            		<InputAdornment position="start">
-            		<Terrain />
-            		</InputAdornment>
-            		),
-            }}
-          />
+        <DialogContent style={{paddingBottom:'20%', minWidth: 500,  overflowY: 'visible'}}>
+        <div style={{height: '300px'}} ><SearchPanel onSelect={onSelect}/> </div>
+          <div style={{paddingTop: '100px'}}>
           <InputLabel shrink color='primary' style={{paddingTop: 25}}>
-          Activities
+          What do you like to do there?
           </InputLabel>
           <Select
           isMulti
@@ -102,9 +126,10 @@ function LocationAdd(props) {
           classNamePrefix="select"
           style={{paddingTop: 200}}
           />
-
-
+        </div>
+        
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
@@ -119,3 +144,21 @@ function LocationAdd(props) {
   }
 
 export {NewLocation, LocationAdd}
+
+
+   //TextField
+          //   autoFocus
+          //   margin="dense"
+          //   id="name"
+          //   label="Location"
+          //   type="email"
+          //   icon='search'
+          //   fullWidth
+          //   InputProps={{
+          //    startAdornment: (
+          //      <InputAdornment position="start">
+          //      <Terrain />
+          //      </InputAdornment>
+          //      ),
+          //   }}
+          // />

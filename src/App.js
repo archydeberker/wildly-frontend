@@ -15,7 +15,9 @@ import Script from 'react-load-script';
 
 
 import LocationView from './pages/locationPage'
-import SearchBox from './pages/testSearchbox'
+
+import {LocationAdd} from './components/NewLocation'
+import SearchPanel from './components/google-maps/SearchPanel'
 import Splash from "./pages/Splash"
 
 require('dotenv').config();
@@ -104,7 +106,8 @@ function AppRouter() {
         <Route path="/" exact component={MainApp} />
         <Route path="/about/" component={About} />
         <Route path="/splash/" component={Splash} />
-        <Route path="/search/" component= {SearchBox}/ >
+        <Route path="/location/" component= {LocationAdd} /> 
+        <Route path="/search/" component= {SearchPanel} />
       </div>
     </Router>
   );
