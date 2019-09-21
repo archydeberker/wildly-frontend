@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react'
+import React, {useState} from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -6,32 +6,24 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import ButtonBase from '@material-ui/core/ButtonBase';
-import Chip from '@material-ui/core/Chip';
-import Iframe from '@material-ui/core/Chip';
-import postscribe from 'postscribe';
-import Grid from '@material-ui/core/Grid'
 import AddCircle from '@material-ui/icons/AddCircle'
 
-import TextField from '@material-ui/core/TextField';
+
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-
-import Input from '@material-ui/core/Input';
-import Terrain from '@material-ui/icons/Terrain';
 import Toolbar from '@material-ui/core/Toolbar';
-import Select from 'react-select';
+
+import CreatableSelect from 'react-select/creatable';
 import activities from '../data/activities'
 
 import SearchPanel from '../components/google-maps/SearchPanel'
-import { useAuth0} from "../react-auth0-wrapper";
+import { registerNewLocation } from '../api/AddLocation'
+
+
 
 const NewLocation = (props) => {
     return(
@@ -62,27 +54,11 @@ const NewLocation = (props) => {
     )
 }
 
-const registerNewLocation = (location) =>{
-  // const { getTokenSilently } = useAuth0();
-  // const token = getTokenSilently();
-  console.log('inside function')
-  console.log(location)
-  fetch('/api/add-location', {
-    method: 'post',
-    body: JSON.stringify(location),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    //       Authorization: `Bearer ${token}`
-       }
-  })
-}
-
-
 function LocationAdd(props) {
   
   const {handleClickOpen, onClose, open} = props;
   const [currLocation, setLocation] = useState([])
+  const [selectedActivities, setActivities] = useState([])
 
   function onSelect(places) {
     console.log('New location selected')
@@ -103,6 +79,7 @@ function LocationAdd(props) {
   }
   
   function handleClose() {
+    currLocation.activities = selectedActivities
     registerNewLocation(currLocation)
     onClose();
   }
@@ -117,14 +94,14 @@ function LocationAdd(props) {
           <InputLabel shrink color='primary' style={{paddingTop: 25}}>
           What do you like to do there?
           </InputLabel>
-          <Select
+          <CreatableSelect
           isMulti
-          name="colors"
           label="activities"
           options={activities}
           className="basic-multi-select"
           classNamePrefix="select"
           style={{paddingTop: 200}}
+          onChange={(value) => setActivities(value)}
           />
         </div>
         
@@ -144,21 +121,3 @@ function LocationAdd(props) {
   }
 
 export {NewLocation, LocationAdd}
-
-
-   //TextField
-          //   autoFocus
-          //   margin="dense"
-          //   id="name"
-          //   label="Location"
-          //   type="email"
-          //   icon='search'
-          //   fullWidth
-          //   InputProps={{
-          //    startAdornment: (
-          //      <InputAdornment position="start">
-          //      <Terrain />
-          //      </InputAdornment>
-          //      ),
-          //   }}
-          // />

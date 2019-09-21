@@ -3,7 +3,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Drawer from './Drawer'
 import Button from '@material-ui/core/Button';
@@ -17,7 +17,7 @@ export default function NavBar () {
 
 	const [openDetail, setOpen] = React.useState(false)
 	const toggleVis = () => {console.log('opening account detail'); setOpen(true)}
-	const { loading, isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+	const { loading, isAuthenticated, loginWithRedirect, loginWithPopup, handleRedirectCallback, logout, user } = useAuth0();
 
  if (loading) {
     return (
