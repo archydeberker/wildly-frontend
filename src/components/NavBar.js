@@ -13,17 +13,34 @@ import { useAuth0 } from "../react-auth0-wrapper";
 
 const User = 'Steph Willis'
 
+
 export default function NavBar () {
 
 	const [openDetail, setOpen] = React.useState(false)
 	const toggleVis = () => {console.log('opening account detail'); setOpen(true)}
-	const { loading, isAuthenticated, loginWithRedirect, loginWithPopup, handleRedirectCallback, logout, user } = useAuth0();
+	const { loading, isAuthenticated, loginWithRedirect, logout, user, getTokenSilently } = useAuth0();
+	
+	const setLoggedInUser =  async(getTokenSilently) => {
+		const token = await getTokenSilently();
+		const response = fetch('/api/add-user', {
+			method: 'post',
+			body: JSON.stringify(user),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}`,
+			}
+		})
+		return <div></div>
+}
 
  if (loading) {
     return (
       <div>Loading...</div>
     );
   }
+
+{isAuthenticated && setLoggedInUser(getTokenSilently)}
 
 return (
 	<div>
@@ -44,7 +61,9 @@ return (
       )}
 
       {isAuthenticated && 
-      	<Button><Typography onClick={() => logout()} variant='light' style={{fontSize:15, weight:'light'}}> Logout {user.email} </Typography></Button>}
+		  <Button><Typography onClick={() => logout()} variant='light' style={{fontSize:15, weight:'light'}}> Logout {user.email} </Typography></Button>
+		  }
+	 
     </div>
     	
 	</Toolbar>

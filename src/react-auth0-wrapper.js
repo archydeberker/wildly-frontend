@@ -1,7 +1,7 @@
 // src/react-auth0-wrapper.js
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
-import {LogUserToBackend} from "./api/Auth"
+
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
 
@@ -35,8 +35,6 @@ export const Auth0Provider = ({
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
         setUser(user);
-        LogUserToBackend(user)
-        console.log("user logged to backend")
       }
 
       setLoading(false);
