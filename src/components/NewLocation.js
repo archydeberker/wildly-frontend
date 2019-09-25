@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -19,11 +19,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import CreatableSelect from 'react-select/creatable';
 import activities from '../data/activities'
+import getActivities from '../api/GetActivities'
 
 import SearchPanel from '../components/google-maps/SearchPanel'
 import { registerNewLocation } from '../api/AddLocation'
 
-
+import { useAuth0 } from "../react-auth0-wrapper";
 
 const NewLocation = (props) => {
     return(
@@ -59,28 +60,42 @@ function LocationAdd(props) {
   const {handleClickOpen, onClose, open} = props;
   const [currLocation, setLocation] = useState([])
   const [selectedActivities, setActivities] = useState([])
+  const [activities, setAllActivities] = useState([])
+  const {getTokenSilently} = useAuth0()
 
   function onSelect(places) {
-    console.log('New location selected')
     const new_location = places.pop()
-    console.log(new_location)
-
     const location = {'name': new_location.vicinity,
                       'longitude': new_location.geometry.location.lng(),
                       'latitude': new_location.geometry.location.lat(),
                               }
 
-
-    console.log(location)
-
     setLocation(location)
-
+    console.log(location)
 
   }
   
+
+  
+  console.log(activities)
+  async function getActivities(){
+    const response = await fetch('/api/activities', {
+        method: 'get',
+        })
+    
+    const json = await response.json()
+    const options = json.map(name => ({'label': name, 'value': name}))
+    setAllActivities(options)
+  }
+
+  useEffect(() =>
+  // code to run on component mount
+    getActivities
+  )
+  
   function handleClose() {
     currLocation.activities = selectedActivities
-    registerNewLocation(currLocation)
+    registerNewLocation(currLocation, getTokenSilently)
     onClose();
   }
 
@@ -94,7 +109,7 @@ function LocationAdd(props) {
           <InputLabel shrink color='primary' style={{paddingTop: 25}}>
           What do you like to do there?
           </InputLabel>
-          <CreatableSelect
+            <CreatableSelect
           isMulti
           label="activities"
           options={activities}
