@@ -23,4 +23,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-auth_config.json.idea
+auth_config.json
+.idea
