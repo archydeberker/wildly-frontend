@@ -43,8 +43,8 @@ function LocationGrid(){
     const {loading, getTokenSilently} = useAuth0()
 
     const getLocationList = (setLocationList) => {
+        console.log('gll called')
         getUserLocations(setLocationList, getTokenSilently).then(console.log(locationList))
-        
     }
 
     const getFullLocations = () => {
@@ -98,6 +98,7 @@ function LocationGrid(){
         setOpen(false)
         setLocationAddOpen(false)
         setSelectedValue(value)
+        getLocationList(setLocationList)
      };
 
     return (
