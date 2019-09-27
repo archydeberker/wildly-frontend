@@ -13,7 +13,7 @@ class Client {
 
      getEntries(replicas) {;
 
-        const entries = () =>  ({items: Array(Math.ceil(Math.random()*10)).fill().map(()=>RandomEntry())})
+        const entries = () =>  ({items: Array(replicas).fill().map(()=>RandomEntry())})
 
         return new Promise(resolve => setTimeout(() => {
             resolve(entries())}
@@ -21,15 +21,7 @@ class Client {
     }
 }
 
-// const getLocationsForUser = () => {
-    
-    
-    
-//     return locationArray
-
 const client = new Client()
-
-
 
 function LocationGrid(){
 
@@ -41,6 +33,7 @@ function LocationGrid(){
                 locationMap: {}})
 
     const [locations, setLocations] = useState([])
+    const [locationList, setLocationList] = useState([''])
     const [searchString, setSearchString] = useState('')
     const [open, setOpen] = useState(false)
     const [locationMap, setLocationMap] = useState({})
@@ -49,11 +42,17 @@ function LocationGrid(){
     const [selectedValue, setSelectedValue] = useState(0)
     const {loading, getTokenSilently} = useAuth0()
 
-    const getLocations = () => {
-        client.getEntries(Math.floor(Math.random()*10))
+    const getLocationList = (setLocationList) => {
+        getUserLocations(setLocationList, getTokenSilently).then(console.log(locationList))
+        
+    }
+
+    const getFullLocations = () => {
+        client.getEntries(locationList.length)
         .then((response) => {
             console.log(response.items)
-            console.log(locations)
+            locationList.map((name, i) => response.items[i].fields.title=name)
+            console.log(response.items)
             setLocations(response.items)
             setLocationMap(response.items.reduce(locationMapper, {}))
             console.log('State.locations:')
@@ -65,8 +64,10 @@ function LocationGrid(){
         })
     }
 
-    useEffect(() => getLocations(), [])
-    useEffect(() => {if(!loading){getUserLocations(console.log, getTokenSilently)}}, [loading])
+    useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
+    useEffect(() => {getFullLocations()}, [locationList])
+
+    // useEffect(() => {if(!loading){getUserLocations(console.log, getTokenSilently)}}, [loading])
 
     const locationMapper = (obj, item) => {console.log(item); 
                                     obj[item.fields.title] = {detailedWeather: item.fields.detailedWeather,
@@ -80,7 +81,7 @@ function LocationGrid(){
         } else {
             setSearchString('')
         }
-        getLocations()
+        getFullLocations()
     }
 
 

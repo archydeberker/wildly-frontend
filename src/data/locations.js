@@ -58,7 +58,7 @@ const googleMaps = locationNames.reduce(embedMapper, {})
 
 function RandomEntry(){
 
-	console.log(detailedWeather['Rumney, New Hampshire'])
+
     const imgNumber = Math.ceil(Math.random()*100)
     let randName = locationNames[Math.floor(Math.random() * locationNames.length)]
     console.log(googleMaps[randName])

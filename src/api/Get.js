@@ -25,8 +25,8 @@ const getRequestWithAuth = (route) =>{
             })
         
         const json = await response.json()
-        const output = json.map(name => ({'label': name, 'value': name}))
-        handler(output)
+        console.log(json)
+        handler(json)
     }
 
     return get
