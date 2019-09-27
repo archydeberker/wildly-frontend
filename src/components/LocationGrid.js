@@ -1,16 +1,17 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Location from '../components/Location'
-import SimpleDialog from '../components/Alert'
+
 import LocationDetail from '../components/LocationDetail'
 import RandomEntry from '../data/locations'
 import {NewLocation, LocationAdd} from '../components/NewLocation'
- 
+import {getUserLocations} from '../api/Get.js' 
+import { useAuth0 } from "../react-auth0-wrapper";
 
 class Client {
 
-     getEntries(replicas) {console.log(replicas);
+     getEntries(replicas) {;
 
         const entries = () =>  ({items: Array(Math.ceil(Math.random()*10)).fill().map(()=>RandomEntry())})
 
@@ -20,110 +21,116 @@ class Client {
     }
 }
 
+// const getLocationsForUser = () => {
+    
+    
+    
+//     return locationArray
+
 const client = new Client()
 
-client.getEntries(5).then(entries => console.log(entries)).catch(err => console.log('Problem'))
 
-class LocationGrid extends Component {
-   
-    constructor() {
-        super()
-        this.state = {
-                    locations: [],
-                    searchString: '',
-                    open: false,
-                    selectedValue: 0,
-                    locationMap: {},
-                }
-    
-        this.getLocations()
 
-            }
+function LocationGrid(){
 
-    getLocations = () => {
+    const [setState, state] = useState(
+                {locations: [],
+                searchString: '',
+                open: false,
+                selectedValue: 0,
+                locationMap: {}})
+
+    const [locations, setLocations] = useState([])
+    const [searchString, setSearchString] = useState('')
+    const [open, setOpen] = useState(false)
+    const [locationMap, setLocationMap] = useState({})
+    const [selectedCard, setSelectedCard] = useState('')
+    const [locationAddOpen, setLocationAddOpen] = useState(false)
+    const [selectedValue, setSelectedValue] = useState(0)
+    const {loading, getTokenSilently} = useAuth0()
+
+    const getLocations = () => {
         client.getEntries(Math.floor(Math.random()*10))
         .then((response) => {
             console.log(response.items)
-            console.log(this.state.locations)
-            this.setState({locations: response.items,
-                           locationMap: response.items.reduce(this.locationMapper, {})})
-
+            console.log(locations)
+            setLocations(response.items)
+            setLocationMap(response.items.reduce(locationMapper, {}))
             console.log('State.locations:')
-            console.log(this.state.locations)
+            console.log(locations)
         })
         .catch((error) => {
           console.log("Error occurred while fetching Entries")
           console.error(error)
         })
-    
-
     }
 
-    locationMapper = (obj, item) => {console.log(item); 
-        // TODO: pass all props here
+    useEffect(() => getLocations(), [])
+    useEffect(() => {if(!loading){getUserLocations(console.log, getTokenSilently)}}, [loading])
+
+    const locationMapper = (obj, item) => {console.log(item); 
                                     obj[item.fields.title] = {detailedWeather: item.fields.detailedWeather,
                                                               mapUrl: item.fields.mapUrl};
                                     return obj}
 
-    onSearchInputChange = (event) => {
+    const onSearchInputChange = (event) => {
         console.log("Search changed ..." + event.target.value)
         if (event.target.value) {
-            this.setState({searchString: event.target.value})
+            setSearchString( event.target.value)
         } else {
-            this.setState({searchString: ''})
+            setSearchString('')
         }
-        this.getLocations()
+        getLocations()
     }
 
 
-    handleClickOpen = (event) => {
-        this.setState({open: true});
-        this.setState({selectedCard: event.target.title})
+    const handleClickOpen = (event) => {
+        setOpen(true)
+        setSelectedCard(event.target.title)
     }
 
-    newLocationClickOpen = (event) => {
-        this.setState({locationAddOpen: true});
+    const newLocationClickOpen = (event) => {
+        setLocationAddOpen(true);
     }
 
-    handleClose = (value) => {
-        this.setState({open: false,
-            locationAddOpen:false, 
-            selectedValue: {value}})
-    };
+    const handleClose = (value) => {
+        setOpen(false)
+        setLocationAddOpen(false)
+        setSelectedValue(value)
+     };
 
-    render() {
-
-        return (
+    return (
             <div>
-                { this.state.locations ? (
+                { locations ? (
                     <div>
                         <TextField style={{padding: 24}}
                             id="searchInput"
                             placeholder="Search for Locations"   
                             margin="normal"
-                            onChange={this.onSearchInputChange}
+                            onChange={onSearchInputChange}
                             />
                         <Grid container spacing={6} style={{padding: 50}}>
-                            { this.state.locations.map(currentLocation => (
+                            { locations.map(currentLocation => (
                                 <Grid item xs={12} sm={6} lg={4} xl={3}>
-                                    <Location location={currentLocation} handleClickOpen={this.handleClickOpen}/>
+                                    <Location location={currentLocation} handleClickOpen={handleClickOpen}/>
                                 </Grid>
                             ))}
 
                                 <Grid item xs={12} sm={6} lg={4} xl={3}>
-                                    <NewLocation handleClickOpen={this.newLocationClickOpen}/>
+                                    <NewLocation handleClickOpen={newLocationClickOpen}/>
                                 </Grid>
                         </Grid>
-                    <LocationDetail selectedValue={this.state.selectedValue} open={this.state.open} onClose={this.handleClose} 
-                    location={this.state.selectedCard} locationMap={this.state.locationMap}/>
-                    <LocationAdd open={this.state.locationAddOpen} onClose={this.handleClose} 
-                    location={this.state.selectedCard} locationMap={this.state.locationMap}/>
+                    <LocationDetail selectedValue={selectedValue} open={open} onClose={handleClose} 
+                    location={selectedCard} locationMap={locationMap}/>
+                    <LocationAdd open={locationAddOpen} onClose={handleClose} 
+                    location={selectedCard} locationMap={locationMap}
+                    />
                     </div>
                 ) : "No locations found" }
             
             </div>
         )
     }
-}
+
 
 export default LocationGrid;
