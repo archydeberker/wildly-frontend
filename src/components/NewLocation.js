@@ -19,7 +19,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import CreatableSelect from 'react-select/creatable';
 import activities from '../data/activities'
-import getActivities from '../api/GetActivities'
+import {getActivities} from '../api/Get'
 
 import SearchPanel from '../components/google-maps/SearchPanel'
 import { registerNewLocation } from '../api/AddLocation'
@@ -78,21 +78,21 @@ function LocationAdd(props) {
 
   
   console.log(activities)
-  async function getActivities(){
-    const response = await fetch('/api/activities', {
-        method: 'get',
-        })
+  // async function getActivities(){
+  //   const response = await fetch('/api/activities', {
+  //       method: 'get',
+  //       })
     
-    const json = await response.json()
-    const options = json.map(name => ({'label': name, 'value': name}))
-    setAllActivities(options)
-  }
+  //   const json = await response.json()
+  //   const options = json.map(name => ({'label': name, 'value': name}))
+  //   setAllActivities(options)
+  // }
 
   useEffect(() =>
   // code to run on component mount
-    getActivities
+    getActivities(setAllActivities), []
   )
-  
+
   function handleClose() {
     currLocation.activities = selectedActivities
     registerNewLocation(currLocation, getTokenSilently)
