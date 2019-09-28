@@ -1,31 +1,22 @@
 import React, {Component} from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import './App.css';
 import NavBar from './components/NavBar'
 import theme from './theme'
-import { ThemeProvider } from '@material-ui/styles';
+import LocationView from './pages/locationPage'
+import {LocationAdd} from './components/NewLocation'
+import SearchPanel from './components/google-maps/SearchPanel'
+import Splash from "./pages/Splash"
 
+import { ThemeProvider } from '@material-ui/styles';
 import Tabs from '@material-ui/core/Tabs';
 import PhoneIcon from '@material-ui/icons/Phone';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Tab from '@material-ui/core/Tab';
-import Script from 'react-load-script';
-
-
-import LocationView from './pages/locationPage'
-
-import {LocationAdd} from './components/NewLocation'
-import SearchPanel from './components/google-maps/SearchPanel'
-import Splash from "./pages/Splash"
 
 require('dotenv').config();
-
-function createMarkup() {
-  return {__html: 'https://darksky.net/widget/default-small/42.360082,-71.05888/us12/en.js?width=undefined&height=70&title=Full Forecast&textColor=333333&bgColor=FFFFFF&skyColor=333&fontFamily=Default&customFont=&units=us'};
-}
-
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

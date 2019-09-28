@@ -7,7 +7,7 @@ import LocationDetail from '../components/LocationDetail'
 import RandomEntry from '../data/locations'
 import {NewLocation, LocationAdd} from '../components/NewLocation'
 import {getUserLocations} from '../api/Get.js' 
-import { useAuth0 } from "../react-auth0-wrapper";
+import {useAuth0} from "../react-auth0-wrapper";
 
 class Client {
 
@@ -24,14 +24,6 @@ class Client {
 const client = new Client()
 
 function LocationGrid(){
-
-    const [setState, state] = useState(
-                {locations: [],
-                searchString: '',
-                open: false,
-                selectedValue: 0,
-                locationMap: {}})
-
     const [locations, setLocations] = useState([])
     const [locationList, setLocationList] = useState([''])
     const [searchString, setSearchString] = useState('')
@@ -66,8 +58,6 @@ function LocationGrid(){
 
     useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
     useEffect(() => {getFullLocations()}, [locationList])
-
-    // useEffect(() => {if(!loading){getUserLocations(console.log, getTokenSilently)}}, [loading])
 
     const locationMapper = (obj, item) => {console.log(item); 
                                     obj[item.fields.title] = {detailedWeather: item.fields.detailedWeather,

@@ -11,18 +11,14 @@ import AccountDetails from '../pages/AccountDetails'
 import { useAuth0 } from "../react-auth0-wrapper";
 
 
-const User = 'Steph Willis'
-
-
 export default function NavBar () {
 
 	const [openDetail, setOpen] = React.useState(false)
-	const toggleVis = () => {console.log('opening account detail'); setOpen(true)}
 	const { loading, isAuthenticated, loginWithRedirect, logout, user, getTokenSilently } = useAuth0();
 	
 	const setLoggedInUser =  async(getTokenSilently) => {
 		const token = await getTokenSilently();
-		const response = fetch('/api/add-user', {
+		fetch('/api/add-user', {
 			method: 'post',
 			body: JSON.stringify(user),
 			headers: {
@@ -35,43 +31,34 @@ export default function NavBar () {
 }
 
  if (loading) {
-    return (
-      <div>Loading...</div>
-    );
-  }
-
+    return (<div>Loading...</div>)}
 {isAuthenticated && setLoggedInUser(getTokenSilently)}
-
-return (
-	<div>
-	<AppBar position='static'>
-	<Toolbar>
-	<IconButton edge="start" color="inherit" aria-label="menu">
-            <Drawer />
-          </IconButton>
-	<Typography style={{fontSize:24}}  variant='h6' color='inherit'>Wildly </Typography>
-	<Typography style={{paddingLeft: 10, fontSize:20}} variant='h7' color='fontSecondary'>Trip Monitor </Typography>
-	<div className='jss10' style={{flex: 1}} ></div>	
-	<IconButton style={{alignSelf: 'right'}} color="inherit" aria-label="user" >
-	<AccountCircle onClick={() => setOpen(true)}/>
-	</IconButton>
-	<div>{!isAuthenticated && (
-        <Button onClick={() => loginWithRedirect({})} color='button'  style={{fontSize:15, weight:'light'}}> Login </Button>
-
-      )}
-
-      {isAuthenticated && 
-		  <Button><Typography onClick={() => logout()} variant='light' style={{fontSize:15, weight:'light'}}> Logout {user.email} </Typography></Button>
-		  }
-	 
-    </div>
-    	
-	</Toolbar>
-	</AppBar>
-	{isAuthenticated && <AccountDetails open={openDetail} setOpen={setOpen} userID={user.email} onLogout={()=> logout()}/>}
-	{!isAuthenticated && <AccountDetails open={openDetail} setOpen={setOpen} userID= "No User" onLogout={()=> loginWithRedirect()}/>}
-
-	</div>
-	)
+	return (
+		<div>
+		<AppBar position='static'>
+		<Toolbar>
+		<IconButton edge="start" color="inherit" aria-label="menu">
+				<Drawer />
+			</IconButton>
+		<Typography style={{fontSize:24}}  variant='h6' color='inherit'>Wildly </Typography>
+		<Typography style={{paddingLeft: 10, fontSize:20}} variant='h7' color='fontSecondary'>Trip Monitor </Typography>
+		<div className='jss10' style={{flex: 1}} ></div>	
+		<IconButton style={{alignSelf: 'right'}} color="inherit" aria-label="user" >
+		<AccountCircle onClick={() => setOpen(true)}/>
+		</IconButton>
+		<div>
+			{!isAuthenticated && 
+			<Button onClick={() => loginWithRedirect({})} color='button'  style={{fontSize:15, weight:'light'}}> Login </Button>
+			}
+			{isAuthenticated && 
+			<Button><Typography onClick={() => logout()} variant='light' style={{fontSize:15, weight:'light'}}> Logout {user.email} </Typography></Button>
+			}
+		</div>
+			
+		</Toolbar>
+		</AppBar>
+		{isAuthenticated && <AccountDetails open={openDetail} setOpen={setOpen} userID={user.email} onLogout={()=> logout()}/>}
+		{!isAuthenticated && <AccountDetails open={openDetail} setOpen={setOpen} userID= "No User" onLogout={()=> loginWithRedirect()}/>}
+		</div>
+		)
 }
-

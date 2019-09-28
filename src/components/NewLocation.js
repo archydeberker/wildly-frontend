@@ -7,8 +7,6 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import AddCircle from '@material-ui/icons/AddCircle'
-
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -18,7 +16,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import CreatableSelect from 'react-select/creatable';
-import activities from '../data/activities'
 import {getActivities} from '../api/Get'
 
 import SearchPanel from '../components/google-maps/SearchPanel'
