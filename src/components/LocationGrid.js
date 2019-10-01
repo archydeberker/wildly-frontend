@@ -34,6 +34,8 @@ function LocationGrid(){
         setLocationMap(locationAtoms.reduce(locationMapper, {}))
         console.log('State.locations:')
         console.log(locationAtoms)
+        console.log('State.locationMap')
+        console.log(locationMap)
     }
 
     useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
