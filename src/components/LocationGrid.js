@@ -4,24 +4,12 @@ import TextField from '@material-ui/core/TextField';
 import Location from '../components/Location'
 
 import LocationDetail from '../components/LocationDetail'
-import RandomEntry from '../data/locations'
+import Entry from '../data/locations'
 import {NewLocation, LocationAdd} from '../components/NewLocation'
 import {getUserLocations} from '../api/Get.js' 
 import {useAuth0} from "../react-auth0-wrapper";
 
-class Client {
 
-     getEntries(replicas) {;
-
-        const entries = () =>  ({items: Array(replicas).fill().map(()=>RandomEntry())})
-
-        return new Promise(resolve => setTimeout(() => {
-            resolve(entries())}
-                            , 1000))
-    }
-}
-
-const client = new Client()
 
 function LocationGrid(){
     const [locations, setLocations] = useState([])
@@ -40,20 +28,12 @@ function LocationGrid(){
     }
 
     const getFullLocations = () => {
-        client.getEntries(locationList.length)
-        .then((response) => {
-            console.log(response.items)
-            locationList.map((name, i) => response.items[i].fields.title=name)
-            console.log(response.items)
-            setLocations(response.items)
-            setLocationMap(response.items.reduce(locationMapper, {}))
-            console.log('State.locations:')
-            console.log(locations)
-        })
-        .catch((error) => {
-          console.log("Error occurred while fetching Entries")
-          console.error(error)
-        })
+        let locationAtoms = locationList.map(Entry)
+        console.log(locationAtoms)
+        setLocations(locationAtoms)
+        setLocationMap(locationAtoms.reduce(locationMapper, {}))
+        console.log('State.locations:')
+        console.log(locationAtoms)
     }
 
     useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
@@ -93,7 +73,7 @@ function LocationGrid(){
 
     return (
             <div>
-                { locations ? (
+                { locations.length > 1 ? (
                     <div>
                         <TextField style={{padding: 24}}
                             id="searchInput"

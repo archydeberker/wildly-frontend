@@ -63,4 +63,16 @@ function RandomEntry(){
         mapUrl: googleMaps[randName],
     }})}
 
-export default RandomEntry
+function Entry(location){
+	const imgNumber = Math.ceil(Math.random()*100)
+	const LongLat = `${location.lat},${location.long}`
+	return ({fields:{title: location.name,
+        tags: location.activities, 
+        locationImage: {fields: {file: {url: `https://picsum.photos/id/${imgNumber}/300/300`}}},
+        url: 'www.google.com',
+        smallWeather: smallWeatherURL.replace('LOCATION', LongLat),
+        detailedWeather: detailedWeatherURL.replace('LOCATION', LongLat),
+        mapUrl: googleEmbedURL.replace('LOCATION', LongLat),
+	}})}
+	
+export default Entry

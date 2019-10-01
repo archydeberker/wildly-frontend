@@ -49,6 +49,7 @@ const Location = (props) => {
                     title={props.location.fields.title}
                     />
                     <CardContent style={{width: '100%', height: '100%'}}>
+
                     <Typography gutterBottom variant="headline" component="h2">
                         {props.location.fields.title}
                     </Typography>

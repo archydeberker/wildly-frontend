@@ -30,6 +30,7 @@ export default function NavBar () {
 		return <div></div>
 }
 
+
  if (loading) {
     return (<div>Loading...</div>)}
 {isAuthenticated && setLoggedInUser(getTokenSilently)}
