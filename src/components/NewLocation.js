@@ -20,6 +20,7 @@ import {getActivities} from '../api/Get'
 
 import SearchPanel from '../components/google-maps/SearchPanel'
 import { registerNewLocation } from '../api/AddLocation'
+import {AddUserLocation} from '../api/Post.js' 
 
 import { useAuth0 } from "../react-auth0-wrapper";
 
@@ -58,7 +59,7 @@ function LocationAdd(props) {
   const [currLocation, setLocation] = useState([])
   const [selectedActivities, setActivities] = useState([])
   const [activities, setAllActivities] = useState([])
-  const {getTokenSilently} = useAuth0()
+  const {getTokenSilently, user} = useAuth0()
 
   function onSelect(places) {
     const new_location = places.pop()
@@ -75,15 +76,6 @@ function LocationAdd(props) {
 
   
   console.log(activities)
-  // async function getActivities(){
-  //   const response = await fetch('/api/activities', {
-  //       method: 'get',
-  //       })
-    
-  //   const json = await response.json()
-  //   const options = json.map(name => ({'label': name, 'value': name}))
-  //   setAllActivities(options)
-  // }
 
   useEffect(() =>
   // code to run on component mount
@@ -92,7 +84,8 @@ function LocationAdd(props) {
 
   function handleClose() {
     currLocation.activities = selectedActivities
-    registerNewLocation(currLocation, getTokenSilently)
+    console.log(currLocation)
+    AddUserLocation(input => null, getTokenSilently, {'location': currLocation, 'user': user})
     onClose();
   }
 

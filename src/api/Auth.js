@@ -20,7 +20,6 @@ const logUserToBackend = async(user, setShowResult, setApiMessage, getTokenSilen
   };
 
 
-
 export const LogUserToBackend = () => {
     const [showResult, setShowResult] = useState(false);
     const [apiMessage, setApiMessage] = useState("");

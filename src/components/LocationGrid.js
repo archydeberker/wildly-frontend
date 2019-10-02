@@ -7,6 +7,7 @@ import LocationDetail from '../components/LocationDetail'
 import Entry from '../data/locations'
 import {NewLocation, LocationAdd} from '../components/NewLocation'
 import {getUserLocations} from '../api/Get.js' 
+import {RetrieveUserLocations, AddUserLocation} from '../api/Post.js' 
 import {useAuth0} from "../react-auth0-wrapper";
 
 
@@ -20,11 +21,10 @@ function LocationGrid(){
     const [selectedCard, setSelectedCard] = useState('')
     const [locationAddOpen, setLocationAddOpen] = useState(false)
     const [selectedValue, setSelectedValue] = useState(0)
-    const {loading, getTokenSilently} = useAuth0()
+    const {loading, getTokenSilently, user} = useAuth0()
 
     const getLocationList = (setLocationList) => {
-        console.log('gll called')
-        getUserLocations(setLocationList, getTokenSilently).then(console.log(locationList))
+        RetrieveUserLocations(setLocationList, getTokenSilently, user).then(console.log(locationList))
     }
 
     const getFullLocations = () => {
@@ -41,7 +41,7 @@ function LocationGrid(){
     useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
     useEffect(() => {getFullLocations()}, [locationList])
 
-    const locationMapper = (obj, item) => {console.log(item); 
+    let locationMapper = (obj, item) => {console.log(item); 
                                     obj[item.fields.title] = {detailedWeather: item.fields.detailedWeather,
                                                               mapUrl: item.fields.mapUrl};
                                     return obj}
@@ -77,12 +77,12 @@ function LocationGrid(){
             <div>
                 { locations.length > 1 ? (
                     <div>
-                        <TextField style={{padding: 24}}
+                        {/* <TextField style={{padding: 24}}
                             id="searchInput"
                             placeholder="Search for Locations"   
                             margin="normal"
                             onChange={onSearchInputChange}
-                            />
+                            /> */}
                         <Grid container spacing={6} style={{padding: 50}}>
                             { locations.map(currentLocation => (
                                 <Grid item xs={12} sm={6} lg={4} xl={3}>
@@ -96,11 +96,21 @@ function LocationGrid(){
                         </Grid>
                     <LocationDetail selectedValue={selectedValue} open={open} onClose={handleClose} 
                     location={selectedCard} locationMap={locationMap}/>
-                    <LocationAdd open={locationAddOpen} onClose={handleClose} 
-                    location={selectedCard} locationMap={locationMap}
-                    />
                     </div>
-                ) : "No locations found" }
+                
+                ) : <div>
+                    <Grid container spacing={6} style={{padding: 50}}>
+                    <Grid item xs={12} sm={6} lg={4} xl={3}>
+                    <Grid item xs={12} sm={6} lg={4} xl={3}>
+                                    <NewLocation handleClickOpen={newLocationClickOpen}/>
+                    </Grid>     
+                    </Grid>
+                    </Grid>
+                    
+                    </div>
+
+                }
+                <LocationAdd open={locationAddOpen} onClose={handleClose}/>
             
             </div>
         )
