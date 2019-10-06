@@ -3,6 +3,8 @@ import Plot from 'react-plotly.js';
 
 const GetWeatherForecast = async(locations, handler) => {
     
+    const DarkSkyKey = process.env.REACT_APP_DARKSKY_KEY
+    console.log(DarkSkyKey)
     const weatherForLocation = (location, handler) => {
         const {name, long, lat} = location
         const getRain = (json)  => {let rain = json['hourly']['data'];
@@ -22,7 +24,7 @@ const GetWeatherForecast = async(locations, handler) => {
                                                 }}
         
         let locationData = {}
-        return locationData['rain'] = fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/6e545cedef4608643d505e282796c4f6/${lat},${long}`,
+        return locationData['rain'] = fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${DarkSkyKey}/${lat},${long}`,
                         {method: 'get'}).
                         then(response => response.json()).
                         then(json => {return({yaxis: 'Precipitation, mm/hr',

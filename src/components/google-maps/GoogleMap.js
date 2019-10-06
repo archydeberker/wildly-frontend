@@ -8,7 +8,6 @@ const Wrapper = styled.main`
   height: 100%;
 `;
 
-console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
 
 const GoogleMap = ({ children, ...props }) => (
   <Wrapper>
