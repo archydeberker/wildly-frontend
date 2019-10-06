@@ -12,9 +12,12 @@ import {useAuth0} from "../react-auth0-wrapper";
 
 
 
-function LocationGrid(){
+function LocationGrid(props){
+
+    let locationList = props.locationList
+
     const [locations, setLocations] = useState([])
-    const [locationList, setLocationList] = useState([''])
+    // const [locationList, setLocationList] = useState([''])
     const [searchString, setSearchString] = useState('')
     const [open, setOpen] = useState(false)
     const [locationMap, setLocationMap] = useState({})
@@ -23,9 +26,9 @@ function LocationGrid(){
     const [selectedValue, setSelectedValue] = useState(0)
     const {loading, getTokenSilently, user} = useAuth0()
 
-    const getLocationList = (setLocationList) => {
-        RetrieveUserLocations(setLocationList, getTokenSilently, user).then(console.log(locationList))
-    }
+    // const getLocationList = (setLocationList) => {
+    //     RetrieveUserLocations(setLocationList, getTokenSilently, user).then(console.log(locationList))
+    // }
 
     const getFullLocations = () => {
         let locationAtoms = locationList.map(Entry)
@@ -38,7 +41,7 @@ function LocationGrid(){
         console.log(locationMap)
     }
 
-    useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
+    // useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
     useEffect(() => {getFullLocations()}, [locationList])
 
     let locationMapper = (obj, item) => {console.log(item); 
@@ -70,7 +73,7 @@ function LocationGrid(){
         setOpen(false)
         setLocationAddOpen(false)
         setSelectedValue(value)
-        getLocationList(setLocationList)
+        // getLocationList(setLocationList)
      };
 
     return (

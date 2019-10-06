@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import './App.css';
 import NavBar from './components/NavBar'
 import theme from './theme'
-import LocationView from './pages/locationPage'
+import LocationGrid from './components/LocationGrid'
 import {LocationAdd} from './components/NewLocation'
 import SearchPanel from './components/google-maps/SearchPanel'
 import Splash from "./pages/Splash"
@@ -16,6 +16,9 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Tab from '@material-ui/core/Tab';
+
+import {useAuth0} from "./react-auth0-wrapper";
+import {RetrieveUserLocations, AddUserLocation} from './api/Post.js' 
 
 require('dotenv').config();
 
@@ -36,8 +39,7 @@ function TabPanel(props) {
   );
 }
 
-const data = {'x':['2013-10-04 22:23:00', '2013-11-04 22:23:00', '2013-12-04 22:23:00'],
-              'y':[1,2,99]}
+
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -45,20 +47,23 @@ function a11yProps(index) {
   };
 } 
 
-class MainApp extends Component {
-  constructor(){
-    super()
-    this.state = {tabValue: 0}
+const MainApp = () => {
+
+  const [tabValue, setTabValue] = useState(0)
+  const [locationList, setLocationList] = useState([])
+  const {loading, getTokenSilently, user} = useAuth0()
+  
+  const handleChange = (e, newValue) => {
+    setTabValue(newValue)
   }
 
-  handleChange = (e, newValue) => {
-    this.setState({tabValue: newValue})
+  const getLocationList = (setLocationList) => {
+    RetrieveUserLocations(setLocationList, getTokenSilently, user).then(console.log(locationList))
   }
 
-
-
-  render = () =>
-{ return (
+useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
+  
+  return (
 
   <ThemeProvider theme={theme}>
   <div>
@@ -67,8 +72,8 @@ class MainApp extends Component {
    </header>
 
    <Tabs
-        value={this.state.tabValue}
-        onChange={this.handleChange}
+        value={tabValue}
+        onChange={handleChange}
         variant="fullWidth"
         indicatorColor="secondary"
         textColor="black"
@@ -79,19 +84,20 @@ class MainApp extends Component {
         <Tab label="Graph View" {...a11yProps(1)} />
         <Tab label="Map View" {...a11yProps(2)} />
   </Tabs>
-  <TabPanel value={this.state.tabValue} index={0} icon={<PhoneIcon />}>
-  <LocationView/> 
+  <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
+  <LocationGrid locationList={locationList}/> 
    </TabPanel>
 
-   <TabPanel value={this.state.tabValue} index={1} icon={<PhoneIcon />}>
-  <Graph data={data}/>
+   <TabPanel value={tabValue} index={1} icon={<PhoneIcon />}>
+  
+   <Graph locationList={locationList}/>
 
    </TabPanel>
    
    </div>
    </ThemeProvider>
 
-   )}}
+   )}
 
 function About() {
   return <h2>About</h2>;

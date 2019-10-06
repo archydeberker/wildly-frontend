@@ -35,3 +35,9 @@
     transform: rotate(360deg);
   }
 }
+
+.js-plotly-plot,
+.plot-container {
+          width: 100vw;
+          height: 80vh;
+}

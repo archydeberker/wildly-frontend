@@ -76,3 +76,5 @@ function Entry(location){
 	}})}
 	
 export default Entry
+
+export {locationCoords, locationNames}
