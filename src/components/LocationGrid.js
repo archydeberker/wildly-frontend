@@ -17,7 +17,7 @@ function LocationGrid(props){
     let locationList = props.locationList
 
     const [locations, setLocations] = useState([])
-    // const [locationList, setLocationList] = useState([''])
+
     const [searchString, setSearchString] = useState('')
     const [open, setOpen] = useState(false)
     const [locationMap, setLocationMap] = useState({})
@@ -26,9 +26,6 @@ function LocationGrid(props){
     const [selectedValue, setSelectedValue] = useState(0)
     const {loading, getTokenSilently, user} = useAuth0()
 
-    // const getLocationList = (setLocationList) => {
-    //     RetrieveUserLocations(setLocationList, getTokenSilently, user).then(console.log(locationList))
-    // }
 
     const getFullLocations = () => {
         let locationAtoms = locationList.map(Entry)
@@ -41,7 +38,6 @@ function LocationGrid(props){
         console.log(locationMap)
     }
 
-    // useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
     useEffect(() => {getFullLocations()}, [locationList])
 
     let locationMapper = (obj, item) => {console.log(item); 

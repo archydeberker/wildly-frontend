@@ -9,6 +9,7 @@ import {LocationAdd} from './components/NewLocation'
 import SearchPanel from './components/google-maps/SearchPanel'
 import Splash from "./pages/Splash"
 import Graph from "./pages/Graphs"
+import DarkSkyMap from "./components/DarkSkyMap"
 
 import { ThemeProvider } from '@material-ui/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -84,16 +85,19 @@ useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
         <Tab label="Graph View" {...a11yProps(1)} />
         <Tab label="Map View" {...a11yProps(2)} />
   </Tabs>
-  <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
-  <LocationGrid locationList={locationList}/> 
+   
+   <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
+   <LocationGrid locationList={locationList}/> 
    </TabPanel>
 
    <TabPanel value={tabValue} index={1} icon={<PhoneIcon />}>
-  
    <Graph locationList={locationList}/>
-
    </TabPanel>
    
+   <TabPanel value={tabValue} index={2} icon={<PhoneIcon />}>
+   <DarkSkyMap url='<iframe src=https://maps.darksky.net/@temperature,39.000,-95.000,4 width="100%" height="800px"></iframe>'/>
+   </TabPanel>
+
    </div>
    </ThemeProvider>
 
