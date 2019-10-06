@@ -8,6 +8,7 @@ import LocationView from './pages/locationPage'
 import {LocationAdd} from './components/NewLocation'
 import SearchPanel from './components/google-maps/SearchPanel'
 import Splash from "./pages/Splash"
+import Graph from "./pages/Graphs"
 
 import { ThemeProvider } from '@material-ui/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -35,6 +36,8 @@ function TabPanel(props) {
   );
 }
 
+const data = {'x':['2013-10-04 22:23:00', '2013-11-04 22:23:00', '2013-12-04 22:23:00'],
+              'y':[1,2,99]}
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -73,11 +76,16 @@ class MainApp extends Component {
         TabIndicatorProps={{style: {height: '4px'}}}
       >
       <Tab label="Locations" {...a11yProps(0)} />
-          <Tab label="Graph View" {...a11yProps(1)} />
-          <Tab label="Map View" {...a11yProps(2)} />
+        <Tab label="Graph View" {...a11yProps(1)} />
+        <Tab label="Map View" {...a11yProps(2)} />
   </Tabs>
   <TabPanel value={this.state.tabValue} index={0} icon={<PhoneIcon />}>
   <LocationView/> 
+   </TabPanel>
+
+   <TabPanel value={this.state.tabValue} index={1} icon={<PhoneIcon />}>
+  <Graph data={data}/>
+
    </TabPanel>
    
    </div>

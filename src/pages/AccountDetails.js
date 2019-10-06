@@ -10,8 +10,6 @@ import ExternalAPI from '../components/ExternalAPI'
 export default function AccountDetails(props) {
   
   const {open, setOpen, userID, onLogout} = props
-  fetch('http://127.0.0.1:5000/ping').then(results => console.log(results.json()))
-  console.log(setOpen)  
   return (
       <div>
       <Dialog aria-labelledby="simple-dialog-title" open={open} onClose={() => {console.log('closing'); setOpen(false) }} fullWidth='false' maxWidth='sm'>
