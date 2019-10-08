@@ -1,6 +1,6 @@
 const getRequest = (route) =>{
     const get = async(handler) => {
-        const response = await fetch(`/api/${route}`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/${route}`, {
             method: 'get',
             })
         
@@ -15,7 +15,7 @@ const getRequest = (route) =>{
 const getRequestWithAuth = (route) =>{
     const get = async(handler, getTokenSilently) => {
         const token = await getTokenSilently()
-        const response = await fetch(`/api/${route}`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/${route}`, {
             method: 'get',
             headers: {
                 'Accept': 'application/json',

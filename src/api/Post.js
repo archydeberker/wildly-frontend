@@ -1,6 +1,6 @@
 export const PostRequest = (route) =>{
     const post = async(handler, data) => {
-        const response = await fetch(`/api/${route}`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/${route}`, {
             method: 'post',
             body: JSON.stringify(data)
             })
@@ -16,7 +16,7 @@ export const PostRequest = (route) =>{
 const PostRequestWithAuth = (route) =>{
     const post = async(handler, getTokenSilently, data) => {
         const token = await getTokenSilently()
-        const response = await fetch(`/api/${route}`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/${route}`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: {
