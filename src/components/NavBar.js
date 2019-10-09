@@ -18,7 +18,7 @@ export default function NavBar () {
 	
 	const setLoggedInUser =  async(getTokenSilently) => {
 		const token = await getTokenSilently();
-		fetch('/api/add-user', {
+		fetch(`${process.env.REACT_APP_BACKEND_URL}/api/add-user`, {
 			method: 'post',
 			body: JSON.stringify(user),
 			headers: {
