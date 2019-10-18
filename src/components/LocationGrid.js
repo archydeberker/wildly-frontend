@@ -74,7 +74,7 @@ function LocationGrid(props){
 
     return (
             <div>
-                { locations.length > 1 ? (
+                { locations.length > 0 ? (
                     <div>
                         {/* <TextField style={{padding: 24}}
                             id="searchInput"
