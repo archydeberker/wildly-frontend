@@ -6,8 +6,6 @@ import Location from '../components/Location'
 import LocationDetail from '../components/LocationDetail'
 import Entry from '../data/locations'
 import {NewLocation, LocationAdd} from '../components/NewLocation'
-import {getUserLocations} from '../api/Get.js' 
-import {RetrieveUserLocations, AddUserLocation} from '../api/Post.js' 
 import {useAuth0} from "../react-auth0-wrapper";
 
 

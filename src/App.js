@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import './App.css';
 import NavBar from './components/NavBar'
@@ -19,7 +19,7 @@ import Box from '@material-ui/core/Box';
 import Tab from '@material-ui/core/Tab';
 
 import {useAuth0} from "./react-auth0-wrapper";
-import {RetrieveUserLocations, AddUserLocation} from './api/Post.js' 
+import {RetrieveUserLocations} from './api/Post.js' 
 
 require('dotenv').config();
 
@@ -109,12 +109,19 @@ function About() {
 
 
 function AppRouter() {
-  return (
+
+  const {loading, isAuthenticated} = useAuth0()
+  if (loading) {
+  
+    return (<div>Loading...</div>)}
+  
+    return (
     <Router>
       <div>
-        <Route path="/" exact component={MainApp} />
+        {console.log(isAuthenticated)}
+        <Route exact path="/"> {!isAuthenticated ? <Redirect to="/splash" /> : <MainApp />}</Route>
         <Route path="/about/" component={About} />
-        <Route path="/splash/" component={Splash} />
+        <Route exact path="/splash/"> {isAuthenticated ? <Redirect to="/" /> : <Splash />}</Route>
         <Route path="/location/" component= {LocationAdd} /> 
         <Route path="/search/" component= {SearchPanel} />
       </div>
