@@ -41,7 +41,6 @@ export default class Searchbox extends Component {
     return (
       
       <Fragment>
-      {mapApiLoaded && <SearchBox width='100%' map={mapInstance} mapApi={mapApi} addplace={this.addPlace} />}
       
       <GoogleMap
       defaultZoom={10}
@@ -63,6 +62,7 @@ export default class Searchbox extends Component {
           />
           ))}
           </GoogleMap>
+          {mapApiLoaded && <SearchBox width='100%' map={mapInstance} mapApi={mapApi} addplace={this.addPlace} />}
           </Fragment>
           );
         }

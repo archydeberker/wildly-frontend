@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 
 import Input from '@material-ui/core/Input'
-
+import TextField from '@material-ui/core/TextField';
 
 class SearchBox extends Component {
   constructor(props) {
@@ -43,14 +43,16 @@ class SearchBox extends Component {
   
   render() {
     return (
-      <Input
+      <TextField
       inputRef={(ref) => {
         this.searchInput = ref;
       }}
-      type="text"
       onFocus={this.clearSearchBox}
-      placeholder="Enter a location"
+      margin="normal"
+      label="Where do you want to go?"
+      placeholder="El Chalten, Patagonia"
       style={{'width':this.props.width}}
+      variant='outlined'
       />
       );
     }
