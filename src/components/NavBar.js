@@ -33,7 +33,7 @@ export default function NavBar () {
 
  if (loading) {
     return (<div>Loading...</div>)}
-{isAuthenticated && setLoggedInUser(getTokenSilently)}
+
 	return (
 		<div>
 		<AppBar position='static'>

@@ -16,7 +16,6 @@ class Weather extends Component{
 
   constructor(props){
      super()
-     console.log(props)
      this.state = {id: props.id + props.type +'-div' + (Math.ceil(Math.random()*100)).toString(),
                   url: props.url,
                   type: props.type}

@@ -24,7 +24,7 @@ const GetWeatherForecast = async(locations, handler) => {
                                                 }}
         
         let locationData = {}
-        return locationData['rain'] = fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${DarkSkyKey}/${lat},${long}`,
+        return locationData['rain'] = fetch(`https://mysterious-lowlands-26585.herokuapp.com/https://api.darksky.net/forecast/${DarkSkyKey}/${lat},${long}`,
                         {method: 'get'}).
                         then(response => response.json()).
                         then(json => {return({yaxis: 'Precipitation, mm/hr',

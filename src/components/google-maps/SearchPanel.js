@@ -6,7 +6,7 @@ import GoogleMap from './GoogleMap';
 import SearchBox from './SearchBox';
 
 const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-const LOS_ANGELES_CENTER =[34.0522, -118.2437]
+const MONTREAL_CENTER = [45.5017, -73.5673]
 
 export default class Searchbox extends Component {
   constructor(props) {
@@ -44,7 +44,7 @@ export default class Searchbox extends Component {
       
       <GoogleMap
       defaultZoom={10}
-      defaultCenter={LOS_ANGELES_CENTER}
+      defaultCenter={MONTREAL_CENTER}
       bootstrapURLKeys={{
         key: GOOGLE_API_KEY,
         libraries: ['places', 'geometry'],

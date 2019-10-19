@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { cyan, teal } from '@material-ui/core/colors';
+import { amber, teal } from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
   palette: {
@@ -8,7 +8,8 @@ const theme = createMuiTheme({
   		contrastText: '#fff',
   	},
     secondary: {
-      main: cyan[300],
+      main: amber[500],
+      contrastText: '#000',
     },
     button: {
     	main: '#FFF'

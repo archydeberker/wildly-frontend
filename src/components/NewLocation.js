@@ -65,7 +65,8 @@ function LocationAdd(props) {
 
   function onSelect(places) {
     const new_location = places.pop()
-    const location = {'name': new_location.vicinity,
+    console.log(new_location)
+    const location = {'name': (new_location.name ? new_location.name : new_location.vicinity),
                       'longitude': new_location.geometry.location.lng(),
                       'latitude': new_location.geometry.location.lat(),
                               }
@@ -74,10 +75,6 @@ function LocationAdd(props) {
     console.log(location)
 
   }
-  
-
-  
-  console.log(activities)
 
   useEffect(() =>
   // code to run on component mount
@@ -86,10 +83,10 @@ function LocationAdd(props) {
 
   function handleClose() {
     currLocation.activities = selectedActivities
-    console.log(currLocation)
-    AddUserLocation(input => null, getTokenSilently, {'location': currLocation, 'user': user})
-    onClose();
+    AddUserLocation(input => onClose, getTokenSilently, {'location': currLocation, 'user': user})
+    onClose()
   }
+
    const customTheme = useTheme()
 
     return (

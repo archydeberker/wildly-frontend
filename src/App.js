@@ -87,7 +87,7 @@ useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
   </Tabs>
    
    <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
-   <LocationGrid locationList={locationList}/> 
+   <LocationGrid locationList={locationList} getLocationList={getLocationList} setLocationList={setLocationList}/> 
    </TabPanel>
 
    <TabPanel value={tabValue} index={1} icon={<PhoneIcon />}>
