@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 
-import Input from '@material-ui/core/Input'
 import TextField from '@material-ui/core/TextField';
 
 class SearchBox extends Component {

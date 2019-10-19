@@ -5,8 +5,7 @@ import Fab from '@material-ui/core/Fab';
 
 import LocationDetail from '../components/LocationDetail'
 import Entry from '../data/locations'
-import {NewLocation, LocationAdd} from '../components/NewLocation'
-import {useAuth0} from "../react-auth0-wrapper";
+import {LocationAdd} from '../components/NewLocation'
 import AddIcon from '@material-ui/icons/Add';
 import { Typography } from '@material-ui/core';
 
@@ -30,13 +29,13 @@ function LocationGrid(props){
 
     const getFullLocations = () => {
         let locationAtoms = locationList.map(Entry)
-        console.log(locationAtoms)
+        // console.log(locationAtoms)
         setLocations(locationAtoms)
         setLocationMap(locationAtoms.reduce(locationMapper, {}))
-        console.log('State.locations:')
-        console.log(locationAtoms)
-        console.log('State.locationMap')
-        console.log(locationMap)
+        // console.log('State.locations:')
+        // console.log(locationAtoms)
+        // console.log('State.locationMap')
+        // console.log(locationMap)
     }
 
     useEffect(() => {getFullLocations()}, [locationList])
@@ -57,9 +56,9 @@ function LocationGrid(props){
     }
 
 
-    const handleClickOpen = (event) => {
+    const handleClickOpen = (title) => {
         setOpen(true)
-        setSelectedCard(event.target.title)
+        setSelectedCard(title)
     }
 
     const newLocationClickOpen = (event) => {

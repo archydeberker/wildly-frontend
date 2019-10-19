@@ -31,8 +31,8 @@ const locationCoords = {'Rumney, New Hampshire':'43.8054,-71.8126',
 						'Algonquin, Ontario': '45.55397,-78.59676',
 						'Smugglers Notch, Vermont': '44.5884605,-72.7899944'}
 
-const smallWeatherURL = "<script type='text/javascript' src='https://darksky.net/widget/default-small/LOCATION/us12/en.js?width=100%&height=70&title=Full Forecast&textColor=333333&bgColor=FFFFFF&transparency=false&skyColor=undefined&fontFamily=Default&customFont=&units=us'></script>"
-const detailedWeatherURL = "<script type='text/javascript' src='https://darksky.net/widget/default/LOCATION/us12/en.js?height=500&title= &textColor=333333&bgColor=FFFFFF&skyColor=333&fontFamily=Default&units=us&htColor=333333&ltColor=C7C7C7&displaySum=yes&displayHeader=yes'></script>"
+const smallWeatherURL = "<script type='text/javascript' src='https://darksky.net/widget/default-small/LOCATION/uk12/en.js?width=100%&height=70&title=Full Forecast&textColor=333333&bgColor=FFFFFF&transparency=false&skyColor=undefined&fontFamily=Default&customFont=&units=us'></script>"
+const detailedWeatherURL = "<script type='text/javascript' src='https://darksky.net/widget/default/LOCATION/uk12/en.js?height=500&title= &textColor=333333&bgColor=FFFFFF&skyColor=333&fontFamily=Default&units=us&htColor=333333&ltColor=C7C7C7&displaySum=yes&displayHeader=yes'></script>"
 const googleEmbedURL = '<iframe width="400" height="400" id="gmap_canvas" src="https://maps.google.com/maps?q=LOCATION&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>'
 
 
@@ -68,7 +68,7 @@ function Entry(location){
 	const LongLat = `${location.lat},${location.long}`
 	return ({fields:{title: location.name,
         tags: location.activities, 
-        locationImage: {fields: {file: {url: `https://picsum.photos/id/${imgNumber}/300/300`}}},
+        locationImage: {fields: {file: {url: location.img}}},
         url: 'www.google.com',
         smallWeather: smallWeatherURL.replace('LOCATION', LongLat),
         detailedWeather: detailedWeatherURL.replace('LOCATION', LongLat),

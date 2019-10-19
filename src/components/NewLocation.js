@@ -66,11 +66,12 @@ function LocationAdd(props) {
   function onSelect(places) {
     const new_location = places.pop()
     console.log(new_location)
+
     const location = {'name': (new_location.name ? new_location.name : new_location.vicinity),
                       'longitude': new_location.geometry.location.lng(),
                       'latitude': new_location.geometry.location.lat(),
-                              }
-
+                       'google_ref': new_location.place_id}
+    
     setLocation(location)
     console.log(location)
 

@@ -27,9 +27,7 @@ const PostRequestWithAuth = (route) =>{
             })
         
         const json = await response.json()
-        console.log(json)
         handler(json)
-        console.log("Hit the handler")
     }
 
     return post
