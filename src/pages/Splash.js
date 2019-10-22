@@ -42,7 +42,7 @@ export default function Splash(){
                 <Typography variant='h4' xs={12}> Get out  and  <ReactRotatingText items={['climb', 'paddle', 'hike', 'ski', 'swim', 'snowshoe', 'raft', 'bike', 'run', 'camp']} /> </Typography> 
             </Grid>
             <Grid container alignItems="center" justify="center" direction="row" spacing={3} style={{marginTop:'20px'}}>
-            <Grid item> <Button color='primary' variant='contained'> Sign Up </Button> </Grid>
+            <Grid item> <Button onClick={() => loginWithRedirect({appState: { targetUrl: '/' }})} color='primary' variant='contained'> Sign Up </Button> </Grid>
             <Grid item> <Button onClick={() => loginWithRedirect({appState: { targetUrl: '/' }})} variant='contained'> Sign In </Button> </Grid>
             </Grid>
             </Grid>
