@@ -113,7 +113,7 @@ const RainGraph = (props) => {
             })},
         )}
         layout={{
-                width: '50%',
+                // width: '50%',
                 // height: '50%',
                 legend: {orientation: "h"},
                 // title:{text: 'Precipitation'},
@@ -188,9 +188,9 @@ const AllGraphs = (props) => {
             field='rain'
             yaxis='precipitation mm/hr'/> 
         </Grid>
-        <Grid item xs={12} sm={6}>
+        {/* <Grid item xs={12} sm={6}>
         <WeatherTable data={data}/>
-        </Grid>
+        </Grid> */}
         </Grid>
          </div>: <div/>))
 }
