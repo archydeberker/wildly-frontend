@@ -12,6 +12,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import { useTheme } from '@material-ui/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 
@@ -21,6 +22,7 @@ import {getActivities} from '../api/Get'
 import SearchPanel from '../components/google-maps/SearchPanel'
 import { registerNewLocation } from '../api/AddLocation'
 import {AddUserLocation} from '../api/Post.js' 
+
 
 import { useAuth0 } from "../react-auth0-wrapper";
 
@@ -63,19 +65,17 @@ function LocationAdd(props) {
 
   function onSelect(places) {
     const new_location = places.pop()
-    const location = {'name': new_location.vicinity,
+    console.log(new_location)
+
+    const location = {'name': (new_location.name ? new_location.name : new_location.vicinity),
                       'longitude': new_location.geometry.location.lng(),
                       'latitude': new_location.geometry.location.lat(),
-                              }
-
+                       'google_ref': new_location.place_id}
+    
     setLocation(location)
     console.log(location)
 
   }
-  
-
-  
-  console.log(activities)
 
   useEffect(() =>
   // code to run on component mount
@@ -84,18 +84,19 @@ function LocationAdd(props) {
 
   function handleClose() {
     currLocation.activities = selectedActivities
-    console.log(currLocation)
-    AddUserLocation(input => null, getTokenSilently, {'location': currLocation, 'user': user})
-    onClose();
+    AddUserLocation(input => onClose, getTokenSilently, {'location': currLocation, 'user': user})
+    onClose()
   }
+
+   const customTheme = useTheme()
 
     return (
      <div>
       <Dialog style={{ overflowY: 'visible' }} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add new location</DialogTitle>
-        <DialogContent style={{paddingBottom:'20%', minWidth: 500,  overflowY: 'visible'}}>
+        <DialogContent style={{paddingBottom:'5%', minWidth: 500,  overflowY: 'visible'}}>
         <div style={{height: '300px'}} ><SearchPanel onSelect={onSelect}/> </div>
-          <div style={{paddingTop: '100px'}}>
+          <div style={{paddingTop: '70px'}}>
           <InputLabel shrink color='primary' style={{paddingTop: 25}}>
           What do you like to do there?
           </InputLabel>
@@ -107,6 +108,12 @@ function LocationAdd(props) {
           classNamePrefix="select"
           style={{paddingTop: 200}}
           onChange={(value) => setActivities(value)}
+          theme={theme => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary: customTheme.palette.primary.main,
+            }})}
           />
         </div>
         

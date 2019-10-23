@@ -18,7 +18,7 @@ export default function NavBar () {
 	
 	const setLoggedInUser =  async(getTokenSilently) => {
 		const token = await getTokenSilently();
-		fetch('/api/add-user', {
+		fetch(`${process.env.REACT_APP_BACKEND_URL}/api/add-user`, {
 			method: 'post',
 			body: JSON.stringify(user),
 			headers: {
@@ -33,7 +33,7 @@ export default function NavBar () {
 
  if (loading) {
     return (<div>Loading...</div>)}
-{isAuthenticated && setLoggedInUser(getTokenSilently)}
+
 	return (
 		<div>
 		<AppBar position='static'>

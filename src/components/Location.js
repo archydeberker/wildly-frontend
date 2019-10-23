@@ -16,7 +16,6 @@ class Weather extends Component{
 
   constructor(props){
      super()
-     console.log(props)
      this.state = {id: props.id + props.type +'-div' + (Math.ceil(Math.random()*100)).toString(),
                   url: props.url,
                   type: props.type}
@@ -43,7 +42,7 @@ const Location = (props) => {
         <div>
             { props.location ? (
                 <Card>
-                <CardActionArea onClick={props.handleClickOpen} id={props.location.fields.title}>
+                <CardActionArea onClick={() => props.handleClickOpen(props.location.fields.title)} id={props.location.fields.title}>
                     <CardMedia style={{paddingTop: '56.25%', width: '100%', height: '100%'}}
                     image={props.location.fields.locationImage.fields.file.url}
                     title={props.location.fields.title}
@@ -59,7 +58,7 @@ const Location = (props) => {
                     <Weather id={props.location.fields.title} url={props.location.fields.smallWeather}/>
                     </CardContent>  
                     <CardActions>
-                    <Button size="small" color="primary" onClick={props.handleClickOpen}>
+                    <Button size="small" color="primary" onClick={() => props.handleClickOpen(props.location.fields.title)}>
                         Go To Location
                     </Button>
                     </CardActions>

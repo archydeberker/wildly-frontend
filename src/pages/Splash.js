@@ -24,13 +24,13 @@ const styles = {
 
 export default function Splash(){
         
-        const { signupWithPopup } = useAuth0();        
+        const { loginWithRedirect } = useAuth0();        
 
         return(
             <div>
             <Paper style={styles.paperContainer}>
             <Paper style={{'backgroundColor': 'rgba(255,255,255,0.5)',
-            'height': '100vh',
+            'height': '70vh',
             'paddingTop': '30vh'}}>
 
             <Grid container alignItems="center" justify="center" direction="row" spacing={3}>
@@ -42,8 +42,8 @@ export default function Splash(){
                 <Typography variant='h4' xs={12}> Get out  and  <ReactRotatingText items={['climb', 'paddle', 'hike', 'ski', 'swim', 'snowshoe', 'raft', 'bike', 'run', 'camp']} /> </Typography> 
             </Grid>
             <Grid container alignItems="center" justify="center" direction="row" spacing={3} style={{marginTop:'20px'}}>
-            <Grid item> <Button color='primary' variant='contained'> Sign Up </Button> </Grid>
-            <Grid item> <Button onClick={() => signupWithPopup({})} variant='contained'> Sign In </Button> </Grid>
+            <Grid item> <Button onClick={() => loginWithRedirect({appState: { targetUrl: '/' }})} color='primary' variant='contained'> Sign Up </Button> </Grid>
+            <Grid item> <Button onClick={() => loginWithRedirect({appState: { targetUrl: '/' }})} variant='contained'> Sign In </Button> </Grid>
             </Grid>
             </Grid>
             <Grid item>

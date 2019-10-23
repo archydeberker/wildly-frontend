@@ -6,7 +6,7 @@ const logUserToBackend = async(user, setShowResult, setApiMessage, getTokenSilen
     
     const token = await getTokenSilently();
 
-    const response = fetch('/api/add-user', {
+    const response = fetch(`${process.env.REACT_APP_BACKEND_URL}`, {
         method: 'post',
         body: JSON.stringify(user),
         headers: {
