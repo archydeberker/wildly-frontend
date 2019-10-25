@@ -2,12 +2,31 @@ import React, {useEffect, useState} from 'react';
 import Plot from 'react-plotly.js';
 
 import Table from '@material-ui/core/Table';
+
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+
+import WeatherIconMapper from '../data/weatherIcons'
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+      width: '100%',
+    },
+    paper: {
+      marginTop: theme.spacing(3),
+      width: '100%',
+      overflowX: 'auto',
+      marginBottom: theme.spacing(2),
+    },
+    table: {
+      minWidth: 650,
+    },
+  }));
 
 const GetWeatherForecast = async(locations, handler) => {
     
@@ -40,6 +59,25 @@ const GetWeatherForecast = async(locations, handler) => {
                                                 y: icons.map(value=>value.icon),
                                                 }}
         
+        const getTemp = (json)  => {let temp = json['daily']['data'];            
+                            return {x: temp.map(value => {let date = new Date(null);
+                                            date.setSeconds(value.time)
+                                            date.toLocaleString( 'en-GB', { timeZone: 'UTC' })
+                                            date.toString().concat(date.getDay().toString())
+                                            return(date)}),
+                                    tempHigh: temp.map(value=>value.temperatureHigh),
+                                    tempLow: temp.map(value=>value.temperatureLow),
+                    }}
+
+
+        const getDaily = (json)  => {
+            let daily = json['daily']['data'];  
+            return daily.map(day => {let date = new Date(null);
+                                    date.setSeconds(day.time)
+                                    date.toLocaleString( 'en-GB', { timeZone: 'UTC' })
+                                    date.toString().concat(date.getDay().toString())
+                                    return({'timestamp': date, 'icon': day.icon, 'tempHigh': day.temperatureHigh, 'tempLow': day.temperatureLow} )})}
+           
         let locationData = {}
         return locationData['rain'] = fetch(`https://mysterious-lowlands-26585.herokuapp.com/https://api.darksky.net/forecast/${DarkSkyKey}/${lat},${long}?units=si`,
                         {method: 'get'}).
@@ -47,7 +85,7 @@ const GetWeatherForecast = async(locations, handler) => {
                         then(json => {return({yaxis: 'Precipitation, mm/hr',
                                               name: name,
                                              'rain': getRain(json),
-                                             'icons': getIcons(json)})}).
+                                             'daily': getDaily(json)})}).
                         then(handler)
     }
     
@@ -55,33 +93,56 @@ const GetWeatherForecast = async(locations, handler) => {
     // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
     Promise.all(locations.map(weatherForLocation)).then(data => handler(data))
 }
-    
+
+const SubstringInSet = (set, superstring) => {
+    const filtered = set.filter(candidate => {return (String(superstring).includes(candidate))})
+    return (filtered.length > 0 ? true: false)
+    }
+
+const filterDataByDate = data => {   
+    const keys = ['Fri', 'Sat', 'Sun', 'Mon']    
+    const filtered = data.map(location => {return({'name': location.name, 
+                                                   'measurements':
+                                            location.daily.filter(measurement => 
+                                            SubstringInSet(keys, measurement['timestamp']))})})
+
+    return filtered
+    }
+
+const formatDate = date => String(date).split(' ').slice(0, 3).join(' ')
+
 const WeatherTable = props => {
     const {data} = props;
+    const classes = useStyles();
+    const filteredData = filterDataByDate(data)
+
+    const row = filteredData[0]
+    const dates = row.measurements.map(measurement => formatDate(measurement['timestamp']))
+
     return (
-        <Paper>
-      <Table aria-label="simple table">
+        <Paper className={classes.paper}>
+      <Table aria-label="weather-table" size="small">
         <TableHead>
           <TableRow>
             <TableCell>Location</TableCell>
-            <TableCell align="right">Today</TableCell>
-            <TableCell align="right">Tomorrow</TableCell>
-            <TableCell align="right">+1</TableCell>
-            <TableCell align="right">+2</TableCell>
-            <TableCell align="right">+3</TableCell>
+            {dates.map(date => <TableCell align="center">{date}</TableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(row => (
+          {filteredData.map(row => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.icons.y[0]}</TableCell>
-              <TableCell align="right">{row.icons.y[1]}</TableCell>
-              <TableCell align="right">{row.icons.y[2]}</TableCell>
-              <TableCell align="right">{row.icons.y[3]}</TableCell>
-              <TableCell align="right">{row.icons.y[4]}</TableCell>
+              {row.measurements.map(measurement => <TableCell align="right">
+                                                    <TableCell align="right">{WeatherIconMapper(measurement.icon, 48, '#000')}
+                                                    </TableCell>
+                                                    <TableCell align="right">
+                                                    <TableRow align="right"> <span style={{fontWeight: 'bold'}}> {Math.round(measurement.tempHigh)} </span> </TableRow> 
+                                                    <TableRow align="right"> <span> {Math.round(measurement.tempLow)} </span></TableRow>
+                                                    </TableCell>
+                                                    
+                                                    </TableCell>)}
             </TableRow>
           ))}
         </TableBody>
@@ -113,7 +174,7 @@ const RainGraph = (props) => {
             })},
         )}
         layout={{
-                // width: '50%',
+                width: '50%',
                 // height: '50%',
                 legend: {orientation: "h"},
                 // title:{text: 'Precipitation'},
@@ -188,9 +249,9 @@ const AllGraphs = (props) => {
             field='rain'
             yaxis='precipitation mm/hr'/> 
         </Grid>
-        {/* <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
         <WeatherTable data={data}/>
-        </Grid> */}
+        </Grid>
         </Grid>
          </div>: <div/>))
 }
