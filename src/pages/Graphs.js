@@ -23,6 +23,10 @@ const useStyles = makeStyles(theme => ({
       overflowX: 'auto',
       marginBottom: theme.spacing(2),
     },
+    innerRow: {
+        borderBottomWidth: 0,
+        align: 'right',
+    },
     table: {
       minWidth: 650,
     },
@@ -135,11 +139,11 @@ const WeatherTable = props => {
                 {row.name}
               </TableCell>
               {row.measurements.map(measurement => <TableCell align="right">
-                                                    <TableCell align="right">{WeatherIconMapper(measurement.icon, 48, '#000')}
+                                                    <TableCell className={classes.innerRow} align="right">{WeatherIconMapper(measurement.icon, 48, '#000')}
                                                     </TableCell>
-                                                    <TableCell align="right">
-                                                    <TableRow align="right"> <span style={{fontWeight: 'bold'}}> {Math.round(measurement.tempHigh)} </span> </TableRow> 
-                                                    <TableRow align="right"> <span> {Math.round(measurement.tempLow)} </span></TableRow>
+                                                    <TableCell  className={classes.innerRow} align="right">
+                                                    <TableRow align='right'> <span style={{fontWeight: 'bold'}}> {Math.round(measurement.tempHigh)} </span> </TableRow> 
+                                                    <TableRow align='right'> <span> {Math.round(measurement.tempLow)} </span></TableRow>
                                                     </TableCell>
                                                     
                                                     </TableCell>)}
