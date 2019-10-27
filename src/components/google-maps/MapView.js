@@ -27,8 +27,8 @@ class MapView extends React.Component {
         
     render(){
     console.log(this.props.locationList)  
-    const center = {lat: MONTREAL_CENTER[0], lng: MONTREAL_CENTER[1]}
-    const zoom = 11
+    const center = {lat: 45.95, lng: -73.33}
+    const zoom = 5
     return ( this.props.locationList ? 
        <div style={{ height: '100vh', width: '100%' }}>
     
