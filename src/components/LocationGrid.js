@@ -9,6 +9,9 @@ import {LocationAdd} from '../components/NewLocation'
 import AddIcon from '@material-ui/icons/Add';
 import { Typography } from '@material-ui/core';
 
+export const locationMapper = (obj, item) => {obj[item.fields.title] = {detailedWeather: item.fields.detailedWeather,
+                                                mapUrl: item.fields.mapUrl};
+    return obj}
 
 function LocationGrid(props){
 
@@ -16,7 +19,6 @@ function LocationGrid(props){
     let getLocationList = props.getLocationList
     let setLocationList = props.setLocationList
     
-
     const [locations, setLocations] = useState([])
 
     const [searchString, setSearchString] = useState('')
@@ -24,8 +26,7 @@ function LocationGrid(props){
     const [locationMap, setLocationMap] = useState({})
     const [selectedCard, setSelectedCard] = useState('')
     const [locationAddOpen, setLocationAddOpen] = useState(false)
-    const [selectedValue, setSelectedValue] = useState(0)
-
+    
 
     const getFullLocations = () => {
         let locationAtoms = locationList.map(Entry)
@@ -40,10 +41,6 @@ function LocationGrid(props){
 
     useEffect(() => {getFullLocations()}, [locationList])
 
-    let locationMapper = (obj, item) => {console.log(item); 
-                                    obj[item.fields.title] = {detailedWeather: item.fields.detailedWeather,
-                                                              mapUrl: item.fields.mapUrl};
-                                    return obj}
 
     const onSearchInputChange = (event) => {
         console.log("Search changed ..." + event.target.value)
@@ -72,7 +69,7 @@ function LocationGrid(props){
         console.log(locationList)
     }
 
-    const handleClose = (value) => {
+    const handleClose = () => {
         setOpen(false)
         setLocationAddOpen(false)
         console.log('Calling get location list')
@@ -98,8 +95,7 @@ function LocationGrid(props){
                                 </Grid>
                             ))}
                         </Grid>
-                    <LocationDetail selectedValue={selectedValue} open={open} onClose={handleClose} 
-                    location={selectedCard} locationMap={locationMap}/>
+                    <LocationDetail open={open} onClose={handleClose} location={selectedCard} locationMap={locationMap}/>
                     </div>
                 
                 ) : <div>

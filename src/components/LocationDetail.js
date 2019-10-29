@@ -11,13 +11,16 @@ import CloseIcon from '@material-ui/icons/Close';
 
 export default function LocationDetail(props) {
   
-  const { onClose, selectedValue, open, location, locationMap } = props;
+  const { onClose, open, location, locationMap } = props;
 
   function handleClose() {
-    onClose(selectedValue);
+    onClose();
   }
 
   let locationName = location
+  
+  console.log(location)
+  console.log(locationMap)
     return (
       <div>
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} fullWidth='true' maxWidth='lg'>
