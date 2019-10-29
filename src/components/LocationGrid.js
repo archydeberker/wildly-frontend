@@ -8,6 +8,8 @@ import Entry from '../data/locations'
 import {LocationAdd} from '../components/NewLocation'
 import AddIcon from '@material-ui/icons/Add';
 import { Typography } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField'
+
 
 export const locationMapper = (obj, item) => {obj[item.fields.title] = {detailedWeather: item.fields.detailedWeather,
                                                 mapUrl: item.fields.mapUrl};
@@ -37,6 +39,7 @@ function LocationGrid(props){
         // console.log(locationAtoms)
         // console.log('State.locationMap')
         // console.log(locationMap)
+        console.log(locations)
     }
 
     useEffect(() => {getFullLocations()}, [locationList])
@@ -48,8 +51,7 @@ function LocationGrid(props){
             setSearchString( event.target.value)
         } else {
             setSearchString('')
-        }
-        getFullLocations()
+        }        
     }
 
 
@@ -63,10 +65,8 @@ function LocationGrid(props){
     }
 
     const newLocationHandleClose = (event) => {
-        console.log('Close handler called')
         setLocationAddOpen(false);
         getLocationList(setLocationList);
-        console.log(locationList)
     }
 
     const handleClose = () => {
@@ -82,14 +82,14 @@ function LocationGrid(props){
             <div>
                 { locations.length > 0 ? (
                     <div>
-                        {/* <TextField style={{padding: 24}}
+                        <TextField style={{padding: 24}}
                             id="searchInput"
                             placeholder="Search for Locations"   
                             margin="normal"
                             onChange={onSearchInputChange}
-                            /> */}
+                            />
                         <Grid container spacing={6} style={{padding: 50}}>
-                            { locations.map(currentLocation => (
+                            { locations.filter(currentLocation => currentLocation.fields.title.toLowerCase().includes(searchString.toLowerCase())).map(currentLocation => ( 
                                 <Grid item xs={12} sm={6} lg={4} xl={3}>
                                     <Location location={currentLocation} handleClickOpen={handleClickOpen}/>
                                 </Grid>
@@ -110,6 +110,7 @@ function LocationGrid(props){
                                 style={{right: 50, bottom:50, position: 'fixed'}}>
             <AddIcon /> New Location
           </Fab>
+          
             </div>
         )
     }

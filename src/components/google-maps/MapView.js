@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
 import GoogleMapReact from 'google-map-react';
-import MONTREAL_CENTER from './SearchPanel'
+
 import Chip from '@material-ui/core/Chip';
-import Fab from '@material-ui/core/Fab';
-import Avatar from '@material-ui/core/Avatar';
 import {locationMapper} from '../LocationGrid'
 import LocationDetail from '../LocationDetail'
 import Entry from '../../data/locations'
 import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField'
+
 
 const ChipMarker = ({text, tooltipText, handleClick}) => (
   <Tooltip title={tooltipText} >
@@ -16,18 +15,22 @@ const ChipMarker = ({text, tooltipText, handleClick}) => (
   </Tooltip>
 )
 
-function MyComponent(props) {
-  //  Spread the properties to the underlying DOM element.
-  return <div {...props}>Bin</div>
-}
-
-// ...
-
 
 const MapView = (props) => {
     
+  const onSearchInputChange = (event) => {
+    console.log("Search changed ..." + event.target.value)
+    if (event.target.value) {
+        setSearchString( event.target.value)
+    } else {
+        setSearchString('')
+    }        
+  }
+
     const [open, setOpen] = useState(false)
     const [selectedCard, setSelectedCard] = useState('')
+    const [searchString, setSearchString] = useState('')
+    
     
     const center = {lat: 45.95, lng: -73.33}
     const zoom = 5
@@ -37,6 +40,13 @@ const MapView = (props) => {
     return (<div> {(props.locationList ? 
        <div style={{ height: '80vh', width: '100%' }}>
     
+    <TextField style={{padding: 24}}
+                            id="searchInput"
+                            placeholder="Search for Locations"   
+                            margin="normal"
+                            onChange={onSearchInputChange}
+                            />
+
     <GoogleMapReact
         defaultCenter={center}
         defaultZoom={zoom}
@@ -44,7 +54,7 @@ const MapView = (props) => {
             key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
           }}
       >
-    {props.locationList.map(location => 
+    {props.locationList.filter(location => location.name.toLowerCase().includes(searchString.toLowerCase())).map(location => 
     <ChipMarker 
         lat={location.lat} 
         lng={location.long} 
