@@ -67,6 +67,7 @@ function LocationGrid(props){
     const newLocationHandleClose = (event) => {
         setLocationAddOpen(false);
         getLocationList(setLocationList);
+        console.log({locationList})
     }
 
     const handleClose = () => {
