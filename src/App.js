@@ -7,8 +7,8 @@ import theme from './theme'
 import LocationGrid from './components/LocationGrid'
 import {LocationAdd} from './components/NewLocation'
 import SearchPanel from './components/google-maps/SearchPanel'
-import MapView from './components/google-maps/MapView'
-import DarkSkyMap from "./components/DarkSkyMap"
+import SignUp from './pages/SignUp'
+
 
 import Splash from "./pages/Splash"
 import Graph from "./pages/Graphs"
@@ -20,6 +20,7 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Tab from '@material-ui/core/Tab';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {useAuth0} from "./react-auth0-wrapper";
 import {RetrieveUserLocations} from './api/Post.js' 
@@ -125,7 +126,9 @@ function AppRouter() {
   const {loading, isAuthenticated} = useAuth0()
   if (loading) {
   
-    return (<div>Loading...</div>)}
+    return (<div height='100vh' style={{verticalAlign:'middle', display:'block',
+                                                      position: 'absolute', top: '50%', left: '50%'}}>
+                                                        <CircularProgress color='primary'/></div>)}
   
     return (
     <Router>
@@ -136,6 +139,7 @@ function AppRouter() {
         <Route exact path="/splash/"> {isAuthenticated ? <Redirect to="/" /> : <Splash />}</Route>
         <Route path="/location/" component= {LocationAdd} /> 
         <Route path="/search/" component= {SearchPanel} />
+        <Route path="/signup/" component= {SignUp} />
       </div>
     </Router>
   );

@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid';
 import Location from '../components/Location'
 import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import { Typography } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import LocationDetail from '../components/LocationDetail'
 import Entry from '../data/locations'
 import {LocationAdd} from '../components/NewLocation'
-import AddIcon from '@material-ui/icons/Add';
-import { Typography } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField'
+
 
 
 export const locationMapper = (obj, item) => {obj[item.fields.title] = {detailedWeather: item.fields.detailedWeather,
@@ -21,7 +23,7 @@ function LocationGrid(props){
     let getLocationList = props.getLocationList
     let setLocationList = props.setLocationList
     
-    const [locations, setLocations] = useState([])
+    const [locations, setLocations] = useState(null)
 
     const [searchString, setSearchString] = useState('')
     const [open, setOpen] = useState(false)
@@ -71,7 +73,7 @@ function LocationGrid(props){
 
     return (
             <div>
-                { locations.length > 0 ? (
+                { locations ? (locations.length > 0 ? (
                     <div>
                         <TextField style={{padding: 24}}
                             id="searchInput"
@@ -89,10 +91,10 @@ function LocationGrid(props){
                     <LocationDetail open={open} onClose={handleClose} location={selectedCard} locationMap={locationMap}/>
                     </div>
                 
-                ) : <div>
-                    <Typography align='center' variant='h6' style={{marginTop: '20%', color:'gray'}}> You haven't added any locations yet! Use the button below to get started</Typography>
-                    </div>
-
+                ) : (<div><Typography align='center' variant='h6' style={{marginTop: '20%', color:'gray'}}> You haven't added any locations yet! Use the button below to get started</Typography> </div>))
+                : (<div height='100vh' style={{verticalAlign:'middle', display:'block',
+                                                      position: 'absolute', top: '50%', left: '50%'}}>
+                                                        <CircularProgress color='primary'/></div>)
                 }
                 <LocationAdd open={locationAddOpen} onClose={newLocationHandleClose}/>
             <Fab onClick={newLocationClickOpen} aria-label='Add Location'  

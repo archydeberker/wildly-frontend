@@ -95,7 +95,10 @@ function LocationAdd(props) {
       <Dialog style={{ overflowY: 'visible' }} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add new location</DialogTitle>
         <DialogContent style={{paddingBottom:'5%', minWidth: 500,  overflowY: 'visible'}}>
-        <div style={{height: '300px'}} ><SearchPanel onSelect={onSelect}/> </div>
+        <div style={{height: '300px'}} >
+          <SearchPanel onSelect={onSelect} placeholder='El Chalten, Patagonia' label='Where do you want to go?'/>
+          
+          </div>
           <div style={{paddingTop: '70px'}}>
           <InputLabel shrink color='primary' style={{paddingTop: 25}}>
           What do you like to do there?
