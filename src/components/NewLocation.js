@@ -84,7 +84,7 @@ function LocationAdd(props) {
 
   function handleClose() {
     currLocation.activities = selectedActivities
-    AddUserLocation(input => onClose, getTokenSilently, {'location': currLocation, 'user': user})
+    AddUserLocation(onClose, getTokenSilently, {'location': currLocation, 'user': user})
     onClose()
   }
 

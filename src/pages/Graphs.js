@@ -5,14 +5,12 @@ import { GetWeatherForecast } from '../api/GetWeatherForecast';
 
 const AllGraphs = (props) => {
     let locationList = props.locationList
-    console.log(locationList)
     const [data, setData] = useState(null)
     const locations = locationList.map((location) => {return({name: location['name'],
                                                              long: location['long'],
                                                              lat: location['lat']})})
 
     useEffect(() => {if(locationList.length > 0){GetWeatherForecast(locations, setData)}}, [locationList]) 
-    console.log(data)
     return((data ? 
         <div>
         <Grid container>
