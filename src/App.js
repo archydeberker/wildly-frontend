@@ -7,9 +7,12 @@ import theme from './theme'
 import LocationGrid from './components/LocationGrid'
 import {LocationAdd} from './components/NewLocation'
 import SearchPanel from './components/google-maps/SearchPanel'
+import MapView from './components/google-maps/MapView'
+import DarkSkyMap from "./components/DarkSkyMap"
+
 import Splash from "./pages/Splash"
 import Graph from "./pages/Graphs"
-import DarkSkyMap from "./components/DarkSkyMap"
+import WeatherComparison from './pages/Comparison'
 
 import { ThemeProvider } from '@material-ui/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -20,6 +23,8 @@ import Tab from '@material-ui/core/Tab';
 
 import {useAuth0} from "./react-auth0-wrapper";
 import {RetrieveUserLocations} from './api/Post.js' 
+import { GetWeatherForecast } from './api/GetWeatherForecast';
+
 
 require('dotenv').config();
 
@@ -62,7 +67,13 @@ const MainApp = () => {
     RetrieveUserLocations(setLocationList, getTokenSilently, user).then(console.log(locationList))
   }
 
-useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
+  const [weatherData, setWeatherData] = useState(null)
+  let  locations = locationList.map((location) => {return({name: location['name'],
+                                                          long: location['long'],
+                                                          lat: location['lat']})})
+
+  useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
+  useEffect(() => {if(locationList.length > 0){GetWeatherForecast(locations, setWeatherData)}}, [locationList])
   
   return (
 
@@ -81,9 +92,10 @@ useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
         aria-label="icon label tabs example"
         TabIndicatorProps={{style: {height: '4px'}}}
       >
-      <Tab label="Locations" {...a11yProps(0)} />
-        <Tab label="Graph View" {...a11yProps(1)} />
-        <Tab label="Map View" {...a11yProps(2)} />
+      <Tab label="Your Locations" {...a11yProps(0)} />
+      <Tab label="Rain Graph" {...a11yProps(1)} />
+      <Tab label="Compare Weather" {...a11yProps(2)} />
+
   </Tabs>
    
    <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
@@ -93,9 +105,9 @@ useEffect(() => {if(!loading){getLocationList(setLocationList)}}, [loading])
    <TabPanel value={tabValue} index={1} icon={<PhoneIcon />}>
    <Graph locationList={locationList}/>
    </TabPanel>
-   
+
    <TabPanel value={tabValue} index={2} icon={<PhoneIcon />}>
-   <DarkSkyMap url='<iframe src=https://maps.darksky.net/@temperature,39.000,-95.000,4 width="100%" height="800px"></iframe>'/>
+   <WeatherComparison weatherData={weatherData}/>
    </TabPanel>
 
    </div>
