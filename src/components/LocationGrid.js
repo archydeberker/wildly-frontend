@@ -32,21 +32,14 @@ function LocationGrid(props){
 
     const getFullLocations = () => {
         let locationAtoms = locationList.map(Entry)
-        // console.log(locationAtoms)
         setLocations(locationAtoms)
         setLocationMap(locationAtoms.reduce(locationMapper, {}))
-        // console.log('State.locations:')
-        // console.log(locationAtoms)
-        // console.log('State.locationMap')
-        // console.log(locationMap)
-        console.log(locations)
     }
 
     useEffect(() => {getFullLocations()}, [locationList])
 
 
     const onSearchInputChange = (event) => {
-        console.log("Search changed ..." + event.target.value)
         if (event.target.value) {
             setSearchString( event.target.value)
         } else {
@@ -73,10 +66,7 @@ function LocationGrid(props){
     const handleClose = () => {
         setOpen(false)
         setLocationAddOpen(false)
-        console.log('Calling get location list')
         getLocationList(setLocationList)
-        console.log({locationList})
-        // getLocationList(setLocationList)
      };
 
     return (
