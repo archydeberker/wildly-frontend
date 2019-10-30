@@ -92,10 +92,10 @@ const MainApp = () => {
         aria-label="icon label tabs example"
         TabIndicatorProps={{style: {height: '4px'}}}
       >
-      <Tab label="Locations" {...a11yProps(0)} />
+      <Tab label="Your Locations" {...a11yProps(0)} />
       <Tab label="Rain Graph" {...a11yProps(1)} />
-      <Tab label="Weather Comparison" {...a11yProps(2)} />
-        <Tab label="Map View" {...a11yProps(3)} />
+      <Tab label="Compare Weather" {...a11yProps(2)} />
+
   </Tabs>
    
    <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
@@ -108,11 +108,6 @@ const MainApp = () => {
 
    <TabPanel value={tabValue} index={2} icon={<PhoneIcon />}>
    <WeatherComparison weatherData={weatherData}/>
-   </TabPanel>
-   
-   <TabPanel value={tabValue} index={3} icon={<PhoneIcon />}>
-   <MapView locationList={locationList}/>
-   {/* <DarkSkyMap url='<iframe src=https://maps.darksky.net/@temperature,39.000,-95.000,4 width="100%" height="800px"></iframe>'/> */}
    </TabPanel>
 
    </div>

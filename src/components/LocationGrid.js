@@ -84,7 +84,7 @@ function LocationGrid(props){
                     <div>
                         <TextField style={{padding: 24}}
                             id="searchInput"
-                            placeholder="Search for Locations"   
+                            placeholder="Filter Locations"   
                             margin="normal"
                             onChange={onSearchInputChange}
                             />

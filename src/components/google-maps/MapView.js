@@ -18,14 +18,14 @@ const ChipMarker = ({text, tooltipText, handleClick}) => (
 
 const MapView = (props) => {
     
-  const onSearchInputChange = (event) => {
-    console.log("Search changed ..." + event.target.value)
-    if (event.target.value) {
-        setSearchString( event.target.value)
-    } else {
-        setSearchString('')
-    }        
-  }
+    const onSearchInputChange = (event) => {
+      console.log("Search changed ..." + event.target.value)
+      if (event.target.value) {
+          setSearchString( event.target.value)
+      } else {
+          setSearchString('')
+      }        
+    }
 
     const [open, setOpen] = useState(false)
     const [selectedCard, setSelectedCard] = useState('')
@@ -41,13 +41,14 @@ const MapView = (props) => {
        <div style={{ height: '80vh', width: '100%' }}>
     
     <TextField style={{padding: 24}}
-                            id="searchInput"
-                            placeholder="Search for Locations"   
+                            id="searchInputMapView"
+                            placeholder="Filter Locations"   
                             margin="normal"
                             onChange={onSearchInputChange}
                             />
 
     <GoogleMapReact
+        id='mapview'
         defaultCenter={center}
         defaultZoom={zoom}
         bootstrapURLKeys={{
