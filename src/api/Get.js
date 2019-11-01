@@ -34,4 +34,4 @@ const getRequestWithAuth = (route) =>{
 
 export const getUserLocations = getRequestWithAuth('user-locations')
 export const getActivities = getRequest('activities')
-    
+export const getLocations = getRequest('locations')
