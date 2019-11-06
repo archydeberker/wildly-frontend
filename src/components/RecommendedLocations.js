@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Switch from '@material-ui/core/Switch';
 import { makeStyles } from '@material-ui/core/styles';
 
-import distance from '../helpers/distance'
+
 
 const tableStyles = makeStyles(theme => ({
 
@@ -26,23 +26,11 @@ const tableStyles = makeStyles(theme => ({
   }));
 
 
-const calcDistance = (a, b) => {
-    console.log(a)
-    console.log(b)
-    return(distance(a.lat, a.lng, b.lat, b.lng).toFixed(0))}
-
 export default function RecommendedLocations(props){
-    const {locationList, userLocation, userActivities} = props
-    let data = locationList ? (locationList.map(loc => ({name: loc.name, 
-                                          distance: calcDistance({lat: loc.lat, lng:loc.long}, userLocation),
-                                        activities: loc.activities}))):[{name: "Rumney, NH", distance: '112km', activities: 'climbing'},
-                                        {name: "Rumney, NH", distance: '112km', activities: 'climbing'},
-                                        {name: "Rumney, NH", distance: '112km', activities: 'climbing'}]
+    const {data} = props
     const classes = tableStyles()
-
-    // data = data.filter(location =>  userActivities.includes(location.activities[0]))
-    console.log(data)
-    return (locationList ? (
+    
+    return (data ? (
             <Table className={classes.table}>
             <TableHead>
                 <TableRow>

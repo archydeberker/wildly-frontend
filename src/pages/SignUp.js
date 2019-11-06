@@ -16,7 +16,7 @@ import MapView from '../components/google-maps/MapView'
 import {getLocations} from '../api/Get'
 import { useTheme } from '@material-ui/styles';
 import RecommendedLocations from '../components/RecommendedLocations';
-
+import distance from '../helpers/distance'
 
 
 const styles = {
@@ -73,22 +73,36 @@ function UserInfo(setLocation, setActivities) {
 
 }
 
+const calcDistance = (a, b) => {
+  return(distance(a.lat, a.lng, b.lat, b.lng).toFixed(0))}
+
+function intersection(array1, array2) {
+  return (array1.filter(value => -1 !== array2.indexOf(value)))
+  }
+  
 const SuggestedLocations = (props) => {
-
+  const distanceThreshold = 100
   let {location, locationList, activities} = props
-  locationList = locationList.map(entry => entry.value).slice(1, 4)
+  locationList = locationList.map(entry => entry.value)
+  let data = locationList ? (locationList.map(loc => ({name: loc.name, 
+              distance: calcDistance({lat: loc.lat, lng:loc.long}, extractLngLat(location)),
+  activities: loc.activities}))):[{name: "Rumney, NH", distance: '112km', activities: ['climbing']},
+  {name: "Rumney, NH", distance: '112km', activities: ['climbing']},
+  {name: "Rumney, NH", distance: '112km', activities: ['climbing']}]
 
+  let recommendations = data.filter(location =>  intersection(activities.map(option => option.value), location.activities).length > 0)
+  recommendations = recommendations.filter(location => location.distance < distanceThreshold)
+
+  const filteredLocations = locationList.filter(location => recommendations.map(r => r.name).includes(location.name))
 
   return (<>
     <Grid item xs={12}>
     </Grid>
     <Grid item  xs={12}> 
-      <MapView locationList={locationList} height='300px' center={extractLngLat(location)}/>
+      <MapView locationList={filteredLocations} height='300px' center={extractLngLat(location)}/>
     </Grid>
     <Grid item  xs={12}> 
-    <RecommendedLocations locationList={locationList} 
-                          userLocation={extractLngLat(location)}
-                          userActivities={activities}/>
+    <RecommendedLocations data={recommendations}/>
     </Grid>
   </>)
 }
