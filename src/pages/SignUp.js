@@ -14,9 +14,10 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MapView from '../components/google-maps/MapView'
 
 import {getLocations} from '../api/Get'
-import { useTheme } from '@material-ui/styles';
+
 import RecommendedLocations from '../components/RecommendedLocations';
 import distance from '../helpers/distance'
+import { useHistory } from "react-router-dom";
 
 
 const styles = {
@@ -141,10 +142,14 @@ export default function HorizontalLabelPositionBelowStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
+  const history = useHistory();
   
+  function handleFinish(){
+    history.push("/")
+  }
 
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  function handleNext(){
+    setActiveStep(prevActiveStep => prevActiveStep + 1)
   };
 
   const handleBack = () => {
@@ -197,7 +202,7 @@ export default function HorizontalLabelPositionBelowStepper() {
               >
                 Back
               </Button>
-              <Button variant="contained" color="primary" onClick={handleNext}>
+              <Button variant="contained" color="primary" onClick={activeStep === steps.length - 1 ? handleFinish:handleNext}>
                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
               </Button>
             </div>
