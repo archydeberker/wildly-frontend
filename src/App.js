@@ -25,6 +25,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {useAuth0} from "./react-auth0-wrapper";
 import {RetrieveUserLocations} from './api/Post.js' 
 import { GetWeatherForecast } from './api/GetWeatherForecast';
+import {checkOnboarding as getOnboarding} from './api/Post'
 
 
 require('dotenv').config();
@@ -121,11 +122,23 @@ function About() {
 }
 
 
+
 function AppRouter() {
 
-  const {loading, isAuthenticated} = useAuth0()
-  if (loading) {
+  const {loading, isAuthenticated, getTokenSilently, user} = useAuth0()
+  const [isOnboarded, setOnboarded] = useState(false)
+
   
+  const checkOnboarding = () => {
+    isAuthenticated ?
+    getOnboarding(response=>console.log(response), getTokenSilently, user):
+    setOnboarded(false)
+  }
+  
+  useEffect(() => {console.log(isAuthenticated); checkOnboarding()}, [isAuthenticated])
+
+  if (loading) {
+    
     return (<div height='100vh' style={{verticalAlign:'middle', display:'block',
                                                       position: 'absolute', top: '50%', left: '50%'}}>
                                                         <CircularProgress color='primary'/></div>)}
@@ -133,7 +146,6 @@ function AppRouter() {
     return (
     <Router>
       <div>
-        {console.log(isAuthenticated)}
         <Route exact path="/"> {!isAuthenticated ? <Redirect to="/splash" /> : <MainApp />}</Route>
         <Route path="/about/" component={About} />
         <Route exact path="/splash/"> {isAuthenticated ? <Redirect to="/" /> : <Splash />}</Route>
