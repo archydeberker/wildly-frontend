@@ -12,7 +12,7 @@ import Tab from '@material-ui/core/Tab';
 import { useAuth0 } from "../react-auth0-wrapper";
 import { RetrieveUserLocations } from '../api/Post.js';
 import { GetWeatherForecast } from '../api/GetWeatherForecast';
-import { checkOnboarding as getOnboarding } from '../api/Post';
+import { CheckOnboarding } from '../api/Post';
 import { a11yProps, TabPanel } from '../App';
 
 export const MainApp = () => {
@@ -40,9 +40,9 @@ export const MainApp = () => {
     });
   });
   
-  const checkOnboarding = (setOnboarded) => { getOnboarding(setOnboarded, getTokenSilently, user); };
+  const checkOnboarding = (setOnboarded) => { CheckOnboarding(setOnboarded, getTokenSilently, user); console.log(isOnboarded)};
   
-  useEffect(() => {  checkOnboarding(setOnboarded); }, []);
+  useEffect(() => {checkOnboarding(setOnboarded)}, []);
   useEffect(() => {
     if (!loading) {
       getLocationList(setLocationList);

@@ -14,11 +14,12 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MapView from '../components/google-maps/MapView'
 
 import {getLocations} from '../api/Get'
+import {AddUser} from '../api/Post'
 
 import RecommendedLocations from '../components/RecommendedLocations';
 import distance from '../helpers/distance'
 import { useHistory } from "react-router-dom";
-
+import { useAuth0 } from "../react-auth0-wrapper";
 
 const styles = {
   paperContainer: {
@@ -83,13 +84,14 @@ function intersection(array1, array2) {
   
 const SuggestedLocations = (props) => {
   const distanceThreshold = 100
-  let {location, locationList, activities} = props
+  let {userLocation, locationList, activities, setChosen} = props
+
   locationList = locationList.map(entry => entry.value)
   let data = locationList ? (locationList.map(loc => ({name: loc.name, 
-              distance: calcDistance({lat: loc.lat, lng:loc.long}, extractLngLat(location)),
+              distance: calcDistance({lat: loc.lat, lng:loc.long}, extractLngLat(userLocation)),
   activities: loc.activities}))):[{name: "Rumney, NH", distance: '112km', activities: ['climbing']},
-  {name: "Rumney, NH", distance: '112km', activities: ['climbing']},
-  {name: "Rumney, NH", distance: '112km', activities: ['climbing']}]
+                                  {name: "Rumney, NH", distance: '112km', activities: ['climbing']},
+                                  {name: "Rumney, NH", distance: '112km', activities: ['climbing']}]
 
   let recommendations = data.filter(location =>  intersection(activities.map(option => option.value), location.activities).length > 0)
   recommendations = recommendations.filter(location => location.distance < distanceThreshold)
@@ -100,10 +102,10 @@ const SuggestedLocations = (props) => {
     <Grid item xs={12}>
     </Grid>
     <Grid item  xs={12}> 
-      <MapView locationList={filteredLocations} height='300px' center={extractLngLat(location)}/>
+      <MapView locationList={filteredLocations} height='300px' center={extractLngLat(userLocation)}/>
     </Grid>
     <Grid item  xs={12}> 
-    <RecommendedLocations data={recommendations}/>
+    <RecommendedLocations data={recommendations} setChosen={setChosen}/>
     </Grid>
   </>)
 }
@@ -120,32 +122,40 @@ function GetStepTitle(stepIndex) {
       return "Some locations you might like to add to Wildly"
   }
 }
-function GetStepContent(stepIndex) {
-  const [userLocation, setLocation] = React.useState(null)
+function GetStepContent(stepIndex, setUserHomeLocation, setLocations, setActivities, userLocation, activities) {
   const [locationList, setLocationList] = useState([])
-  const [activities, setActivities] = useState([])
 
   useEffect(() => {{getLocations(setLocationList)}}, [])
   
   switch (stepIndex) {
     case 0:
-      return UserInfo(setLocation, setActivities);
+      return UserInfo(setUserHomeLocation, setActivities);
     case 1:
-      return <SuggestedLocations location={userLocation} locationList={locationList} activities={activities}/>; 
+      return <SuggestedLocations location={userLocation} locationList={locationList} activities={activities} setChosen={setLocations}/>; 
     default:
       return 'Unknown stepIndex';
   }
 }
 
 export default function HorizontalLabelPositionBelowStepper() {
-  
+
+  const {getTokenSilently, user} = useAuth0()
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
   const history = useHistory();
-  
+
+  const [userHomeLocation, setUserHomeLocation] = React.useState()
+  const [userLocations, setLocations] = React.useState(null)
+  const [userActivities, setActivities] = useState([])
+
   function handleFinish(){
-    history.push("/")
+  const  data = {user:user,
+            home_location:userHomeLocation,
+            activities:userActivities,
+            locations:userLocations}
+
+  AddUser(console.log, getTokenSilently, data).then(history.push("/"))
   }
 
   function handleNext(){
@@ -183,7 +193,7 @@ export default function HorizontalLabelPositionBelowStepper() {
           </div>
         ) : (
           <div>
-            <Typography className={classes.instructions}>{GetStepContent(activeStep)}</Typography>
+            <Typography className={classes.instructions}>{GetStepContent(activeStep, setUserHomeLocation, setLocations, setActivities, userHomeLocation, userActivities)}</Typography>
           </div>
         )}
       </div>

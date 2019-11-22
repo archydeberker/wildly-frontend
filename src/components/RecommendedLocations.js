@@ -27,8 +27,13 @@ const tableStyles = makeStyles(theme => ({
 
 
 export default function RecommendedLocations(props){
-    const {data} = props
+    const {data, setChosen} = props
     const classes = tableStyles()
+    const selectedLocations = []
+    const handleChange = location => event => {
+        event.target.checked ? selectedLocations.append(location): selectedLocations.filter(l => l.name != location.name)
+        setChosen(selectedLocations)
+    }
     
     return (data ? (
             <Table className={classes.table}>
@@ -48,7 +53,7 @@ export default function RecommendedLocations(props){
                     <TableCell className={classes.cell}> {location.activities}</TableCell>
                     <TableCell className={classes.cell}>     <Switch
                                         // checked={true}
-                                        // onChange={handleChange('checkedA')}
+                                        onChange={handleChange(location.name)}
                                         value="checkedA"
                                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                                     /></TableCell>

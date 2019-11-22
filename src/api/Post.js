@@ -35,4 +35,5 @@ const PostRequestWithAuth = (route) =>{
 
 export const RetrieveUserLocations = PostRequestWithAuth('user-locations')
 export const AddUserLocation = PostRequestWithAuth('add-location')
-export const checkOnboarding = PostRequestWithAuth('user-onboarded')
+export const CheckOnboarding = PostRequestWithAuth('user-onboarded')
+export const AddUser = PostRequestWithAuth('add-user-home')
