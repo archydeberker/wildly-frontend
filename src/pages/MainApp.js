@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from "react-router-dom";
 import NavBar from '../components/NavBar';
 import theme from '../theme';
 import LocationGrid from '../components/LocationGrid';
@@ -12,10 +11,12 @@ import Tab from '@material-ui/core/Tab';
 import { useAuth0 } from "../react-auth0-wrapper";
 import { RetrieveUserLocations } from '../api/Post.js';
 import { GetWeatherForecast } from '../api/GetWeatherForecast';
-import { CheckOnboarding } from '../api/Post';
+
 import { a11yProps, TabPanel } from '../App';
 import SignUp from './SignUp'
 import Loading from '../components/Loading';
+import Joyride from 'react-joyride';
+import {blurbs} from '../data/tour'
 
 export const MainApp = (props) => {
   const {isOnboarded, setOnboarded} = props
@@ -24,7 +25,8 @@ export const MainApp = (props) => {
   const [locationList, setLocationList] = useState([]);
   const { loading, getTokenSilently, user } = useAuth0();
   const [weatherData, setWeatherData] = useState(null);
-  
+  const [isTourOpen, setTourOpen] = useState(true)
+
   const handleChange = (e, newValue) => {
     setTabValue(newValue);
   };
@@ -41,41 +43,65 @@ export const MainApp = (props) => {
     });
   });
 
-
+  useEffect(() => {
+    if (!loading) {
+      getLocationList(setLocationList);
+    }
+  }, [loading]);
+  
   useEffect(() => {
     if (locationList.length > 0) {
       GetWeatherForecast(locations, setWeatherData);
     }
   }, [locationList]);
   
+  const steps = [
+    {
+      target: '.locations',
+      content: blurbs['locations']
+    },
+    {
+      target: '.rain_graph',
+      content: blurbs['rain']
+    },
+    {
+      target: '.compare',
+      content: blurbs['weather']
+    },
+    {
+      target: '.new_location',
+      content: blurbs['new_location']
+    },
+  ]
   if (isOnboarded===false) {return <SignUp setOnboarded={setOnboarded}/>}
 
   if (isOnboarded) {return (<ThemeProvider theme={theme}>
-    <div>
+    <div className='app'>
       <header>
         <NavBar />
       </header>
 
       <Tabs value={tabValue} onChange={handleChange} variant="fullWidth" indicatorColor="secondary" textColor="black" aria-label="icon label tabs example" TabIndicatorProps={{ style: { height: '4px' } }}>
-        <Tab label="Your Locations" {...a11yProps(0)} />
-        <Tab label="Rain Graph" {...a11yProps(1)} />
-        <Tab label="Compare Weather" {...a11yProps(2)} />
+        <Tab className='locations' label="Your Locations" {...a11yProps(0)} />
+        <Tab className='rain_graph' label="Rain Graph" {...a11yProps(1)} />
+        <Tab className='compare' label="Compare Weather" {...a11yProps(2)} />
 
       </Tabs>
 
       <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
-        <LocationGrid locationList={locationList} getLocationList={getLocationList} setLocationList={setLocationList} />
+        <LocationGrid locationList={locationList} getLocationList={getLocationList} setLocationList={setLocationList}/>
       </TabPanel>
 
       <TabPanel value={tabValue} index={1} icon={<PhoneIcon />}>
-        <Graph locationList={locationList} />
+        <Graph locationList={locationList} getLocationList={getLocationList} setLocationList={setLocationList}/>
       </TabPanel>
 
       <TabPanel value={tabValue} index={2} icon={<PhoneIcon />}>
-        <WeatherComparison weatherData={weatherData} />
+        <WeatherComparison weatherData={weatherData} getLocationList={getLocationList} setLocationList={setLocationList}/>
       </TabPanel>
-
+      <Joyride steps={steps}/>
     </div>
+ 
   </ThemeProvider>)}
 
   return (<Loading/>)
