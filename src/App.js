@@ -5,13 +5,12 @@ import './App.css';
 import {LocationAdd} from './components/NewLocation'
 import SearchPanel from './components/google-maps/SearchPanel'
 
-import SignUp from './pages/SignUp'
 import { MainApp } from './pages/MainApp';
 import Splash from "./pages/Splash"
 
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import CircularProgress from '@material-ui/core/CircularProgress';
+
 import {CheckOnboarding} from './api/Post'
 import {useAuth0} from "./react-auth0-wrapper";
 
@@ -53,9 +52,6 @@ function AppRouter() {
   useEffect(() => {
     if (!loading) {
       CheckOnboarding(setOnboarded, getTokenSilently, user);
-      // return (<div height='100vh' style={{verticalAlign:'middle', display:'block',
-      //                                                 position: 'absolute', top: '50%', left: '50%'}}>
-      //                                                   <CircularProgress color='primary'/></div>)
     }
   }, [loading]);
 

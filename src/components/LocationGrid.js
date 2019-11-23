@@ -5,11 +5,12 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField'
-import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 import LocationDetail from '../components/LocationDetail'
 import Entry from '../data/locations'
 import {LocationAdd} from '../components/NewLocation'
+import Loading from './Loading';
 
 
 
@@ -92,9 +93,7 @@ function LocationGrid(props){
                     </div>
                 
                 ) : (<div><Typography align='center' variant='h6' style={{marginTop: '20%', color:'gray'}}> You haven't added any locations yet! Use the button below to get started</Typography> </div>))
-                : (<div height='100vh' style={{verticalAlign:'middle', display:'block',
-                                                      position: 'absolute', top: '50%', left: '50%'}}>
-                                                        <CircularProgress color='primary'/></div>)
+                : <Loading/>
                 }
                 <LocationAdd open={locationAddOpen} onClose={newLocationHandleClose}/>
             <Fab onClick={newLocationClickOpen} aria-label='Add Location'  
