@@ -47,7 +47,7 @@ export const MainApp = (props) => {
     }
   }, [locationList]);
   
-  if (isOnboarded===false) {return <SignUp setOnboarded={setOnboarded}/>}
+  if (!isOnboarded) {return <SignUp setOnboarded={setOnboarded}/>}
 
   return (<ThemeProvider theme={theme}>
     <div>
