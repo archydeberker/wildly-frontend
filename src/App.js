@@ -15,6 +15,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {CheckOnboarding} from './api/Post'
 import {useAuth0} from "./react-auth0-wrapper";
 
+import Loading from './components/Loading'
+
 require('dotenv').config();
 
 export function TabPanel(props) {
@@ -58,10 +60,7 @@ function AppRouter() {
   }, [loading]);
 
   if (loading) {
-    return (<div height='100vh' style={{verticalAlign:'middle', display:'block',
-                                                      position: 'absolute', top: '50%', left: '50%'}}>
-                                                        <CircularProgress color='primary'/></div>)}
-
+    return (<Loading/>)}
   
     return (
     <Router>

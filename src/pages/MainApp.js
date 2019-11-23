@@ -15,6 +15,7 @@ import { GetWeatherForecast } from '../api/GetWeatherForecast';
 import { CheckOnboarding } from '../api/Post';
 import { a11yProps, TabPanel } from '../App';
 import SignUp from './SignUp'
+import Loading from '../components/Loading';
 
 export const MainApp = (props) => {
   const {isOnboarded, setOnboarded} = props
@@ -47,9 +48,9 @@ export const MainApp = (props) => {
     }
   }, [locationList]);
   
-  if (!isOnboarded) {return <SignUp setOnboarded={setOnboarded}/>}
+  if (isOnboarded===false) {return <SignUp setOnboarded={setOnboarded}/>}
 
-  return (<ThemeProvider theme={theme}>
+  if (isOnboarded) {return (<ThemeProvider theme={theme}>
     <div>
       <header>
         <NavBar />
@@ -75,5 +76,8 @@ export const MainApp = (props) => {
       </TabPanel>
 
     </div>
-  </ThemeProvider>);
+  </ThemeProvider>)}
+
+  return (<Loading/>)
+  
 };
