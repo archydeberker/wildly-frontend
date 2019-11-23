@@ -14,12 +14,14 @@ import { RetrieveUserLocations } from '../api/Post.js';
 import { GetWeatherForecast } from '../api/GetWeatherForecast';
 import { CheckOnboarding } from '../api/Post';
 import { a11yProps, TabPanel } from '../App';
+import SignUp from './SignUp'
 
-export const MainApp = () => {
+export const MainApp = (props) => {
+  const {isOnboarded, setOnboarded} = props
+  
   const [tabValue, setTabValue] = useState(0);
   const [locationList, setLocationList] = useState([]);
   const { loading, getTokenSilently, user } = useAuth0();
-  const [isOnboarded, setOnboarded] = useState(true);
   const [weatherData, setWeatherData] = useState(null);
   
   const handleChange = (e, newValue) => {
@@ -30,7 +32,6 @@ export const MainApp = () => {
     RetrieveUserLocations(setLocationList, getTokenSilently, user);
   };
   
-
   let locations = locationList.map((location) => {
     return ({
       name: location['name'],
@@ -39,15 +40,13 @@ export const MainApp = () => {
     });
   });
   
-
-  
-  useEffect(() => {
-    if (!loading) {
-      console.count('renders')
-      getLocationList(setLocationList);
-      CheckOnboarding(setOnboarded, getTokenSilently, user);
-    }
-  }, [loading]);
+  // useEffect(() => {
+  //   if (!loading) {
+  //     console.count('renders')
+  //     getLocationList(setLocationList);
+  //     CheckOnboarding(setOnboarded, getTokenSilently, user);
+  //   }
+  // }, [loading]);
 
   useEffect(() => {
     if (locationList.length > 0) {
@@ -55,7 +54,7 @@ export const MainApp = () => {
     }
   }, [locationList]);
   
-  // if (!isOnboarded) {console.log(isOnboarded); return <Redirect to='/signup'/>}
+  if (!isOnboarded) {return <SignUp setOnboarded={setOnboarded}/>}
 
   return (<ThemeProvider theme={theme}>
     <div>

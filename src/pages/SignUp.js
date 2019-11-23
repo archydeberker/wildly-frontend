@@ -134,8 +134,9 @@ function GetStepContent(stepIndex, setUserHomeLocation, setLocations, setActivit
   }
 }
 
-export default function HorizontalLabelPositionBelowStepper() {
+export default function HorizontalLabelPositionBelowStepper(props) {
 
+  const {setOnboarded} = props
   const {getTokenSilently, user, loading} = useAuth0()
   const classes = useStyles();
   const steps = getSteps();
@@ -145,7 +146,6 @@ export default function HorizontalLabelPositionBelowStepper() {
   const [userHomeLocation, setUserHomeLocation] = React.useState()
   const [userLocations, setLocations] = React.useState(null)
   const [userActivities, setActivities] = useState([])
-  const [onboarded, setOnboarded] = useState(false)
   const [locationList, setLocationList] = useState([])
 
   useEffect(() => {getLocations(setLocationList)}, [])
@@ -177,8 +177,6 @@ export default function HorizontalLabelPositionBelowStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
-
-  if(onboarded){return <Redirect to='/'/>}
 
   return (
     <Paper style={styles.paperContainer}>

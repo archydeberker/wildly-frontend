@@ -46,9 +46,8 @@ export function a11yProps(index) {
 function AppRouter() {
 
   const {loading, isAuthenticated, getTokenSilently, user} = useAuth0()
-  const [isOnboarded, setOnboarded] = useState(true)
+  const [isOnboarded, setOnboarded] = useState()
   
-  // For some reason this fucks everything
   useEffect(() => {
     if (!loading) {
       CheckOnboarding(setOnboarded, getTokenSilently, user);
@@ -64,11 +63,10 @@ function AppRouter() {
     return (
     <Router>
       <div>
-        <Route exact path="/"> {!isAuthenticated ? <Redirect to="/splash" /> :!isOnboarded ? <Redirect to="/signup" /> : <MainApp />}</Route>
+        <Route exact path="/"> {!isAuthenticated ? <Redirect to="/splash" />: <MainApp isOnboarded={isOnboarded} setOnboarded={setOnboarded}/>}</Route>
         <Route exact path="/splash"> {isAuthenticated ? <Redirect to="/" /> : <Splash />}</Route>
         <Route path="/location" component= {LocationAdd} /> 
         <Route path="/search" component= {SearchPanel} />
-        <Route exact path="/signup"  component={SignUp} />
       </div>
     </Router>
   );
