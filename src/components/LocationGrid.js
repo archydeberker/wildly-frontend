@@ -56,16 +56,6 @@ function LocationGrid(props){
         setSelectedCard(title)
     }
 
-    const newLocationClickOpen = (event) => {
-        setLocationAddOpen(true);
-    }
-
-    const newLocationHandleClose = (event) => {
-        setLocationAddOpen(false);
-        getLocationList(setLocationList);
-        console.log({locationList})
-    }
-
     const handleClose = () => {
         setOpen(false)
         setLocationAddOpen(false)
@@ -95,14 +85,6 @@ function LocationGrid(props){
                 ) : (<div><Typography align='center' variant='h6' style={{marginTop: '20%', color:'gray'}}> You haven't added any locations yet! Use the button below to get started</Typography> </div>))
                 : <Loading/>
                 }
-                <LocationAdd open={locationAddOpen} onClose={newLocationHandleClose}/>
-            <Fab onClick={newLocationClickOpen} aria-label='Add Location'  
-                                color='secondary' variant="extended" 
-                                size='large'
-                                style={{right: 50, bottom:50, position: 'fixed'}}>
-            <AddIcon /> New Location
-          </Fab>
-          
             </div>
         )
     }

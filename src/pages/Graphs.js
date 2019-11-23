@@ -10,7 +10,7 @@ const AllGraphs = (props) => {
     const locations = locationList.map((location) => {return({name: location['name'],
                                                              long: location['long'],
                                                              lat: location['lat']})})
-
+    console.log(locations)
     useEffect(() => {if(locationList.length > 0){GetWeatherForecast(locations, setData)}}, [locationList]) 
     return((data ? 
         <div>
@@ -24,8 +24,8 @@ const AllGraphs = (props) => {
         </Grid>
         {/* <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList}/> */}
          </div>: 
-         <div/>))
-        //  <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList}/>))
+        //  <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList}/>
+        <div/>))
 }
 
 export default AllGraphs

@@ -17,6 +17,7 @@ import SignUp from './SignUp'
 import Loading from '../components/Loading';
 import Joyride from 'react-joyride';
 import {blurbs} from '../data/tour'
+import { AddLocationButton } from '../components/AddLocationButton';
 
 export const MainApp = (props) => {
   const {isOnboarded, setOnboarded} = props
@@ -48,7 +49,7 @@ export const MainApp = (props) => {
       getLocationList(setLocationList);
     }
   }, [loading]);
-  
+
   useEffect(() => {
     if (locationList.length > 0) {
       GetWeatherForecast(locations, setWeatherData);
@@ -99,6 +100,7 @@ export const MainApp = (props) => {
       <TabPanel value={tabValue} index={2} icon={<PhoneIcon />}>
         <WeatherComparison weatherData={weatherData} getLocationList={getLocationList} setLocationList={setLocationList}/>
       </TabPanel>
+      <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList}/>
       <Joyride steps={steps}/>
     </div>
  
