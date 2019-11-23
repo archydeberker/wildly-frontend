@@ -51,14 +51,17 @@ function AppRouter() {
   useEffect(() => {
     if (!loading) {
       CheckOnboarding(setOnboarded, getTokenSilently, user);
+      // return (<div height='100vh' style={{verticalAlign:'middle', display:'block',
+      //                                                 position: 'absolute', top: '50%', left: '50%'}}>
+      //                                                   <CircularProgress color='primary'/></div>)
     }
   }, [loading]);
 
   if (loading) {
-
     return (<div height='100vh' style={{verticalAlign:'middle', display:'block',
                                                       position: 'absolute', top: '50%', left: '50%'}}>
                                                         <CircularProgress color='primary'/></div>)}
+
   
     return (
     <Router>

@@ -39,14 +39,7 @@ export const MainApp = (props) => {
       lat: location['lat']
     });
   });
-  
-  // useEffect(() => {
-  //   if (!loading) {
-  //     console.count('renders')
-  //     getLocationList(setLocationList);
-  //     CheckOnboarding(setOnboarded, getTokenSilently, user);
-  //   }
-  // }, [loading]);
+
 
   useEffect(() => {
     if (locationList.length > 0) {
@@ -54,7 +47,7 @@ export const MainApp = (props) => {
     }
   }, [locationList]);
   
-  if (!isOnboarded) {return <SignUp setOnboarded={setOnboarded}/>}
+  if (isOnboarded===false) {return <SignUp setOnboarded={setOnboarded}/>}
 
   return (<ThemeProvider theme={theme}>
     <div>
