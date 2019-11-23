@@ -14,11 +14,11 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MapView from '../components/google-maps/MapView'
 
 import {getLocations} from '../api/Get'
-import {AddUser} from '../api/Post'
+import {AddUser, CheckOnboarding} from '../api/Post'
 
 import RecommendedLocations from '../components/RecommendedLocations';
 import distance from '../helpers/distance'
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect} from "react-router-dom";
 import { useAuth0 } from "../react-auth0-wrapper";
 
 const styles = {
@@ -122,10 +122,7 @@ function GetStepTitle(stepIndex) {
       return "Some locations you might like to add to Wildly"
   }
 }
-function GetStepContent(stepIndex, setUserHomeLocation, setLocations, setActivities, userLocation, activities) {
-  const [locationList, setLocationList] = useState([])
-
-  useEffect(() => {{getLocations(setLocationList)}}, [])
+function GetStepContent(stepIndex, setUserHomeLocation, setLocations, setActivities, userLocation, activities, locationList) {
   
   switch (stepIndex) {
     case 0:
@@ -139,23 +136,34 @@ function GetStepContent(stepIndex, setUserHomeLocation, setLocations, setActivit
 
 export default function HorizontalLabelPositionBelowStepper() {
 
-  const {getTokenSilently, user} = useAuth0()
+  const {getTokenSilently, user, loading} = useAuth0()
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
-  const history = useHistory();
 
+
+  const [activeStep, setActiveStep] = React.useState(0);
   const [userHomeLocation, setUserHomeLocation] = React.useState()
   const [userLocations, setLocations] = React.useState(null)
   const [userActivities, setActivities] = useState([])
+  const [onboarded, setOnboarded] = useState(false)
+  const [locationList, setLocationList] = useState([])
+
+  useEffect(() => {getLocations(setLocationList)}, [])
 
   function handleFinish(){
-  const  data = {user:user,
-            home_location:userHomeLocation,
-            activities:userActivities,
-            locations:userLocations}
+    
+    const location = {'name': (userHomeLocation[0].name ? userHomeLocation[0].name : userHomeLocation[0].vicinity),
+                        'longitude': userHomeLocation[0].geometry.location.lng(),
+                        'latitude': userHomeLocation[0].geometry.location.lat(),
+                        'google_ref': userHomeLocation[0].place_id}
 
-  AddUser(console.log, getTokenSilently, data).then(history.push("/"))
+    const  data = {user:user,
+                  home_location:location,
+                  activities:userActivities,
+                  locations:userLocations}
+
+    AddUser(console.log, getTokenSilently, data)
+    setOnboarded(true)
   }
 
   function handleNext(){
@@ -170,7 +178,8 @@ export default function HorizontalLabelPositionBelowStepper() {
     setActiveStep(0);
   };
 
-  
+  if(onboarded){return <Redirect to='/'/>}
+
   return (
     <Paper style={styles.paperContainer}>
     <Grid
@@ -193,7 +202,7 @@ export default function HorizontalLabelPositionBelowStepper() {
           </div>
         ) : (
           <div>
-            <Typography className={classes.instructions}>{GetStepContent(activeStep, setUserHomeLocation, setLocations, setActivities, userHomeLocation, userActivities)}</Typography>
+            <Typography className={classes.instructions}>{GetStepContent(activeStep, setUserHomeLocation, setLocations, setActivities, userHomeLocation, userActivities, locationList)}</Typography>
           </div>
         )}
       </div>
@@ -224,21 +233,3 @@ export default function HorizontalLabelPositionBelowStepper() {
 
   );
 }
-
-function test() {
-    return(
-    <Grid
-        container
-        spacing={16}
-        direction="row"
-        alignItems="center"
-        justify="center"
-        >
-<Grid item  xs={6}>
-    <Card width="100%">Hey</Card>
-    </Grid>
-    <Grid item  xs={6}>
-    <Card width="100%">Hey</Card>
-    </Grid>
-    </Grid>
-)}

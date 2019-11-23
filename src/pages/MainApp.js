@@ -19,16 +19,15 @@ export const MainApp = () => {
   const [tabValue, setTabValue] = useState(0);
   const [locationList, setLocationList] = useState([]);
   const { loading, getTokenSilently, user } = useAuth0();
-  const [isOnboarded, setOnboarded] = useState(false);
-
-
+  const [isOnboarded, setOnboarded] = useState(true);
   const [weatherData, setWeatherData] = useState(null);
+  
   const handleChange = (e, newValue) => {
     setTabValue(newValue);
   };
   
   const getLocationList = (setLocationList) => {
-    RetrieveUserLocations(setLocationList, getTokenSilently, user).then(console.log(locationList));
+    RetrieveUserLocations(setLocationList, getTokenSilently, user);
   };
   
 
@@ -40,12 +39,13 @@ export const MainApp = () => {
     });
   });
   
-  const checkOnboarding = (setOnboarded) => { CheckOnboarding(setOnboarded, getTokenSilently, user); console.log(isOnboarded)};
+
   
-  useEffect(() => {checkOnboarding(setOnboarded)}, []);
   useEffect(() => {
     if (!loading) {
+      console.count('renders')
       getLocationList(setLocationList);
+      CheckOnboarding(setOnboarded, getTokenSilently, user);
     }
   }, [loading]);
 
@@ -55,7 +55,8 @@ export const MainApp = () => {
     }
   }, [locationList]);
   
-  if (!isOnboarded) {return <Redirect to='/signup'/>}
+  // if (!isOnboarded) {console.log(isOnboarded); return <Redirect to='/signup'/>}
+
   return (<ThemeProvider theme={theme}>
     <div>
       <header>

@@ -78,7 +78,6 @@ function LocationAdd(props) {
   }
 
   useEffect(() =>
-  // code to run on component mount
     getActivities(setAllActivities), []
   )
 

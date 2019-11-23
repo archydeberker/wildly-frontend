@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 
 import './App.css';
@@ -12,7 +12,7 @@ import Splash from "./pages/Splash"
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import {CheckOnboarding} from './api/Post'
 import {useAuth0} from "./react-auth0-wrapper";
 
 require('dotenv').config();
@@ -46,6 +46,14 @@ export function a11yProps(index) {
 function AppRouter() {
 
   const {loading, isAuthenticated, getTokenSilently, user} = useAuth0()
+  const [isOnboarded, setOnboarded] = useState(true)
+  
+  // For some reason this fucks everything
+  useEffect(() => {
+    if (!loading) {
+      CheckOnboarding(setOnboarded, getTokenSilently, user);
+    }
+  }, [loading]);
 
   if (loading) {
 
@@ -56,11 +64,11 @@ function AppRouter() {
     return (
     <Router>
       <div>
-        <Route exact path="/"> {!isAuthenticated ? <Redirect to="/splash" /> : <MainApp />}</Route>
+        <Route exact path="/"> {!isAuthenticated ? <Redirect to="/splash" /> :!isOnboarded ? <Redirect to="/signup" /> : <MainApp />}</Route>
         <Route exact path="/splash"> {isAuthenticated ? <Redirect to="/" /> : <Splash />}</Route>
         <Route path="/location" component= {LocationAdd} /> 
         <Route path="/search" component= {SearchPanel} />
-        <Route exact path="/signup" component= {SignUp} />
+        <Route exact path="/signup"  component={SignUp} />
       </div>
     </Router>
   );
