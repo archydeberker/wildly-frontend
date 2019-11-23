@@ -6,13 +6,12 @@ const Wrapper = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   background-color: red;
-  border: 2px solid #fff;
   border-radius: 100%;
   user-select: none;
-  opacity: 0.5, 
+  opacity: 0.2, 
   transform: translate(-50%, -50%);
   cursor: ${props => (props.onClick ? 'pointer' : 'default')};
   &:hover {

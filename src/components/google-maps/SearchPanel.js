@@ -62,7 +62,8 @@ export default class Searchbox extends Component {
           />
           ))}
           </GoogleMap>
-          {mapApiLoaded && <SearchBox width='100%' map={mapInstance} mapApi={mapApi} addplace={this.addPlace} />}
+          {mapApiLoaded && <SearchBox width='100%' map={mapInstance} mapApi={mapApi} addplace={this.addPlace} 
+          placeholder={this.props.placeholder} label={this.props.label}/>}
           </Fragment>
           );
         }

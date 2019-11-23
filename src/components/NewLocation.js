@@ -70,7 +70,7 @@ function LocationAdd(props) {
     const location = {'name': (new_location.name ? new_location.name : new_location.vicinity),
                       'longitude': new_location.geometry.location.lng(),
                       'latitude': new_location.geometry.location.lat(),
-                       'google_ref': new_location.place_id}
+                      'google_ref': new_location.place_id}
     
     setLocation(location)
     console.log(location)
@@ -78,7 +78,6 @@ function LocationAdd(props) {
   }
 
   useEffect(() =>
-  // code to run on component mount
     getActivities(setAllActivities), []
   )
 
@@ -95,7 +94,10 @@ function LocationAdd(props) {
       <Dialog style={{ overflowY: 'visible' }} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add new location</DialogTitle>
         <DialogContent style={{paddingBottom:'5%', minWidth: 500,  overflowY: 'visible'}}>
-        <div style={{height: '300px'}} ><SearchPanel onSelect={onSelect}/> </div>
+        <div style={{height: '300px'}} >
+          <SearchPanel onSelect={onSelect} placeholder='El Chalten, Patagonia' label='Where do you want to go?'/>
+          
+          </div>
           <div style={{paddingTop: '70px'}}>
           <InputLabel shrink color='primary' style={{paddingTop: 25}}>
           What do you like to do there?
