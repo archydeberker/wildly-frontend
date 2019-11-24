@@ -48,8 +48,8 @@ class SearchBox extends Component {
       }}
       onFocus={this.clearSearchBox}
       margin="normal"
-      label="Where do you want to go?"
-      placeholder="El Chalten, Patagonia"
+      label={this.props.label}
+      placeholder={this.props.placeholder}
       style={{'width':this.props.width}}
       variant='outlined'
       />

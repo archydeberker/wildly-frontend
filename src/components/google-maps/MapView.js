@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField'
 
 const ChipMarker = ({text, tooltipText, handleClick}) => (
   <Tooltip title={tooltipText} >
-  <Chip color="primary" label={text} onClick={() => handleClick(text)}/>
+  <Chip color="primary" style={{opacity:0.8}} label={text} onClick={() => handleClick(text)}/>
   </Tooltip>
 )
 
@@ -31,21 +31,20 @@ const MapView = (props) => {
     const [selectedCard, setSelectedCard] = useState('')
     const [searchString, setSearchString] = useState('')
     
-    
-    const center = {lat: 45.95, lng: -73.33}
-    const zoom = 5
+    const center = props.center?props.center:{lat: 45.95, lng: -73.33}
+    const zoom = props.zoom?props.zoom:8
     const locationAtoms = props.locationList.map(Entry)
     const locationMap = (props.locationList) ? locationAtoms.reduce(locationMapper, {}): null
 
     return (<div> {(props.locationList ? 
-       <div style={{ height: '80vh', width: '100%' }}>
+       <div style={{ height: props.height?props.height:'80vh', width: '100%' }}>
     
-    <TextField style={{padding: 24}}
+    {/* <TextField style={{padding: 24}}
                             id="searchInputMapView"
                             placeholder="Filter Locations"   
                             margin="normal"
                             onChange={onSearchInputChange}
-                            />
+                            /> */}
 
     <GoogleMapReact
         id='mapview'
