@@ -20,6 +20,7 @@ import RecommendedLocations from '../components/RecommendedLocations';
 import distance from '../helpers/distance'
 
 import { useAuth0 } from "../react-auth0-wrapper";
+import { default_activities } from '../data/activities';
 
 const styles = {
   paperContainer: {
@@ -52,7 +53,7 @@ const extractLngLat = (location) => {
 
 function UserInfo(setLocation, setActivities) {
 
-    const activities = ['climb', 'run', 'hike', 'paddle', 'camp'].map(input => ({label:input, value: input}))
+    const activities = default_activities.map(input => ({label:input, value: input}))
     return  <>
             <Grid item  xs={12}> 
                 <div style={{height:'300px', paddingBottom: '80px'}}>
