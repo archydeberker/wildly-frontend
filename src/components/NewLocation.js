@@ -57,10 +57,9 @@ const NewLocation = (props) => {
 
 function LocationAdd(props) {
 
-  const { handleClickOpen, onClose, open } = props;
+  const { handleClickOpen, onClose, open, activities } = props;
   const [currLocation, setLocation] = useState([])
   const [selectedActivities, setActivities] = useState([])
-  const [activities, setAllActivities] = useState([])
   const { getTokenSilently, user } = useAuth0()
 
   function onSelect(places) {
@@ -73,15 +72,10 @@ function LocationAdd(props) {
       'latitude': new_location.geometry.location.lat(),
       'google_ref': new_location.place_id
     }
-
     setLocation(location)
     console.log(location)
-
   }
 
-  useEffect(() =>
-    getActivities(setAllActivities), []
-  )
 
   function handleClose() {
     currLocation.activities = selectedActivities

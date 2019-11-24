@@ -10,6 +10,7 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import Tab from '@material-ui/core/Tab';
 import { useAuth0 } from "../react-auth0-wrapper";
 import { RetrieveUserLocations } from '../api/Post.js';
+import { getActivities } from '../api/Get.js';
 import { GetWeatherForecast } from '../api/GetWeatherForecast';
 
 import { a11yProps, TabPanel } from '../App';
@@ -25,6 +26,7 @@ export const MainApp = (props) => {
   
   const [tabValue, setTabValue] = useState(0);
   const [locationList, setLocationList] = useState([]);
+  const [activities, setActivities] = useState([]);
   const { loading, getTokenSilently, user } = useAuth0();
   const [weatherData, setWeatherData] = useState(null);
 
@@ -53,6 +55,7 @@ export const MainApp = (props) => {
   useEffect(() => {
     if (!loading) {
       getLocationList(setLocationList);
+      getActivities(setActivities)
     }
   }, [loading]);
 
@@ -110,7 +113,7 @@ export const MainApp = (props) => {
       <TabPanel value={tabValue} index={2} icon={<PhoneIcon />}>
         <WeatherComparison weatherData={weatherData} getLocationList={getLocationList} setLocationList={setLocationList}/>
       </TabPanel>
-      <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList}/>
+      <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList} setActivityList={setActivities} getActivityList={getActivities} activities={activities}/>
       {!hasToured && <Joyride steps={steps} continuous={true} locale={{back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip'}} callback={walkThroughCallback}/>}
     </div>
  
