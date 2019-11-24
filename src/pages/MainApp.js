@@ -19,14 +19,14 @@ import Joyride from 'react-joyride';
 import {blurbs} from '../data/tour'
 import { AddLocationButton } from '../components/AddLocationButton';
 
+
 export const MainApp = (props) => {
-  const {isOnboarded, setOnboarded} = props
+  const {isOnboarded, setOnboarded, hasToured, setHasToured} = props
   
   const [tabValue, setTabValue] = useState(0);
   const [locationList, setLocationList] = useState([]);
   const { loading, getTokenSilently, user } = useAuth0();
   const [weatherData, setWeatherData] = useState(null);
-  const [isTourOpen, setTourOpen] = useState(true)
 
   const handleChange = (e, newValue) => {
     setTabValue(newValue);
@@ -35,6 +35,12 @@ export const MainApp = (props) => {
   const getLocationList = (setLocationList) => {
     RetrieveUserLocations(setLocationList, getTokenSilently, user);
   };
+
+  const walkThroughCallback = (data) => {
+    if (data.action === 'next' & data.index === 3)
+      {setHasToured(true)}
+  }
+  
   
   let locations = locationList.map((location) => {
     return ({
@@ -105,7 +111,7 @@ export const MainApp = (props) => {
         <WeatherComparison weatherData={weatherData} getLocationList={getLocationList} setLocationList={setLocationList}/>
       </TabPanel>
       <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList}/>
-      <Joyride steps={steps} continuous={true} locale={{back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip'}}/>
+      {!hasToured && <Joyride steps={steps} continuous={true} locale={{back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip'}} callback={walkThroughCallback}/>}
     </div>
  
   </ThemeProvider>)}
