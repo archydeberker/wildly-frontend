@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 export const AddLocationButton = (props) => {
     
-    const {getLocationList, setLocationList} = props
+    const {getLocationList, setLocationList, getActivityList, setActivityList, activities} = props
     const [locationAddOpen, setLocationAddOpen] = useState(false)
 
     const newLocationClickOpen = (event) => {
@@ -16,10 +16,11 @@ export const AddLocationButton = (props) => {
     const newLocationHandleClose = (event) => {
         setLocationAddOpen(false);
         getLocationList(setLocationList);
+        getActivityList(setActivityList);
     }
 
     return (<div>
-        <LocationAdd open={locationAddOpen} onClose={newLocationHandleClose} />
+        <LocationAdd open={locationAddOpen} onClose={newLocationHandleClose} activities={activities}/>
         <Fab onClick={newLocationClickOpen} aria-label='Add Location'
             color='secondary' variant="extended"
             size='large'

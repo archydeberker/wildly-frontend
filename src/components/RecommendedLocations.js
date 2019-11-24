@@ -9,8 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 import Switch from '@material-ui/core/Switch';
 import { makeStyles } from '@material-ui/core/styles';
-
-
+import Chip from '@material-ui/core/Chip'
 
 const tableStyles = makeStyles(theme => ({
 
@@ -29,19 +28,19 @@ const tableStyles = makeStyles(theme => ({
 export default function RecommendedLocations(props){
     const {data, setChosen} = props
     const classes = tableStyles()
-    const selectedLocations = []
+    let selectedLocations = []
     const handleChange = location => event => {
-        event.target.checked ? selectedLocations.append(location): selectedLocations.filter(l => l.name != location.name)
+        event.target.checked ? selectedLocations.push(location): selectedLocations.filter(l => l.name != location.name)
         setChosen(selectedLocations)
     }
-    
+    console.table(data)
     return (data ? (
             <Table className={classes.table}>
             <TableHead>
                 <TableRow>
                 <TableCell className={classes.cell}>Location</TableCell> 
                 <TableCell className={classes.cell}>Distance</TableCell> 
-                <TableCell className={classes.cell}>Activity</TableCell> 
+                <TableCell className={classes.cell}>Activities</TableCell> 
                 <TableCell className={classes.cell}>Add?</TableCell> 
                 </TableRow>
             </TableHead>
@@ -50,10 +49,10 @@ export default function RecommendedLocations(props){
                 <TableRow key={location.name}>
                     <TableCell className={classes.cell}> {location.name}</TableCell>
                     <TableCell className={classes.cell}> {location.distance.toString()} miles</TableCell>
-                    <TableCell className={classes.cell}> {location.activities}</TableCell>
+                    <TableCell className={classes.cell}> {location.activities.map(activity => <Chip label={activity}/>)}</TableCell>
                     <TableCell className={classes.cell}>     <Switch
                                         // checked={true}
-                                        onChange={handleChange(location.name)}
+                                        onChange={handleChange(location)}
                                         value="checkedA"
                                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                                     /></TableCell>

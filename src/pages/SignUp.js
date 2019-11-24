@@ -14,11 +14,11 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MapView from '../components/google-maps/MapView'
 
 import {getLocations} from '../api/Get'
-import {AddUser, CheckOnboarding} from '../api/Post'
+import {AddUser} from '../api/Post'
 
 import RecommendedLocations from '../components/RecommendedLocations';
 import distance from '../helpers/distance'
-import { useHistory, Redirect} from "react-router-dom";
+
 import { useAuth0 } from "../react-auth0-wrapper";
 
 const styles = {
@@ -83,15 +83,15 @@ function intersection(array1, array2) {
   }
   
 const SuggestedLocations = (props) => {
-  const distanceThreshold = 100
+  const distanceThreshold = 1000
   let {userLocation, locationList, activities, setChosen} = props
 
   locationList = locationList.map(entry => entry.value)
-  let data = locationList ? (locationList.map(loc => ({name: loc.name, 
-              distance: calcDistance({lat: loc.lat, lng:loc.long}, extractLngLat(userLocation)),
-  activities: loc.activities}))):[{name: "Rumney, NH", distance: '112km', activities: ['climbing']},
-                                  {name: "Rumney, NH", distance: '112km', activities: ['climbing']},
-                                  {name: "Rumney, NH", distance: '112km', activities: ['climbing']}]
+  let data =locationList.map(loc => ({name: loc.name, 
+                                      distance: calcDistance({lat: loc.lat, lng:loc.long}, extractLngLat(userLocation)),
+                                      activities: loc.activities,
+                                      latitude: loc.lat,
+                                      longitude: loc.long}))
 
   let recommendations = data.filter(location =>  intersection(activities.map(option => option.value), location.activities).length > 0)
   recommendations = recommendations.filter(location => location.distance < distanceThreshold)
@@ -137,7 +137,7 @@ function GetStepContent(stepIndex, setUserHomeLocation, setLocations, setActivit
 export default function HorizontalLabelPositionBelowStepper(props) {
 
   const {setOnboarded} = props
-  const {getTokenSilently, user, loading} = useAuth0()
+  const {getTokenSilently, user} = useAuth0()
   const classes = useStyles();
   const steps = getSteps();
 

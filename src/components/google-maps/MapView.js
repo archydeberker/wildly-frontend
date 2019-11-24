@@ -32,7 +32,7 @@ const MapView = (props) => {
     const [searchString, setSearchString] = useState('')
     
     const center = props.center?props.center:{lat: 45.95, lng: -73.33}
-    const zoom = props.zoom?props.zoom:8
+    const zoom = props.zoom?props.zoom:5
     const locationAtoms = props.locationList.map(Entry)
     const locationMap = (props.locationList) ? locationAtoms.reduce(locationMapper, {}): null
 
