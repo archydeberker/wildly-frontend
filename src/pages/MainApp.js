@@ -21,8 +21,9 @@ import {blurbs} from '../data/tour'
 import { AddLocationButton } from '../components/AddLocationButton';
 
 
+
 export const MainApp = (props) => {
-  const {isOnboarded, setOnboarded, hasToured, setHasToured} = props
+  const {isOnboarded, setOnboarded, hasToured, setHasToured, handleTourFinish} = props
   
   const [tabValue, setTabValue] = useState(0);
   const [locationList, setLocationList] = useState([]);
@@ -40,7 +41,9 @@ export const MainApp = (props) => {
 
   const walkThroughCallback = (data) => {
     if (data.action === 'next' & data.index === 3)
-      {setHasToured(true)}
+      console.log("User tour complete")
+      // {setHasToured(true)}
+      handleTourFinish()
   }
   
   

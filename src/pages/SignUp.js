@@ -149,7 +149,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const [userActivities, setActivities] = useState([])
   const [locationList, setLocationList] = useState([])
 
-  useEffect(() => {getLocations(setLocationList)}, [])
+  useEffect(() => {getLocations(setLocationList)}, [userLocations])
 
   function handleFinish(){
     
@@ -163,7 +163,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                   activities:userActivities,
                   locations:userLocations}
 
-    AddUser(console.log, getTokenSilently, data)
+    AddUser(console.log, getTokenSilently, data).then(getLocations(setLocationList))
     setOnboarded(true)
   }
 

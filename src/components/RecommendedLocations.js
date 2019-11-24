@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -28,12 +28,16 @@ const tableStyles = makeStyles(theme => ({
 export default function RecommendedLocations(props){
     const {data, setChosen} = props
     const classes = tableStyles()
-    let selectedLocations = []
+    const [selectedLocations, setSelectedLocations] = useState([])
+
     const handleChange = location => event => {
-        event.target.checked ? selectedLocations.push(location): selectedLocations.filter(l => l.name != location.name)
+        let newSelectedLocations = selectedLocations
+        event.target.checked ? newSelectedLocations.push(location): newSelectedLocations.filter(l => l.name != location.name)
+        console.table(newSelectedLocations)
+        setSelectedLocations(newSelectedLocations)
         setChosen(selectedLocations)
     }
-    console.table(data)
+
     return (data ? (
             <Table className={classes.table}>
             <TableHead>
