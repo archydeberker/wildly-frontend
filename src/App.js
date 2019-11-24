@@ -11,7 +11,7 @@ import Splash from "./pages/Splash"
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-import {CheckOnboarding} from './api/Post'
+import {CheckOnboarding, CheckTouring} from './api/Post'
 import {useAuth0} from "./react-auth0-wrapper";
 
 import Loading from './components/Loading'
@@ -48,12 +48,14 @@ function AppRouter() {
 
   const {loading, isAuthenticated, getTokenSilently, user} = useAuth0()
   const [isOnboarded, setOnboarded] = useState()
+  const [hasToured, setHasToured] = useState(false)
   
   useEffect(() => {
     if (!loading) {
       CheckOnboarding(setOnboarded, getTokenSilently, user);
+      CheckTouring(setHasToured, getTokenSilently, {'user':user, 'setTour':hasToured})
     }
-  }, [loading]);
+  }, [loading, hasToured]);
 
   if (loading) {
     return (<Loading/>)}
@@ -61,7 +63,10 @@ function AppRouter() {
     return (
     <Router>
       <div>
-        <Route exact path="/"> {!isAuthenticated ? <Redirect to="/splash" />: <MainApp isOnboarded={isOnboarded} setOnboarded={setOnboarded}/>}</Route>
+        <Route exact path="/"> {!isAuthenticated ? <Redirect to="/splash" />: <MainApp isOnboarded={isOnboarded} 
+                                                                                        setOnboarded={setOnboarded}
+                                                                                        hasToured={hasToured}
+                                                                                        setHasToured={setHasToured}/>}</Route>
         <Route exact path="/splash"> {isAuthenticated ? <Redirect to="/" /> : <Splash />}</Route>
         <Route path="/location" component= {LocationAdd} /> 
         <Route path="/search" component= {SearchPanel} />

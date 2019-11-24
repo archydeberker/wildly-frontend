@@ -43,3 +43,7 @@
           width: 100vw;
           height: 80vh;
 }
+
+.Select-menu-outer {
+  z-index: 999 !important;
+}

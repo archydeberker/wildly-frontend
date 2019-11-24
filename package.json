@@ -19,6 +19,7 @@
     "react-geocode": "^0.1.2",
     "react-google-autocomplete": "^1.1.2",
     "react-google-maps": "^9.4.5",
+    "react-joyride": "^2.1.1",
     "react-load-script": "0.0.6",
     "react-plotly.js": "^2.3.0",
     "react-rotating-text": "^1.4.1",
