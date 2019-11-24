@@ -23,7 +23,8 @@ export const AddLocationButton = (props) => {
         <Fab onClick={newLocationClickOpen} aria-label='Add Location'
             color='secondary' variant="extended"
             size='large'
-            style={{ right: 50, bottom: 50, position: 'fixed' }}>
+            style={{ right: 50, bottom: 50, position: 'fixed' }}
+            className='add-location'>
             <AddIcon /> New Location
           </Fab>
     </div>

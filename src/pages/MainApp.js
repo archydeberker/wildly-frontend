@@ -59,19 +59,23 @@ export const MainApp = (props) => {
   const steps = [
     {
       target: '.locations',
-      content: blurbs['locations']
+      content: blurbs['locations'],
+      event: 'hover'
     },
     {
       target: '.rain_graph',
-      content: blurbs['rain']
+      content: blurbs['rain'],
+      event: 'hover'
     },
     {
       target: '.compare',
-      content: blurbs['weather']
+      content: blurbs['weather'],
+      event: 'hover'
     },
     {
-      target: '.new_location',
-      content: blurbs['new_location']
+      target: '.add-location',
+      content: blurbs['new_location'],
+      event: 'hover'
     },
   ]
   if (isOnboarded===false) {return <SignUp setOnboarded={setOnboarded}/>}
@@ -101,7 +105,7 @@ export const MainApp = (props) => {
         <WeatherComparison weatherData={weatherData} getLocationList={getLocationList} setLocationList={setLocationList}/>
       </TabPanel>
       <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList}/>
-      <Joyride steps={steps}/>
+      <Joyride steps={steps} continuous={true} locale={{back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip'}}/>
     </div>
  
   </ThemeProvider>)}
