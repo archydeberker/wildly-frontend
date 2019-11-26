@@ -29,7 +29,6 @@ const allImages = [
     image_5,
     image_6,
     image_7,
-
     image_9,
     image_10,
     image_11,
@@ -38,7 +37,6 @@ const allImages = [
     image_15,
     image_16,
     image_17,
-
     image_19,
     image_20
 ]

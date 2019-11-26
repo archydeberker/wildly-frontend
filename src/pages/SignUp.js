@@ -21,10 +21,11 @@ import distance from '../helpers/distance'
 
 import { useAuth0 } from "../react-auth0-wrapper";
 import { default_activities } from '../data/activities';
+import allImages from '../helpers/backgrounds'
 
 const styles = {
   paperContainer: {
-    backgroundImage: 'url(https://images.unsplash.com/photo-1468571452166-b089f160f1c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1510&q=80)',
+    backgroundImage: `url(${allImages[Math.floor(Math.random()*allImages.length)]})`,
     height: '100vh',
     width: '100vw',
   },
