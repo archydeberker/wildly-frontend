@@ -23,7 +23,7 @@ import { AddLocationButton } from '../components/AddLocationButton';
 
 
 export const MainApp = (props) => {
-  const {isOnboarded, setOnboarded, hasToured, setHasToured, handleTourFinish} = props
+  const {isOnboarded, setOnboarded, hasToured, handleTourFinish} = props
   
   const [tabValue, setTabValue] = useState(0);
   const [locationList, setLocationList] = useState([]);
@@ -36,13 +36,12 @@ export const MainApp = (props) => {
   };
   
   const getLocationList = (setLocationList) => {
+    console.count()
     RetrieveUserLocations(setLocationList, getTokenSilently, user);
   };
 
   const walkThroughCallback = (data) => {
     if (data.action === 'next' & data.index === 3)
-      console.log("User tour complete")
-      // {setHasToured(true)}
       handleTourFinish()
   }
   
@@ -90,7 +89,7 @@ export const MainApp = (props) => {
       event: 'hover'
     },
   ]
-  if (isOnboarded===false) {return <SignUp setOnboarded={setOnboarded}/>}
+  if (isOnboarded===false) {return <SignUp setOnboarded={setOnboarded} onFinish={() => getLocationList(setLocationList)}/>}
 
   if (isOnboarded) {return (<ThemeProvider theme={theme}>
     <div className='app'>

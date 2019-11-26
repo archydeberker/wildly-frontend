@@ -18,9 +18,7 @@ export default function LocationDetail(props) {
   }
 
   let locationName = location
-  
-  console.log(location)
-  console.log(locationMap)
+
     return (
       <div>
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} fullWidth='true' maxWidth='lg'>

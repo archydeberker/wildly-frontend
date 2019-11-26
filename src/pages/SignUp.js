@@ -137,7 +137,7 @@ function GetStepContent(stepIndex, setUserHomeLocation, setLocations, setActivit
 
 export default function HorizontalLabelPositionBelowStepper(props) {
 
-  const {setOnboarded} = props
+  const {setOnboarded, onFinish} = props
   const {getTokenSilently, user} = useAuth0()
   const classes = useStyles();
   const steps = getSteps();
@@ -163,7 +163,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                   activities:userActivities,
                   locations:userLocations}
 
-    AddUser(console.log, getTokenSilently, data).then(getLocations(setLocationList))
+    AddUser(console.log, getTokenSilently, data)
+    onFinish()
     setOnboarded(true)
   }
 

@@ -9,11 +9,12 @@ import ReactRotatingText from 'react-rotating-text'
 import { useAuth0 } from "../react-auth0-wrapper";
 
 import '../assets/ReactRotatingText.css';
+import allImages from '../helpers/backgrounds'
 
 
 const styles = {
     paperContainer: {
-        backgroundImage: 'url(https://source.unsplash.com/2000x1200/?mountains)',
+        backgroundImage: `url(${allImages[Math.floor(Math.random()*20)]})`,
         height: '100vh',
         width: '100vw',
         tintColor: 'rgba(255,255,255,1)'
