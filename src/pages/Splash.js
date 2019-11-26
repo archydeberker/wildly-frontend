@@ -14,7 +14,7 @@ import allImages from '../helpers/backgrounds'
 
 const styles = {
     paperContainer: {
-        backgroundImage: `url(${allImages[Math.floor(Math.random()*20)]})`,
+        backgroundImage: `url(${allImages[Math.floor(Math.random()*allImages.length)]})`,
         height: '100vh',
         width: '100vw',
         tintColor: 'rgba(255,255,255,1)'
