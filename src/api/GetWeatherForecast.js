@@ -75,6 +75,8 @@ export const GetWeatherForecast = async (locations, handler) => {
                 return ({
                     yaxis: 'Precipitation, mm/hr',
                     name: name,
+                    long: long,
+                    lat: lat,
                     'rain': getPrecip(json),
                     'daily': getDaily(json)
                 });

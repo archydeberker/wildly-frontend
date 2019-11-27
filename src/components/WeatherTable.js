@@ -5,6 +5,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Link from '@material-ui/core/Link'
+
 import WeatherIconMapper from '../data/weatherIcons';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -38,6 +40,8 @@ const filterDataByDate = data => {
     const filtered = data.map(location => {
         return ({
             'name': location.name,
+            'long': location.long,
+            'lat': location.lat,
             'measurements': location.daily.filter(measurement => SubstringInSet(keys, measurement['timestamp']))
         });
     });
@@ -66,7 +70,7 @@ export const WeatherTable = props => {
                         {row.name}
                     </TableCell>
                     {row.measurements.map(measurement => <TableCell align="right">
-                        <TableCell className={classes.innerRow} align="right">{WeatherIconMapper(measurement.icon, 48, '#000')}
+                        <TableCell className={classes.innerRow} align="right"><Link href={`https://darksky.net/forecast/${row.lat},${row.long}?units=si`}> {WeatherIconMapper(measurement.icon, 48, '#000')}</Link>
                         </TableCell>
                         <TableCell className={classes.innerRow} align="right">
                             <TableRow align='right'> <span style={{ fontWeight: 'bold' }}> {Math.round(measurement.tempHigh)} </span> </TableRow>
