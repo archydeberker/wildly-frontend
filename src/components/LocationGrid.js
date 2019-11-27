@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid';
 import Location from '../components/Location'
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import { Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField'
 
 
 import LocationDetail from '../components/LocationDetail'
 import Entry from '../data/locations'
-import {LocationAdd} from '../components/NewLocation'
 import Loading from './Loading';
 
 
@@ -72,9 +69,9 @@ function LocationGrid(props){
                             margin="normal"
                             onChange={onSearchInputChange}
                             />
-                        <Grid container spacing={6} style={{padding: 50}}>
+                        <Grid container spacing={6} style={{padding: 10}}>
                             { locations.filter(currentLocation => currentLocation.fields.title.toLowerCase().includes(searchString.toLowerCase())).map(currentLocation => ( 
-                                <Grid item xs={12} sm={6} lg={4} xl={3}>
+                                <Grid item xs={9} sm={4} lg={3} xl={3}>
                                     <Location location={currentLocation} handleClickOpen={handleClickOpen}/>
                                 </Grid>
                             ))}

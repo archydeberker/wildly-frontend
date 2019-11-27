@@ -94,7 +94,7 @@ export const MainApp = (props) => {
   if (isOnboarded===false) {return <SignUp setOnboarded={setOnboarded} onFinish={() => getLocationList(setLocationList)}/>}
 
   if (isOnboarded) {return (<ThemeProvider theme={theme}>
-    <div className='app'>
+    <div className='app' style={{minHeight: 'calc(100vh - 50px)'}}>
       <header>
         <NavBar />
       </header>
@@ -120,7 +120,7 @@ export const MainApp = (props) => {
       <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList} setActivityList={setActivities} getActivityList={getActivities} activities={activities}/>
       {!hasToured && <Joyride steps={steps} continuous={true} locale={{back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip'}} callback={walkThroughCallback}/>}
     </div>
- <FooterBar/>  
+    <FooterBar/>  
   </ThemeProvider>)}
 
   return (<Loading/>)
