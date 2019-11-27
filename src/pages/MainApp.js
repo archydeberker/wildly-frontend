@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
+import FooterBar from '../components/BaseBar'
+
 import theme from '../theme';
 import LocationGrid from '../components/LocationGrid';
 import Graph from "./Graphs";
@@ -118,7 +120,7 @@ export const MainApp = (props) => {
       <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList} setActivityList={setActivities} getActivityList={getActivities} activities={activities}/>
       {!hasToured && <Joyride steps={steps} continuous={true} locale={{back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip'}} callback={walkThroughCallback}/>}
     </div>
- 
+ <FooterBar/>  
   </ThemeProvider>)}
 
   return (<Loading/>)
