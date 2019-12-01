@@ -36,30 +36,35 @@ export const SuggestedLocations = props => {
 
     return (
         <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid item xs={9}>
                 <MapView locationList={filteredLocations} height="300px" center={extractLngLat(userLocation)} />
             </Grid>
-            <Grid item xs={4} />
-            <Grid item xs={4}>
-                <Typography variant="subtitle2" className={styles.filter}>
-                    Filter by max distance:
-                </Typography>
-                <Slider
-                    defaultValue={defaultDistanceThreshold}
-                    step={10}
-                    min={0}
-                    max={1000}
-                    valueLabelDisplay="auto"
-                    className={styles.filter}
-                    color="secondary"
-                    marks={[
-                        { value: 10, label: "10" },
-                        { value: 1000, label: "1000 Miles" },
-                    ]}
-                    onChange={handleSliderChange}
-                />
+            {/* <Grid item xs={3}> */}
+            <Grid container direction="column" xs={3}>
+                <Grid item maxWidth="100%" xs={3}>
+                    <Typography variant="subtitle2" className={styles.filter}>
+                        Filter by max distance:
+                    </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                    <Slider
+                        defaultValue={defaultDistanceThreshold}
+                        orientation="vertical"
+                        step={10}
+                        min={0}
+                        max={1000}
+                        valueLabelDisplay="auto"
+                        className={styles.filter}
+                        color="secondary"
+                        marks={[
+                            { value: 10, label: "10 Miles" },
+                            { value: 1000, label: "1000 Miles" },
+                        ]}
+                        onChange={handleSliderChange}
+                    />
+                </Grid>
             </Grid>
-            <Grid item xs={4} />
+            {/* </Grid> */}
             <Grid item xs={12}>
                 <RecommendedLocations data={recommendations} setChosen={setChosen} />
             </Grid>

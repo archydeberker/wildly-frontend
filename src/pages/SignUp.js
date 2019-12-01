@@ -9,7 +9,7 @@ import Card from "@material-ui/core/Card"
 
 import SearchPanel from "../components/google-maps/SearchPanel"
 import { Grid, Paper } from "@material-ui/core"
-import CreatableSelect from "react-select/creatable"
+
 import InputLabel from "@material-ui/core/InputLabel"
 import ActivitiesSelector from "../components/ActivitiesSelector"
 import { ThemeProvider } from "@material-ui/styles"
@@ -49,6 +49,7 @@ export const useStyles = makeStyles(theme => ({
     filter: {
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
+        width: "300%",
     },
 }))
 
