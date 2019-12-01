@@ -9,20 +9,21 @@ import Card from "@material-ui/core/Card"
 
 import SearchPanel from "../components/google-maps/SearchPanel"
 import { Grid, Paper } from "@material-ui/core"
-import CreatableSelect from "react-select/creatable"
+
 import InputLabel from "@material-ui/core/InputLabel"
-import MapView from "../components/google-maps/MapView"
 import ActivitiesSelector from "../components/ActivitiesSelector"
+import { ThemeProvider } from "@material-ui/styles"
 
 import { getLocations } from "../api/Get"
 import { AddUser } from "../api/Post"
 
-import RecommendedLocations from "../components/RecommendedLocations"
 import distance from "../helpers/distance"
 
 import { useAuth0 } from "../react-auth0-wrapper"
 import { default_activities } from "../data/activities"
 import allImages from "../helpers/backgrounds"
+import { SuggestedLocations } from "../components/SuggestedLocations"
+import theme from "../theme"
 
 const styles = {
     paperContainer: {
@@ -31,7 +32,7 @@ const styles = {
         width: "100vw",
     },
 }
-const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles(theme => ({
     root: {
         width: "90%",
         paddingLeft: "5%",
@@ -45,9 +46,14 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
     },
+    filter: {
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        width: "300%",
+    },
 }))
 
-const extractLngLat = location => {
+export const extractLngLat = location => {
     return location
         ? { lat: location[0].geometry.location.lat(), lng: location[0].geometry.location.lng() }
         : { lat: 45.95, lng: -73.33 }
@@ -71,49 +77,12 @@ function UserInfo(setLocation, setActivities) {
     )
 }
 
-const calcDistance = (a, b) => {
+export const calcDistance = (a, b) => {
     return distance(a.lat, a.lng, b.lat, b.lng).toFixed(0)
 }
 
-function intersection(array1, array2) {
+export function intersection(array1, array2) {
     return array1.filter(value => -1 !== array2.indexOf(value))
-}
-
-const SuggestedLocations = props => {
-    const distanceThreshold = 1000
-    let { userLocation, locationList, activities, setChosen } = props
-
-    locationList = locationList.map(entry => entry.value)
-    let data = locationList.map(loc => ({
-        name: loc.name,
-        distance: calcDistance({ lat: loc.lat, lng: loc.long }, extractLngLat(userLocation)),
-        activities: loc.activities,
-        latitude: loc.lat,
-        longitude: loc.long,
-    }))
-
-    let recommendations = data.filter(
-        location =>
-            intersection(
-                activities.map(option => option.value),
-                location.activities
-            ).length > 0
-    )
-    recommendations = recommendations.filter(location => location.distance < distanceThreshold)
-
-    const filteredLocations = locationList.filter(location => recommendations.map(r => r.name).includes(location.name))
-
-    return (
-        <>
-            <Grid item xs={12}></Grid>
-            <Grid item xs={12}>
-                <MapView locationList={filteredLocations} height="300px" center={extractLngLat(userLocation)} />
-            </Grid>
-            <Grid item xs={12}>
-                <RecommendedLocations data={recommendations} setChosen={setChosen} />
-            </Grid>
-        </>
-    )
 }
 
 function getSteps() {
@@ -198,69 +167,77 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     }
 
     return (
-        <Paper style={styles.paperContainer}>
-            <Grid
-                container
-                spacing={16}
-                direction="row"
-                alignItems="center"
-                justify="center"
-                style={{ paddingTop: "2vh" }}
-            >
-                <Grid item xs={6}>
-                    <Card style={{ height: "95vh" }}>
-                        <div className={classes.root}>
-                            <Typography
-                                variant="h6"
-                                style={{ textAlign: "center", paddingTop: "20px", paddingBottom: "20px" }}
-                            >
-                                {GetStepTitle(activeStep)}
-                            </Typography>
-                            <div>
-                                {activeStep === steps.length ? (
-                                    <div>
-                                        <Typography className={classes.instructions}>All steps completed</Typography>
-                                        <Button onClick={handleReset}>Reset</Button>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <Typography className={classes.instructions}>
-                                            {GetStepContent(
-                                                activeStep,
-                                                setUserHomeLocation,
-                                                setLocations,
-                                                setActivities,
-                                                userHomeLocation,
-                                                userActivities,
-                                                locationList
-                                            )}
-                                        </Typography>
-                                    </div>
-                                )}
-                            </div>
-                            <Stepper activeStep={activeStep} alternativeLabel>
-                                {steps.map(label => (
-                                    <Step key={label}>
-                                        <StepLabel>{label}</StepLabel>
-                                    </Step>
-                                ))}
-                            </Stepper>
-                            <div>
-                                <Button disabled={activeStep === 0} onClick={handleBack} className={classes.backButton}>
-                                    Back
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={activeStep === steps.length - 1 ? handleFinish : handleNext}
+        <ThemeProvider theme={theme}>
+            <Paper style={styles.paperContainer}>
+                <Grid
+                    container
+                    spacing={16}
+                    direction="row"
+                    alignItems="center"
+                    justify="center"
+                    style={{ paddingTop: "2vh" }}
+                >
+                    <Grid item xs={6}>
+                        <Card style={{ height: "95vh" }}>
+                            <div className={classes.root}>
+                                <Typography
+                                    variant="h6"
+                                    style={{ textAlign: "center", paddingTop: "20px", paddingBottom: "20px" }}
                                 >
-                                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                                </Button>
+                                    {GetStepTitle(activeStep)}
+                                </Typography>
+                                <div>
+                                    {activeStep === steps.length ? (
+                                        <div>
+                                            <Typography className={classes.instructions}>
+                                                All steps completed
+                                            </Typography>
+                                            <Button onClick={handleReset}>Reset</Button>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <Typography className={classes.instructions}>
+                                                {GetStepContent(
+                                                    activeStep,
+                                                    setUserHomeLocation,
+                                                    setLocations,
+                                                    setActivities,
+                                                    userHomeLocation,
+                                                    userActivities,
+                                                    locationList
+                                                )}
+                                            </Typography>
+                                        </div>
+                                    )}
+                                </div>
+                                <Stepper activeStep={activeStep} alternativeLabel>
+                                    {steps.map(label => (
+                                        <Step key={label}>
+                                            <StepLabel>{label}</StepLabel>
+                                        </Step>
+                                    ))}
+                                </Stepper>
+                                <div>
+                                    <Button
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        className={classes.backButton}
+                                    >
+                                        Back
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={activeStep === steps.length - 1 ? handleFinish : handleNext}
+                                    >
+                                        {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
-                    </Card>
+                        </Card>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Paper>
+            </Paper>
+        </ThemeProvider>
     )
 }
