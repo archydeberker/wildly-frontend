@@ -16,15 +16,20 @@ const tableStyles = makeStyles(theme => ({
         marginTop: "10px",
         width: "100%",
         overflowX: "auto",
+        overflowY: "scroll",
         marginBottom: "10px",
     },
     cell: {
         padding: "1px",
     },
+    tableWrapper: {
+        height: "20vh",
+        overflow: "auto",
+    },
 }))
 
 export default function RecommendedLocations(props) {
-    const { data, setChosen } = props
+    let { data, setChosen } = props
     const classes = tableStyles()
     const [selectedLocations, setSelectedLocations] = useState([])
 
@@ -38,40 +43,46 @@ export default function RecommendedLocations(props) {
         setChosen(selectedLocations)
     }
 
+    data.sort((a, b) => {
+        return a.distance - b.distance
+    })
+
     return data ? (
-        <Table className={classes.table}>
-            <TableHead>
-                <TableRow>
-                    <TableCell className={classes.cell}>Location</TableCell>
-                    <TableCell className={classes.cell}>Distance</TableCell>
-                    <TableCell className={classes.cell}>Activities</TableCell>
-                    <TableCell className={classes.cell}>Add?</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {data.map(location => (
-                    <TableRow key={location.name}>
-                        <TableCell className={classes.cell}> {location.name}</TableCell>
-                        <TableCell className={classes.cell}> {location.distance.toString()} miles</TableCell>
-                        <TableCell className={classes.cell}>
-                            {" "}
-                            {location.activities.map(activity => (
-                                <Chip label={activity} />
-                            ))}
-                        </TableCell>
-                        <TableCell className={classes.cell}>
-                            {" "}
-                            <Switch
-                                // checked={true}
-                                onChange={handleChange(location)}
-                                value="checkedA"
-                                inputProps={{ "aria-label": "secondary checkbox" }}
-                            />
-                        </TableCell>
+        <div className={classes.tableWrapper}>
+            <Table stickyHeader className={classes.table}>
+                <TableHead>
+                    <TableRow>
+                        <TableCell className={classes.cell}>Location</TableCell>
+                        <TableCell className={classes.cell}>Distance</TableCell>
+                        <TableCell className={classes.cell}>Activities</TableCell>
+                        <TableCell className={classes.cell}>Add?</TableCell>
                     </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+                </TableHead>
+                <TableBody>
+                    {data.map(location => (
+                        <TableRow key={location.name}>
+                            <TableCell className={classes.cell}> {location.name}</TableCell>
+                            <TableCell className={classes.cell}> {location.distance.toString()} miles</TableCell>
+                            <TableCell className={classes.cell}>
+                                {" "}
+                                {location.activities.map(activity => (
+                                    <Chip label={activity} />
+                                ))}
+                            </TableCell>
+                            <TableCell className={classes.cell}>
+                                {" "}
+                                <Switch
+                                    // checked={true}
+                                    onChange={handleChange(location)}
+                                    value="checkedA"
+                                    inputProps={{ "aria-label": "secondary checkbox" }}
+                                />
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
     ) : (
         <div></div>
     )
