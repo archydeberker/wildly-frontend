@@ -1,29 +1,29 @@
-const getRequest = (route) =>{
-    const get = async(handler) => {
+const getRequest = route => {
+    const get = async handler => {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/${route}`, {
-            method: 'get',
-            })
-        
+            method: "get",
+        })
+
         const json = await response.json()
-        const output = json.map(name => ({'label': name, 'value': name}))
+        const output = json.map(name => ({ label: name, value: name }))
         handler(output)
     }
 
     return get
 }
 
-const getRequestWithAuth = (route) => {
-    const get = async(handler, getTokenSilently) => {
+const getRequestWithAuth = route => {
+    const get = async (handler, getTokenSilently) => {
         const token = await getTokenSilently()
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/${route}`, {
-            method: 'get',
+            method: "get",
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
-            }
-            })
-        
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+
         const json = await response.json()
         console.log(json)
         handler(json)
@@ -32,6 +32,6 @@ const getRequestWithAuth = (route) => {
     return get
 }
 
-export const getUserLocations = getRequestWithAuth('user-locations')
-export const getActivities = getRequest('activities')
-export const getLocations = getRequest('locations')
+export const getUserLocations = getRequestWithAuth("user-locations")
+export const getActivities = getRequest("activities")
+export const getLocations = getRequest("locations")
