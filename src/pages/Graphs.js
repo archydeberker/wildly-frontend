@@ -22,7 +22,7 @@ const AllGraphs = props => {
                     <PrecipGraph
                         data={data}
                         field="rain"
-                        yaxis="Rain negative (mm/hr) <--------> Snow positive (cm/hr)"
+                        yaxis="Rain negative (mm/hr) <--------> Snow positive (mm/hr)"
                     />
                 </div>
             </Grid>

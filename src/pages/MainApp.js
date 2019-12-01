@@ -21,6 +21,7 @@ import Loading from "../components/Loading"
 import Joyride from "react-joyride"
 import { blurbs } from "../data/tour"
 import { AddLocationButton } from "../components/AddLocationButton"
+import MapView from "../components/google-maps/MapView"
 
 const joyrideStyle = {
     backgroundColor: "#fff",
@@ -92,6 +93,11 @@ export const MainApp = props => {
             event: "hover",
         },
         {
+            target: ".discover",
+            content: blurbs["discover"],
+            event: "hover",
+        },
+        {
             target: ".add-location",
             content: blurbs["new_location"],
             event: "hover",
@@ -121,6 +127,7 @@ export const MainApp = props => {
                         <Tab className="locations" label="Your Locations" {...a11yProps(0)} />
                         <Tab className="rain_graph" label="Precipitation Graph" {...a11yProps(1)} />
                         <Tab className="compare" label="Compare Weather" {...a11yProps(2)} />
+                        <Tab className="discover" label="Discover New Locations" {...a11yProps(3)} />
                     </Tabs>
 
                     <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
@@ -146,6 +153,11 @@ export const MainApp = props => {
                             setLocationList={setLocationList}
                         />
                     </TabPanel>
+
+                    <TabPanel value={tabValue} index={3}>
+                        {/* <MapView locationList={locationList} /> */}
+                    </TabPanel>
+
                     <AddLocationButton
                         setLocationList={setLocationList}
                         getLocationList={getLocationList}
