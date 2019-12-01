@@ -1,60 +1,62 @@
 {
-  "name": "wildly",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@auth0/auth0-spa-js": "^1.2.3",
-    "@material-ui/core": "^4.3.2",
-    "@material-ui/icons": "^4.2.1",
-    "contentful": "^7.9.1",
-    "dotenv": "^8.1.0",
-    "google-map-react": "^1.1.4",
-    "helmet": "^3.20.0",
-    "lodash": "^4.17.15",
-    "plotly": "^1.0.6",
-    "plotly.js": "^1.49.5",
-    "postscribe": "^2.0.8",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-geocode": "^0.1.2",
-    "react-google-autocomplete": "^1.1.2",
-    "react-google-maps": "^9.4.5",
-    "react-joyride": "^2.1.1",
-    "react-load-script": "0.0.6",
-    "react-plotly.js": "^2.3.0",
-    "react-rotating-text": "^1.4.1",
-    "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.1",
-    "react-select": "^3.0.4",
-    "serve": "^11.2.0",
-    "styled-components": "^4.3.2",
-    "weather-icons-react": "^1.2.0"
-  },
-  "scripts": {
-    "dev": "react-scripts start",
-    "start": "serve -s build",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "proxy": "http://localhost:5000",
-  "devDependencies": {
-    "file-loader": "^5.0.2",
-    "url-loader": "^2.3.0"
-  }
+    "name": "wildly",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@auth0/auth0-spa-js": "^1.2.3",
+        "@material-ui/core": "^4.3.2",
+        "@material-ui/icons": "^4.2.1",
+        "contentful": "^7.9.1",
+        "dotenv": "^8.1.0",
+        "google-map-react": "^1.1.4",
+        "helmet": "^3.20.0",
+        "lodash": "^4.17.15",
+        "plotly": "^1.0.6",
+        "plotly.js": "^1.49.5",
+        "postscribe": "^2.0.8",
+        "prettier": "^1.19.1",
+        "react": "^16.9.0",
+        "react-dom": "^16.9.0",
+        "react-geocode": "^0.1.2",
+        "react-google-autocomplete": "^1.1.2",
+        "react-google-maps": "^9.4.5",
+        "react-joyride": "^2.1.1",
+        "react-load-script": "0.0.6",
+        "react-plotly.js": "^2.3.0",
+        "react-rotating-text": "^1.4.1",
+        "react-router-dom": "^5.0.1",
+        "react-scripts": "3.1.1",
+        "react-select": "^3.0.4",
+        "serve": "^11.2.0",
+        "styled-components": "^4.3.2",
+        "weather-icons-react": "^1.2.0"
+    },
+    "scripts": {
+        "dev": "react-scripts start",
+        "start": "serve -s build",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "prettier": "prettier --write \"./**/*.{js,jsx,json}\""
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "proxy": "http://localhost:5000",
+    "devDependencies": {
+        "file-loader": "^5.0.2",
+        "url-loader": "^2.3.0"
+    }
 }
