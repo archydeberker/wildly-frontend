@@ -99,7 +99,7 @@ export const MainApp = (props) => {
 
       <Tabs value={tabValue} onChange={handleChange} variant="fullWidth" indicatorColor="secondary" textColor="black" aria-label="icon label tabs example" TabIndicatorProps={{ style: { height: '4px' } }}>
         <Tab className='locations' label="Your Locations" {...a11yProps(0)} />
-        <Tab className='rain_graph' label="Rain Graph" {...a11yProps(1)} />
+        <Tab className='rain_graph' label="Precipitation Graph" {...a11yProps(1)} />
         <Tab className='compare' label="Compare Weather" {...a11yProps(2)} />
 
       </Tabs>

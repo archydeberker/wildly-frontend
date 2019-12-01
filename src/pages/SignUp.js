@@ -12,6 +12,7 @@ import { Grid, Paper } from '@material-ui/core';
 import CreatableSelect from 'react-select/creatable';
 import InputLabel from '@material-ui/core/InputLabel'
 import MapView from '../components/google-maps/MapView'
+import ActivitiesSelector from '../components/ActivitiesSelector'
 
 import {getLocations} from '../api/Get'
 import {AddUser} from '../api/Post'
@@ -54,7 +55,7 @@ const extractLngLat = (location) => {
 
 function UserInfo(setLocation, setActivities) {
 
-    const activities = default_activities.map(input => ({label:input, value: input}))
+    
     return  <>
             <Grid item  xs={12}> 
                 <div style={{height:'300px', paddingBottom: '80px'}}>
@@ -63,15 +64,7 @@ function UserInfo(setLocation, setActivities) {
                 <InputLabel shrink color='primary' style={{paddingTop: 25}}>
           What do you like to do outdoors?
           </InputLabel>
-                <CreatableSelect
-                    isMulti
-                    label="activities"
-                    options={activities}
-                    className="basic-multi-select"
-                    classNamePrefix="select"
-                    onChange={(value)=>setActivities(value)}
-                    style={{paddingTop: 200}}
-          /> 
+                <ActivitiesSelector onChange={(value)=>setActivities(value)} />
           </Grid>
           </>
 
