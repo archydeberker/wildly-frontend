@@ -12,7 +12,7 @@ import { useAuth0 } from "../react-auth0-wrapper"
 
 export default function NavBar() {
     const [openDetail, setOpen] = React.useState(false)
-    const { loading, isAuthenticated, loginWithRedirect, logout, user, getTokenSilently } = useAuth0()
+    const { loading, isAuthenticated, loginWithRedirect, logout, user } = useAuth0()
 
     const setLoggedInUser = async getTokenSilently => {
         const token = await getTokenSilently()
@@ -63,7 +63,7 @@ export default function NavBar() {
                         {isAuthenticated && (
                             <Button>
                                 <Typography
-                                    onClick={() => logout()}
+                                    onClick={() => logout({ returnTo: window.location.href })}
                                     variant="light"
                                     style={{ fontSize: 15, weight: "light" }}
                                 >
