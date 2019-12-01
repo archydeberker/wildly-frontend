@@ -19,14 +19,23 @@ import { a11yProps, TabPanel } from '../App';
 import SignUp from './SignUp'
 import Loading from '../components/Loading';
 import Joyride from 'react-joyride';
-import {blurbs} from '../data/tour'
+import { blurbs } from '../data/tour'
 import { AddLocationButton } from '../components/AddLocationButton';
 
 
+const joyrideStyle = {
+  backgroundColor: '#fff',
+  beaconSize: 36,
+  overlayColor: 'rgba(0, 0, 0, 0.5)',
+  primaryColor: '#004d40',
+  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+  width: undefined,
+  zIndex: 100
+}
 
 export const MainApp = (props) => {
-  const {isOnboarded, setOnboarded, hasToured, handleTourFinish} = props
-  
+  const { isOnboarded, setOnboarded, hasToured, handleTourFinish } = props
+
   const [tabValue, setTabValue] = useState(0);
   const [locationList, setLocationList] = useState([]);
   const [activities, setActivities] = useState([]);
@@ -36,7 +45,7 @@ export const MainApp = (props) => {
   const handleChange = (e, newValue) => {
     setTabValue(newValue);
   };
-  
+
   const getLocationList = (setLocationList) => {
     console.count()
     RetrieveUserLocations(setLocationList, getTokenSilently, user);
@@ -46,8 +55,8 @@ export const MainApp = (props) => {
     if (data.action === 'next' & data.index === 3)
       handleTourFinish()
   }
-  
-  
+
+
   let locations = locationList.map((location) => {
     return ({
       name: location['name'],
@@ -68,7 +77,7 @@ export const MainApp = (props) => {
       GetWeatherForecast(locations, setWeatherData);
     }
   }, [locationList]);
-  
+
   const steps = [
     {
       target: '.locations',
@@ -91,38 +100,40 @@ export const MainApp = (props) => {
       event: 'hover'
     },
   ]
-  if (isOnboarded===false) {return <SignUp setOnboarded={setOnboarded} onFinish={() => getLocationList(setLocationList)}/>}
+  if (isOnboarded === false) { return <SignUp setOnboarded={setOnboarded} onFinish={() => getLocationList(setLocationList)} /> }
 
-  if (isOnboarded) {return (<ThemeProvider theme={theme}>
-    <div className='app' style={{minHeight: 'calc(100vh - 50px)'}}>
-      <header>
-        <NavBar />
-      </header>
+  if (isOnboarded) {
+    return (<ThemeProvider theme={theme}>
+      <div className='app' style={{ minHeight: 'calc(100vh - 50px)' }}>
+        <header>
+          <NavBar />
+        </header>
 
-      <Tabs value={tabValue} onChange={handleChange} variant="fullWidth" indicatorColor="secondary" textColor="black" aria-label="icon label tabs example" TabIndicatorProps={{ style: { height: '4px' } }}>
-        <Tab className='locations' label="Your Locations" {...a11yProps(0)} />
-        <Tab className='rain_graph' label="Precipitation Graph" {...a11yProps(1)} />
-        <Tab className='compare' label="Compare Weather" {...a11yProps(2)} />
+        <Tabs value={tabValue} onChange={handleChange} variant="fullWidth" indicatorColor="secondary" textColor="black" aria-label="icon label tabs example" TabIndicatorProps={{ style: { height: '4px' } }}>
+          <Tab className='locations' label="Your Locations" {...a11yProps(0)} />
+          <Tab className='rain_graph' label="Precipitation Graph" {...a11yProps(1)} />
+          <Tab className='compare' label="Compare Weather" {...a11yProps(2)} />
 
-      </Tabs>
+        </Tabs>
 
-      <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
-        <LocationGrid locationList={locationList} getLocationList={getLocationList} setLocationList={setLocationList}/>
-      </TabPanel>
+        <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
+          <LocationGrid locationList={locationList} getLocationList={getLocationList} setLocationList={setLocationList} />
+        </TabPanel>
 
-      <TabPanel value={tabValue} index={1} icon={<PhoneIcon />}>
-        <Graph locationList={locationList} getLocationList={getLocationList} setLocationList={setLocationList}/>
-      </TabPanel>
+        <TabPanel value={tabValue} index={1} icon={<PhoneIcon />}>
+          <Graph locationList={locationList} getLocationList={getLocationList} setLocationList={setLocationList} />
+        </TabPanel>
 
-      <TabPanel value={tabValue} index={2} icon={<PhoneIcon />}>
-        <WeatherComparison weatherData={weatherData} getLocationList={getLocationList} setLocationList={setLocationList}/>
-      </TabPanel>
-      <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList} setActivityList={setActivities} getActivityList={getActivities} activities={activities}/>
-      {!hasToured && <Joyride steps={steps} continuous={true} locale={{back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip'}} callback={walkThroughCallback}/>}
-    </div>
-    <FooterBar/>  
-  </ThemeProvider>)}
+        <TabPanel value={tabValue} index={2} icon={<PhoneIcon />}>
+          <WeatherComparison weatherData={weatherData} getLocationList={getLocationList} setLocationList={setLocationList} />
+        </TabPanel>
+        <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList} setActivityList={setActivities} getActivityList={getActivities} activities={activities} />
+        {!hasToured && <Joyride steps={steps} continuous={true} locale={{ back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip' }} callback={walkThroughCallback} styles={{options: joyrideStyle}}/>}
+      </div>
+      <FooterBar />
+    </ThemeProvider>)
+  }
 
-  return (<Loading/>)
-  
+  return (<Loading />)
+
 };
