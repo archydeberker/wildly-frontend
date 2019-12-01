@@ -25,6 +25,7 @@ import { AddUserLocation } from '../api/Post.js'
 
 
 import { useAuth0 } from "../react-auth0-wrapper";
+import ActivitiesSelector from './ActivitiesSelector'
 
 const NewLocation = (props) => {
   return (
@@ -98,13 +99,7 @@ function LocationAdd(props) {
             <InputLabel shrink color='primary' style={{ paddingTop: 25 }}>
               What do you like to do there?
           </InputLabel>
-            <CreatableSelect
-              isMulti
-              label="activities"
-              options={activities}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              style={{ paddingTop: 200 }}
+            <ActivitiesSelector
               onChange={(value) => setActivities(value)}
               theme={theme => ({
                 ...theme,
