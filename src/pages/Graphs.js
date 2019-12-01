@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Grid from '@material-ui/core/Grid';
-import { RainGraph } from '../components/RainGraph';
+import { PrecipGraph } from '../components/PrecipGraph';
 import { GetWeatherForecast } from '../api/GetWeatherForecast';
 import {AddLocationButton} from '../components/AddLocationButton'
 
@@ -10,21 +10,18 @@ const AllGraphs = (props) => {
     const locations = locationList.map((location) => {return({name: location['name'],
                                                              long: location['long'],
                                                              lat: location['lat']})})
-    console.log(locations)
     useEffect(() => {if(locationList.length > 0){GetWeatherForecast(locations, setData)}}, [locationList]) 
     return((data ? 
         <div>
         <Grid container>
         <div width='98%'> 
-        <RainGraph 
+        <PrecipGraph 
             data={data} 
             field='rain'
-            yaxis='precipitation mm/hr'/> 
+            yaxis='Rain negative (mm/hr) <--------> Snow positive (cm/hr)'/> 
         </div> 
         </Grid>
-        {/* <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList}/> */}
          </div>: 
-        //  <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList}/>
         <div/>))
 }
 
