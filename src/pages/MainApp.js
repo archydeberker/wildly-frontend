@@ -6,6 +6,7 @@ import theme from "../theme"
 import LocationGrid from "../components/LocationGrid"
 import Graph from "./Graphs"
 import WeatherComparison from "./Comparison"
+
 import { ThemeProvider } from "@material-ui/styles"
 import Tabs from "@material-ui/core/Tabs"
 import PhoneIcon from "@material-ui/icons/Phone"
@@ -21,7 +22,9 @@ import Loading from "../components/Loading"
 import Joyride from "react-joyride"
 import { blurbs } from "../data/tour"
 import { AddLocationButton } from "../components/AddLocationButton"
-import MapView from "../components/google-maps/MapView"
+import { DiscoverLocationButton } from "../components/DiscoverLocationButton"
+
+import DiscoverPanel from "./DiscoverMap"
 
 const joyrideStyle = {
     backgroundColor: "#fff",
@@ -114,7 +117,6 @@ export const MainApp = props => {
                     <header>
                         <NavBar />
                     </header>
-
                     <Tabs
                         value={tabValue}
                         onChange={handleChange}
@@ -129,7 +131,6 @@ export const MainApp = props => {
                         <Tab className="compare" label="Compare Weather" {...a11yProps(2)} />
                         <Tab className="discover" label="Discover New Locations" {...a11yProps(3)} />
                     </Tabs>
-
                     <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
                         <LocationGrid
                             locationList={locationList}
@@ -137,7 +138,6 @@ export const MainApp = props => {
                             setLocationList={setLocationList}
                         />
                     </TabPanel>
-
                     <TabPanel value={tabValue} index={1} icon={<PhoneIcon />}>
                         <Graph
                             locationList={locationList}
@@ -145,7 +145,6 @@ export const MainApp = props => {
                             setLocationList={setLocationList}
                         />
                     </TabPanel>
-
                     <TabPanel value={tabValue} index={2} icon={<PhoneIcon />}>
                         <WeatherComparison
                             weatherData={weatherData}
@@ -153,18 +152,21 @@ export const MainApp = props => {
                             setLocationList={setLocationList}
                         />
                     </TabPanel>
-
                     <TabPanel value={tabValue} index={3}>
-                        {/* <MapView locationList={locationList} /> */}
+                        <DiscoverPanel locationList={locationList} />
                     </TabPanel>
-
-                    <AddLocationButton
-                        setLocationList={setLocationList}
-                        getLocationList={getLocationList}
-                        setActivityList={setActivities}
-                        getActivityList={getActivities}
-                        activities={activities}
-                    />
+                    {tabValue !== 3 && (
+                        <div>
+                            <AddLocationButton
+                                setLocationList={setLocationList}
+                                getLocationList={getLocationList}
+                                setActivityList={setActivities}
+                                getActivityList={getActivities}
+                                activities={activities}
+                            />
+                            <DiscoverLocationButton locationList={locationList} />
+                        </div>
+                    )}
                     {!hasToured && (
                         <Joyride
                             steps={steps}

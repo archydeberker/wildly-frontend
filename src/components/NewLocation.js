@@ -54,7 +54,7 @@ const NewLocation = props => {
 }
 
 function LocationAdd(props) {
-    const { handleClickOpen, onClose, open, activities } = props
+    const { onClose, open } = props
     const [currLocation, setLocation] = useState([])
     const [selectedActivities, setActivities] = useState([])
     const { getTokenSilently, user } = useAuth0()

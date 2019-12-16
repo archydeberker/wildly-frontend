@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import GoogleMapReact from "google-map-react"
+import React, { useState, Fragment } from "react"
+import GoogleMap from "./GoogleMap"
 
 import Chip from "@material-ui/core/Chip"
 import { locationMapper } from "../LocationGrid"
@@ -34,23 +34,17 @@ const MapView = props => {
     const locationMap = props.locationList ? locationAtoms.reduce(locationMapper, {}) : null
 
     return (
-        <div>
+        <Fragment>
             {" "}
             {props.locationList ? (
                 <div style={{ height: props.height ? props.height : "80vh", width: "100%" }}>
-                    {/* <TextField style={{padding: 24}}
-                            id="searchInputMapView"
-                            placeholder="Filter Locations"   
-                            margin="normal"
-                            onChange={onSearchInputChange}
-                            /> */}
-
-                    <GoogleMapReact
+                    <GoogleMap
                         id="mapview"
                         defaultCenter={center}
                         defaultZoom={zoom}
                         bootstrapURLKeys={{
                             key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+                            libraries: ["places", "geometry"],
                         }}
                     >
                         {props.locationList
@@ -67,7 +61,7 @@ const MapView = props => {
                                     }}
                                 />
                             ))}
-                    </GoogleMapReact>
+                    </GoogleMap>
                 </div>
             ) : (
                 "Loading"
@@ -78,7 +72,7 @@ const MapView = props => {
                 location={selectedCard}
                 locationMap={locationMap}
             />
-        </div>
+        </Fragment>
     )
 }
 

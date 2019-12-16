@@ -1,7 +1,10 @@
-import { Grid, Slider } from "@material-ui/core"
+import { Grid } from "@material-ui/core"
 import Typography from "@material-ui/core/Typography"
 import React, { useState } from "react"
-import { calcDistance, extractLngLat, intersection, useStyles } from "../pages/SignUp"
+import { useStyles } from "../pages/SignUp"
+
+import { calcDistance, intersection, extractLngLat } from "../helpers/distance"
+import DistanceSlider from "./DistanceSlider"
 
 import MapView from "./google-maps/MapView"
 import RecommendedLocations from "./RecommendedLocations"
@@ -47,20 +50,11 @@ export const SuggestedLocations = props => {
                     </Typography>
                 </Grid>
                 <Grid item xs={8}>
-                    <Slider
-                        defaultValue={defaultDistanceThreshold}
-                        orientation="vertical"
-                        step={10}
-                        min={0}
-                        max={1000}
-                        valueLabelDisplay="auto"
+                    <DistanceSlider
+                        defaultDistanceThreshold={defaultDistanceThreshold}
+                        handleSliderChange={handleSliderChange}
                         className={styles.filter}
-                        color="secondary"
-                        marks={[
-                            { value: 10, label: "10 Miles" },
-                            { value: 1000, label: "1000 Miles" },
-                        ]}
-                        onChange={handleSliderChange}
+                        orientation="horizontal"
                     />
                 </Grid>
             </Grid>
