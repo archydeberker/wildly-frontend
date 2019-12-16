@@ -89,25 +89,33 @@ export default function DiscoverPanel(props) {
     )
 
     return (
-        <Grid container spacing={6}>
-            <Grid xs={9}>
-                <MapView locationList={filteredLocations} />
-            </Grid>
-            <Grid xs={3}>
-                <Grid container direction="column" style={{ padding: 50 }}>
-                    <Grid item xs={12}>
-                        <FilterPanel
-                            setActivities={setActivities}
-                            setDistanceThreshold={setDistanceThreshold}
-                            setSearchString={setSearchString}
-                        />
-                    </Grid>
-                    <Grid item xs={12} style={{ padding: 50 }} />
-                    <Grid item xs={12}>
-                        <RecommendedLocations data={recommendations} setChosen={() => {}} style={{ padding: 50 }} />
+        <div style={{ padding: 20 }}>
+            <Grid container spacing={6}>
+                <Grid xs={12}>
+                    <Typography>
+                        Here you can review locations other users have added, and choose to add them to your own Wildly
+                        monitor. You can filter by acitivty, distance, and location name.
+                    </Typography>
+                </Grid>
+                <Grid xs={9}>
+                    <MapView locationList={filteredLocations} />
+                </Grid>
+                <Grid xs={3}>
+                    <Grid container direction="column" style={{ padding: 50 }}>
+                        <Grid item xs={12}>
+                            <FilterPanel
+                                setActivities={setActivities}
+                                setDistanceThreshold={setDistanceThreshold}
+                                setSearchString={setSearchString}
+                            />
+                        </Grid>
+                        <Grid item xs={12} style={{ padding: 50 }} />
+                        <Grid item xs={12}>
+                            <RecommendedLocations data={recommendations} setChosen={() => {}} style={{ padding: 50 }} />
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+        </div>
     )
 }

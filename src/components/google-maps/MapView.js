@@ -6,24 +6,15 @@ import { locationMapper } from "../LocationGrid"
 import LocationDetail from "../LocationDetail"
 import Entry from "../../data/locations"
 import Tooltip from "@material-ui/core/Tooltip"
-import TextField from "@material-ui/core/TextField"
+import { activityIcons } from "../activityIcons"
 
-const ChipMarker = ({ text, tooltipText, handleClick }) => (
+const ChipMarker = ({ text, tooltipText, handleClick, ...props }) => (
     <Tooltip title={tooltipText}>
-        <Chip color="primary" style={{ opacity: 0.8 }} label={text} onClick={() => handleClick(text)} />
+        <Chip color="primary" style={{ opacity: 0.8 }} label={text} onClick={() => handleClick(text)} {...props} />
     </Tooltip>
 )
 
 const MapView = props => {
-    const onSearchInputChange = event => {
-        console.log("Search changed ..." + event.target.value)
-        if (event.target.value) {
-            setSearchString(event.target.value)
-        } else {
-            setSearchString("")
-        }
-    }
-
     const [open, setOpen] = useState(false)
     const [selectedCard, setSelectedCard] = useState("")
     const [searchString, setSearchString] = useState("")
@@ -35,7 +26,6 @@ const MapView = props => {
 
     return (
         <Fragment>
-            {" "}
             {props.locationList ? (
                 <div style={{ height: props.height ? props.height : "80vh", width: "100%" }}>
                     <GoogleMap
@@ -55,6 +45,7 @@ const MapView = props => {
                                     lng={location.long}
                                     text={location.name}
                                     tooltipText={location.activities.join(",")}
+                                    icon={activityIcons[location.activities[0]]}
                                     handleClick={title => {
                                         setOpen(true)
                                         setSelectedCard(title)

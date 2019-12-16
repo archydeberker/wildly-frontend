@@ -155,18 +155,15 @@ export const MainApp = props => {
                     <TabPanel value={tabValue} index={3}>
                         <DiscoverPanel locationList={locationList} />
                     </TabPanel>
-                    {tabValue !== 3 && (
-                        <div>
-                            <AddLocationButton
-                                setLocationList={setLocationList}
-                                getLocationList={getLocationList}
-                                setActivityList={setActivities}
-                                getActivityList={getActivities}
-                                activities={activities}
-                            />
-                            <DiscoverLocationButton locationList={locationList} />
-                        </div>
-                    )}
+                    <div>
+                        <AddLocationButton
+                            setLocationList={setLocationList}
+                            getLocationList={getLocationList}
+                            setActivityList={setActivities}
+                            getActivityList={getActivities}
+                            activities={activities}
+                        />
+                    </div>
                     {!hasToured && (
                         <Joyride
                             steps={steps}
