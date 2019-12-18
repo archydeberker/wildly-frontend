@@ -14,10 +14,12 @@ export const SuggestedLocations = props => {
     const defaultDistanceThreshold = 300
     const [distanceThreshold, setDistanceThreshold] = useState(defaultDistanceThreshold)
 
+
     let { userLocation, locationList, activities, setChosen } = props
+
     let data = locationList.map(loc => ({
         name: loc.name,
-        distance: calcDistance({ lat: loc.lat, lng: loc.long }, extractLngLat(userLocation)),
+        distance: calcDistance({ lat: loc.lat, lng: loc.long }, extractLngLat(userHomeLocation)),
         activities: loc.activities,
         latitude: loc.lat,
         longitude: loc.long,
@@ -39,7 +41,7 @@ export const SuggestedLocations = props => {
     return (
         <Grid container spacing={3}>
             <Grid item xs={9}>
-                <MapView locationList={filteredLocations} height="300px" center={extractLngLat(userLocation)} />
+                <MapView locationList={filteredLocations} height="300px" center={extractLngLat(userHomeLocation)} />
             </Grid>
             {/* <Grid item xs={3}> */}
             <Grid container direction="column" xs={3}>

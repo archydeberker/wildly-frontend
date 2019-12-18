@@ -86,7 +86,7 @@ function GetStepContent(
     setUserHomeLocation,
     setLocations,
     setActivities,
-    userLocation,
+    userHomeLocation,
     activities,
     locationList
 ) {
@@ -96,7 +96,7 @@ function GetStepContent(
         case 1:
             return (
                 <SuggestedLocations
-                    location={userLocation}
+                    userHomeLocation={userHomeLocation}
                     locationList={locationList}
                     activities={activities}
                     setChosen={setLocations}
