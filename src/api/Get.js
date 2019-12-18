@@ -5,8 +5,7 @@ const getRequest = route => {
         })
 
         const json = await response.json()
-        const output = json.map(name => ({ label: name, value: name }))
-        handler(output)
+        handler(json)
     }
 
     return get
@@ -25,7 +24,6 @@ const getRequestWithAuth = route => {
         })
 
         const json = await response.json()
-        console.log(json)
         handler(json)
     }
 

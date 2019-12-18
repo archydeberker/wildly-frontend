@@ -6,14 +6,16 @@ import GridListTile from "@material-ui/core/GridListTile"
 import GridListTileBar from "@material-ui/core/GridListTileBar"
 import Chip from "@material-ui/core/Chip"
 import AddIcon from "@material-ui/icons/AddCircle"
+import CheckIcon from "@material-ui/icons/CheckCircle"
 import IconButton from "@material-ui/core/IconButton"
+import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 
 import RecommendedLocations from "../components/RecommendedLocations"
 import { calcDistance, intersection, extractLngLat } from "../helpers/distance"
 import { Typography } from "@material-ui/core"
 import { FilterPanel } from "../components/FilterPanel"
 
-function filterLocations(locationList, data, distanceThreshold, activities, searchString) {
+function filterLocations(allLocationList, data, distanceThreshold, activities, searchString) {
     activities = activities ? activities : []
 
     let recommendations = data.filter(
@@ -30,18 +32,26 @@ function filterLocations(locationList, data, distanceThreshold, activities, sear
     )
 
     return {
-        filteredLocations: locationList.filter(location => recommendations.map(r => r.name).includes(location.name)),
+        filteredLocations: allLocationList.filter(location => recommendations.map(r => r.name).includes(location.name)),
         recommendations: recommendations,
     }
 }
+
 export default function DiscoverPanel(props) {
     const defaultDistanceThreshold = 300
-    let { locationList, setChosen } = props
+    let { allLocationList, locationList } = props
 
+    console.log(allLocationList)
+    console.log(locationList)
     // For debugging only, should be imported from backend!
     const userLocation = { lat: 45.95, lng: -73.33 }
 
-    let data = locationList.map(loc => ({
+    const checkWhetherUserHasLocation = location => {
+        const locationNames = locationList.map(loc => loc.name)
+        return locationNames.includes(location.name)
+    }
+
+    let data = allLocationList.map(loc => ({
         name: loc.name,
         distance: calcDistance({ lat: loc.lat, lng: loc.long }, userLocation),
         activities: loc.activities,
@@ -55,7 +65,7 @@ export default function DiscoverPanel(props) {
     const [distanceThreshold, setDistanceThreshold] = useState(defaultDistanceThreshold)
 
     const { filteredLocations, recommendations } = filterLocations(
-        locationList,
+        allLocationList,
         data,
         distanceThreshold,
         activities,
@@ -93,24 +103,30 @@ export default function DiscoverPanel(props) {
             <Grid container spacing={6}>
                 <Grid xs={9}>
                     {recommendations.length > 0 ? (
-                        <GridList cols={6}>
-                            {recommendations.map(location => (
-                                <GridListTile>
-                                    <img src={location.img} alt={location.title} />
-                                    <GridListTileBar
-                                        title={location.name}
-                                        subtitle={location.activities.map(activity => (
-                                            <Chip label={activity} />
-                                        ))}
-                                        actionIcon={
-                                            <IconButton aria-label={`Add location`}>
-                                                <AddIcon color="secondary" />
-                                            </IconButton>
-                                        }
-                                    ></GridListTileBar>
-                                </GridListTile>
-                            ))}
-                        </GridList>
+                        <div style={{ overflow: "hidden" }}>
+                            <GridList style={{ flexWrap: "nowrap" }} cols={4.5}>
+                                {recommendations.map(location => (
+                                    <GridListTile>
+                                        <img src={location.img} alt={location.title} />
+                                        <GridListTileBar
+                                            title={`${location.name} (${location.distance} miles away)`}
+                                            subtitle={location.activities.map(activity => (
+                                                <Chip label={activity} />
+                                            ))}
+                                            actionIcon={
+                                                <IconButton aria-label={`Add location`}>
+                                                    {checkWhetherUserHasLocation(location) ? (
+                                                        <CheckIcon color="primary" />
+                                                    ) : (
+                                                        <AddIcon color="secondary" />
+                                                    )}
+                                                </IconButton>
+                                            }
+                                        ></GridListTileBar>
+                                    </GridListTile>
+                                ))}
+                            </GridList>
+                        </div>
                     ) : (
                         <Typography color="textSecondary" align="center">
                             Use the filters to the right to find locations to add to Wildly

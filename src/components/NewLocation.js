@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardActionArea from "@material-ui/core/CardActionArea"
@@ -16,11 +16,7 @@ import { useTheme } from "@material-ui/styles"
 import InputLabel from "@material-ui/core/InputLabel"
 import Toolbar from "@material-ui/core/Toolbar"
 
-import CreatableSelect from "react-select/creatable"
-import { getActivities } from "../api/Get"
-
 import SearchPanel from "../components/google-maps/SearchPanel"
-import { registerNewLocation } from "../api/AddLocation"
 import { AddUserLocation } from "../api/Post.js"
 
 import { useAuth0 } from "../react-auth0-wrapper"
@@ -61,7 +57,6 @@ function LocationAdd(props) {
 
     function onSelect(places) {
         const new_location = places.pop()
-        console.log(new_location)
 
         const location = {
             name: new_location.name ? new_location.name : new_location.vicinity,
