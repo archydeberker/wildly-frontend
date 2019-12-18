@@ -15,7 +15,6 @@ export const SuggestedLocations = props => {
     const [distanceThreshold, setDistanceThreshold] = useState(defaultDistanceThreshold)
 
     let { userLocation, locationList, activities, setChosen } = props
-    locationList = locationList.map(entry => entry.value)
     let data = locationList.map(loc => ({
         name: loc.name,
         distance: calcDistance({ lat: loc.lat, lng: loc.long }, extractLngLat(userLocation)),

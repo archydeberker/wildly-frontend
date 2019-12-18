@@ -17,9 +17,8 @@ import { ThemeProvider } from "@material-ui/styles"
 import { getLocations } from "../api/Get"
 import { AddUser } from "../api/Post"
 
-
 import { useAuth0 } from "../react-auth0-wrapper"
-import { default_activities } from "../data/activities"
+
 import allImages from "../helpers/backgrounds"
 import { SuggestedLocations } from "../components/SuggestedLocations"
 import theme from "../theme"

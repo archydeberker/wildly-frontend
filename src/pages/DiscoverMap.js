@@ -14,6 +14,8 @@ import RecommendedLocations from "../components/RecommendedLocations"
 import { calcDistance, intersection, extractLngLat } from "../helpers/distance"
 import { Typography } from "@material-ui/core"
 import { FilterPanel } from "../components/FilterPanel"
+import { AddExistingLocation } from "../api/Post"
+import { WiRefresh } from "weather-icons-react"
 
 function filterLocations(allLocationList, data, distanceThreshold, activities, searchString) {
     activities = activities ? activities : []
@@ -39,16 +41,21 @@ function filterLocations(allLocationList, data, distanceThreshold, activities, s
 
 export default function DiscoverPanel(props) {
     const defaultDistanceThreshold = 300
-    let { allLocationList, locationList } = props
+    let { allLocationList, locationList, user, getTokenSilently, refreshLocations } = props
 
-    console.log(allLocationList)
-    console.log(locationList)
     // For debugging only, should be imported from backend!
     const userLocation = { lat: 45.95, lng: -73.33 }
 
     const checkWhetherUserHasLocation = location => {
         const locationNames = locationList.map(loc => loc.name)
         return locationNames.includes(location.name)
+    }
+
+    const addLocationToUser = (locationName, user, getTokenSilently) => {
+        const location = allLocationList.filter(candidate => candidate.name === locationName)[0]
+        console.log(location)
+        const payload = { latitude: location["lat"], longitude: location["long"] }
+        AddExistingLocation(refreshLocations, getTokenSilently, { location: payload, user: user })
     }
 
     let data = allLocationList.map(loc => ({
@@ -114,13 +121,19 @@ export default function DiscoverPanel(props) {
                                                 <Chip label={activity} />
                                             ))}
                                             actionIcon={
-                                                <IconButton aria-label={`Add location`}>
-                                                    {checkWhetherUserHasLocation(location) ? (
-                                                        <CheckIcon color="primary" />
-                                                    ) : (
+                                                checkWhetherUserHasLocation(location) ? (
+                                                    <CheckIcon color="primary" />
+                                                ) : (
+                                                    <IconButton
+                                                        id={location.name}
+                                                        aria-label={`Add location`}
+                                                        onClick={() =>
+                                                            addLocationToUser(location.name, user, getTokenSilently)
+                                                        }
+                                                    >
                                                         <AddIcon color="secondary" />
-                                                    )}
-                                                </IconButton>
+                                                    </IconButton>
+                                                )
                                             }
                                         ></GridListTileBar>
                                     </GridListTile>

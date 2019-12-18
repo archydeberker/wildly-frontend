@@ -156,7 +156,18 @@ export const MainApp = props => {
                         />
                     </TabPanel>
                     <TabPanel value={tabValue} index={3}>
-                        <DiscoverPanel locationList={locationList} allLocationList={allLocationList} />
+                        <DiscoverPanel
+                            locationList={locationList}
+                            allLocationList={allLocationList}
+                            user={user}
+                            getTokenSilently={getTokenSilently}
+                            refreshLocations={() => {
+                                {
+                                    console.count("refresh")
+                                }
+                                getLocationList(setLocationList)
+                            }}
+                        />
                     </TabPanel>
                     <div>
                         <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList} />
