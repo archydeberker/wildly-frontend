@@ -20,7 +20,6 @@ import { AddUser } from "../api/Post"
 import distance from "../helpers/distance"
 
 import { useAuth0 } from "../react-auth0-wrapper"
-import { default_activities } from "../data/activities"
 import allImages from "../helpers/backgrounds"
 import { SuggestedLocations } from "../components/SuggestedLocations"
 import theme from "../theme"
@@ -102,7 +101,7 @@ function GetStepContent(
     setUserHomeLocation,
     setLocations,
     setActivities,
-    userLocation,
+    userHomeLocation,
     activities,
     locationList
 ) {
@@ -112,7 +111,7 @@ function GetStepContent(
         case 1:
             return (
                 <SuggestedLocations
-                    location={userLocation}
+                    userHomeLocation={userHomeLocation}
                     locationList={locationList}
                     activities={activities}
                     setChosen={setLocations}
