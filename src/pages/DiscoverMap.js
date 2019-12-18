@@ -1,6 +1,9 @@
 import React, { useState } from "react"
 import MapView from "../components/google-maps/MapView"
 import Grid from "@material-ui/core/Grid"
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
+import { makeStyles } from "@material-ui/core/styles"
 
 import RecommendedLocations from "../components/RecommendedLocations"
 import { calcDistance, intersection, extractLngLat } from "../helpers/distance"
@@ -9,7 +12,24 @@ import ActivitiesSelector from "../components/ActivitiesSelector"
 import { Typography } from "@material-ui/core"
 import TextField from "@material-ui/core/TextField"
 
+const useStyles = makeStyles({
+    card: {
+        minWidth: 275,
+    },
+    bullet: {
+        display: "inline-block",
+        margin: "0 2px",
+        transform: "scale(0.8)",
+    },
+    title: {
+        fontSize: 16,
+    },
+    pos: {
+        marginBottom: 12,
+    },
+})
 const FilterPanel = props => {
+    const classes = useStyles()
     const { setDistanceThreshold, setActivities, setSearchString } = props
     const onSearchInputChange = event => {
         if (event.target.value) {
@@ -21,23 +41,48 @@ const FilterPanel = props => {
 
     return (
         <div>
-            <Typography>Filter by distance</Typography>
-            <DistanceSlider
-                defaultDistanceThreshold={100}
-                handleSliderChange={(e, newValue) => {
-                    setDistanceThreshold(newValue)
-                }}
-            />
-            <Typography>Filter by activity</Typography>
-            <ActivitiesSelector onChange={value => setActivities(value)} />
-            <Typography>Filter by name</Typography>
-            <TextField
-                style={{ padding: 24 }}
-                id="searchInput"
-                placeholder="Filter Locations"
-                margin="normal"
-                onChange={onSearchInputChange}
-            />
+            <Grid container direction="column" spacing={4}>
+                <Grid item>
+                    <Card>
+                        <CardContent>
+                            <Typography className={classes.title} gutterBottom color="textSecondary">
+                                Filter by distance
+                            </Typography>
+                            <DistanceSlider
+                                defaultDistanceThreshold={100}
+                                handleSliderChange={(e, newValue) => {
+                                    setDistanceThreshold(newValue)
+                                }}
+                            />
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item>
+                    <Card style={{ overflow: "visible" }}>
+                        <CardContent>
+                            <Typography className={classes.title} gutterBottom color="textSecondary">
+                                Filter by activity
+                            </Typography>
+                            <ActivitiesSelector onChange={value => setActivities(value)} />
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item>
+                    <Card>
+                        <CardContent>
+                            <Typography className={classes.title} gutterBottom color="textSecondary">
+                                Filter by name
+                            </Typography>
+                            <TextField
+                                id="searchInput"
+                                placeholder="Filter Locations"
+                                margin="normal"
+                                onChange={onSearchInputChange}
+                            />
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
         </div>
     )
 }
@@ -91,10 +136,10 @@ export default function DiscoverPanel(props) {
     return (
         <div style={{ padding: 20 }}>
             <Grid container spacing={6}>
-                <Grid xs={12}>
-                    <Typography>
+                <Grid xs={9}>
+                    <Typography variant="h6">
                         Here you can review locations other users have added, and choose to add them to your own Wildly
-                        monitor. You can filter by acitivty, distance, and location name.
+                        monitor. You can filter by activity, distance, and location name.
                     </Typography>
                 </Grid>
                 <Grid xs={9}>
