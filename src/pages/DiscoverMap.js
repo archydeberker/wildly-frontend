@@ -41,10 +41,9 @@ function filterLocations(allLocationList, data, distanceThreshold, activities, s
 
 export default function DiscoverPanel(props) {
     const defaultDistanceThreshold = 300
-    let { allLocationList, locationList, user, getTokenSilently, refreshLocations } = props
+    let { userHome, allLocationList, locationList, user, getTokenSilently, refreshLocations } = props
 
-    // For debugging only, should be imported from backend!
-    const userLocation = { lat: 45.95, lng: -73.33 }
+    const userLocation = userHome ? { lat: userHome["latitude"], lng: userHome["longitude"] } : { lat: 0, lng: -1 }
 
     const checkWhetherUserHasLocation = location => {
         const locationNames = locationList.map(loc => loc.name)
@@ -53,7 +52,6 @@ export default function DiscoverPanel(props) {
 
     const addLocationToUser = (locationName, user, getTokenSilently) => {
         const location = allLocationList.filter(candidate => candidate.name === locationName)[0]
-        console.log(location)
         const payload = { latitude: location["lat"], longitude: location["long"] }
         AddExistingLocation(refreshLocations, getTokenSilently, { location: payload, user: user })
     }
@@ -82,14 +80,16 @@ export default function DiscoverPanel(props) {
     return (
         <div style={{ padding: 20 }}>
             <Grid container spacing={6}>
-                {/* <Grid xs={9}>
-                    <Typography variant="h6">
-                        Here you can review locations other users have added, and choose to add them to your own Wildly
-                        monitor. You can filter by activity, distance, and location name.
-                    </Typography>
-                </Grid> */}
                 <Grid xs={9}>
-                    <MapView height="60vh" locationList={filteredLocations} />
+                    {userHome ? (
+                        <MapView
+                            height="60vh"
+                            zoom={7}
+                            center={userLocation}
+                            locationList={filteredLocations}
+                            userLocations={locationList}
+                        />
+                    ) : null}
                 </Grid>
                 <Grid xs={3}>
                     <Grid container direction="column" style={{ padding: 50 }}>
@@ -101,9 +101,6 @@ export default function DiscoverPanel(props) {
                             />
                         </Grid>
                         <Grid item xs={12} style={{ padding: 50 }} />
-                        {/* <Grid item xs={12}>
-                            <RecommendedLocations data={recommendations} setChosen={() => {}} style={{ padding: 50 }} />
-                        </Grid> */}
                     </Grid>
                 </Grid>
             </Grid>

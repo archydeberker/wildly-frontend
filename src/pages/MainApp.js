@@ -12,8 +12,8 @@ import Tabs from "@material-ui/core/Tabs"
 import PhoneIcon from "@material-ui/icons/Phone"
 import Tab from "@material-ui/core/Tab"
 import { useAuth0 } from "../react-auth0-wrapper"
-import { RetrieveUserLocations } from "../api/Post.js"
-import { getActivities, getLocations } from "../api/Get.js"
+import { RetrieveUserLocations, GetUserHome } from "../api/Post.js"
+import { getActivities, getLocations, getUserLocations } from "../api/Get.js"
 import { GetWeatherForecast } from "../api/GetWeatherForecast"
 
 import { a11yProps, TabPanel } from "../App"
@@ -42,6 +42,7 @@ export const MainApp = props => {
     const [tabValue, setTabValue] = useState(0)
     const [locationList, setLocationList] = useState([])
     const [allLocationList, setAllLocationList] = useState([])
+    const [userHome, setUserHome] = useState()
     const { loading, getTokenSilently, user } = useAuth0()
     const [weatherData, setWeatherData] = useState(null)
 
@@ -55,6 +56,10 @@ export const MainApp = props => {
 
     const getAllLocationList = setAllLocationList => {
         getLocations(setAllLocationList)
+    }
+
+    const getUserHome = setUserHome => {
+        GetUserHome(setUserHome, getTokenSilently, user)
     }
 
     const walkThroughCallback = data => {
@@ -73,6 +78,7 @@ export const MainApp = props => {
         if (!loading) {
             getLocationList(setLocationList)
             getAllLocationList(setAllLocationList)
+            getUserHome(setUserHome)
         }
     }, [loading])
 
@@ -157,6 +163,7 @@ export const MainApp = props => {
                     </TabPanel>
                     <TabPanel value={tabValue} index={3}>
                         <DiscoverPanel
+                            userHome={userHome}
                             locationList={locationList}
                             allLocationList={allLocationList}
                             user={user}
