@@ -50,3 +50,16 @@ export default function distance(lat1, lon1, lat2, lon2, unit) {
         return dist
     }
 }
+
+export const calcDistance = (a, b) => {
+    return distance(a.lat, a.lng, b.lat, b.lng).toFixed(0)
+}
+export function intersection(array1, array2) {
+    return array1.filter(value => -1 !== array2.indexOf(value))
+}
+
+export const extractLngLat = location => {
+    return location
+        ? { lat: location[0].geometry.location.lat(), lng: location[0].geometry.location.lng() }
+        : { lat: 45.95, lng: -73.33 }
+}

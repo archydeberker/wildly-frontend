@@ -15,8 +15,8 @@ export const PrecipGraph = props => {
 
     //snowfall classification from https://www.weather.gov/buf/Snowfall_Rate_Threat_Loop
     const light_snow = 0
-    const mod_snow = 1
-    const heavy_snow = 3
+    const mod_snow = 10
+    const heavy_snow = 20
     const snow_lines = [light_snow, mod_snow, heavy_snow]
     const snow_annotations = [
         [mod_snow, "Moderate snow"],
@@ -44,7 +44,7 @@ export const PrecipGraph = props => {
                         size: 36,
                     },
                     showgrid: false,
-                    range: [-10, 10],
+                    range: [-10, 25],
                 },
                 xaxis: {
                     tickformat: "%I%p \n %a %b-%e %Y",
@@ -90,7 +90,7 @@ export const PrecipGraph = props => {
                                 x0: 0,
                                 y0: Math.abs(mm),
                                 x1: 1,
-                                y1: 10,
+                                y1: 25,
                                 fillcolor: "rgb(50, 150, 255)",
                                 text: ["Snow"],
                                 opacity: 0.05,

@@ -35,7 +35,9 @@ const PostRequestWithAuth = route => {
 
 export const RetrieveUserLocations = PostRequestWithAuth("user-locations")
 export const AddUserLocation = PostRequestWithAuth("add-location")
+export const AddExistingLocation = PostRequestWithAuth("add-existing-location")
 export const CheckOnboarding = PostRequestWithAuth("user-onboarded")
 export const CheckTouring = PostRequestWithAuth("user-toured")
 export const SetTouring = PostRequestWithAuth("set-user-toured")
 export const AddUser = PostRequestWithAuth("add-user-home")
+export const GetUserHome = PostRequestWithAuth("user-home")

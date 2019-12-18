@@ -44,7 +44,7 @@ export default function LocationDetail(props) {
                             ) : (
                                 "Nothing"
                             )}
-                            ,
+
                             {location ? (
                                 <Weather id={location} type="Map" url={locationMap[location]["mapUrl"]} />
                             ) : (

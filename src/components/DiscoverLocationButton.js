@@ -2,33 +2,38 @@ import React, { useState } from "react"
 import { LocationAdd } from "../components/NewLocation"
 import Fab from "@material-ui/core/Fab"
 import AddIcon from "@material-ui/icons/Add"
+import DiscoverPanel from "../pages/DiscoverMap"
 
-export const AddLocationButton = props => {
-    const { getLocationList, setLocationList } = props
-    const [locationAddOpen, setLocationAddOpen] = useState(false)
+export const DiscoverLocationButton = props => {
+    const { locationList } = props
+    console.log(locationList)
+    const [discoverOpen, setDiscoverOpen] = useState(false)
+
+    const DiscoverPanelModal = locationList => {
+        return <DiscoverPanel locationList={locationList} />
+    }
 
     const newLocationClickOpen = event => {
-        setLocationAddOpen(true)
+        setDiscoverOpen(true)
     }
 
     const newLocationHandleClose = event => {
-        setLocationAddOpen(false)
-        getLocationList(setLocationList)
+        setDiscoverOpen(false)
     }
 
     return (
         <div>
-            <LocationAdd open={locationAddOpen} onClose={newLocationHandleClose} />
+            {discoverOpen && DiscoverPanelModal(locationList)} />}
             <Fab
                 onClick={newLocationClickOpen}
                 aria-label="Add Location"
                 color="secondary"
                 variant="extended"
                 size="large"
-                style={{ right: 50, bottom: 50, position: "fixed" }}
+                style={{ left: 50, bottom: 50, position: "fixed" }}
                 className="add-location"
             >
-                <AddIcon /> New Location
+                <AddIcon /> Discover New Locations
             </Fab>
         </div>
     )

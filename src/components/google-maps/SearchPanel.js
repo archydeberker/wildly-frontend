@@ -23,6 +23,7 @@ export default class Searchbox extends Component {
     }
 
     apiHasLoaded = (map, maps) => {
+        console.log(map)
         this.setState({
             mapApiLoaded: true,
             mapInstance: map,
@@ -38,6 +39,8 @@ export default class Searchbox extends Component {
 
     render() {
         const { mapApiLoaded, mapInstance, mapApi } = this.state
+        console.log(mapApi)
+        console.count("searchPanel")
         return (
             <Fragment>
                 <GoogleMap
@@ -59,6 +62,7 @@ export default class Searchbox extends Component {
                         />
                     ))}
                 </GoogleMap>
+
                 {mapApiLoaded && (
                     <SearchBox
                         width="100%"

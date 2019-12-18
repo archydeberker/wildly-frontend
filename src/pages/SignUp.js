@@ -17,9 +17,8 @@ import { ThemeProvider } from "@material-ui/styles"
 import { getLocations } from "../api/Get"
 import { AddUser } from "../api/Post"
 
-import distance from "../helpers/distance"
-
 import { useAuth0 } from "../react-auth0-wrapper"
+
 import allImages from "../helpers/backgrounds"
 import { SuggestedLocations } from "../components/SuggestedLocations"
 import theme from "../theme"
@@ -52,12 +51,6 @@ export const useStyles = makeStyles(theme => ({
     },
 }))
 
-export const extractLngLat = location => {
-    return location
-        ? { lat: location[0].geometry.location.lat(), lng: location[0].geometry.location.lng() }
-        : { lat: 45.95, lng: -73.33 }
-}
-
 function UserInfo(setLocation, setActivities) {
     return (
         <>
@@ -74,14 +67,6 @@ function UserInfo(setLocation, setActivities) {
             </Grid>
         </>
     )
-}
-
-export const calcDistance = (a, b) => {
-    return distance(a.lat, a.lng, b.lat, b.lng).toFixed(0)
-}
-
-export function intersection(array1, array2) {
-    return array1.filter(value => -1 !== array2.indexOf(value))
 }
 
 function getSteps() {
@@ -148,8 +133,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
         const data = { user: user, home_location: location, activities: userActivities, locations: userLocations }
 
-        AddUser(console.log, getTokenSilently, data)
-        onFinish()
+        AddUser(onFinish, getTokenSilently, data)
         setOnboarded(true)
     }
 

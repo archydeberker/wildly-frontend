@@ -1,8 +1,9 @@
 const mapPrecipitationToRainOrSnow = datum => {
     if ("precipType" in datum) {
         if (datum.precipType === "snow") {
-            // We graph snow as cm/hr, not mm/hr
-            return datum.precipIntensity / 10
+            // DarkSky returns in mm/Hr LIQUID water, so we need to adjust this for snow
+            // snow is roughly 10 x less dense than water https://www.avalanche-center.org/Education/glossary/density.php
+            return datum.precipIntensity * 10
         }
     }
 
@@ -71,7 +72,7 @@ export const GetWeatherForecast = async (locations, handler) => {
         return (locationData[
             "rain"
         ] = fetch(
-            `https://mysterious-lowlands-26585.herokuapp.com/https://api.darksky.net/forecast/${DarkSkyKey}/${lat},${long}?units=si`,
+            `https://mysterious-lowlands-26585.herokuapp.com/https://api.darksky.net/forecast/${DarkSkyKey}/${lat},${long}?units=si&extend=hourly`,
             { method: "get" }
         )
             .then(response => response.json())

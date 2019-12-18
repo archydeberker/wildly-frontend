@@ -6,13 +6,14 @@ import theme from "../theme"
 import LocationGrid from "../components/LocationGrid"
 import Graph from "./Graphs"
 import WeatherComparison from "./Comparison"
+
 import { ThemeProvider } from "@material-ui/styles"
 import Tabs from "@material-ui/core/Tabs"
 import PhoneIcon from "@material-ui/icons/Phone"
 import Tab from "@material-ui/core/Tab"
 import { useAuth0 } from "../react-auth0-wrapper"
-import { RetrieveUserLocations } from "../api/Post.js"
-import { getActivities } from "../api/Get.js"
+import { RetrieveUserLocations, GetUserHome } from "../api/Post.js"
+import { getActivities, getLocations, getUserLocations } from "../api/Get.js"
 import { GetWeatherForecast } from "../api/GetWeatherForecast"
 
 import { a11yProps, TabPanel } from "../App"
@@ -21,6 +22,9 @@ import Loading from "../components/Loading"
 import Joyride from "react-joyride"
 import { blurbs } from "../data/tour"
 import { AddLocationButton } from "../components/AddLocationButton"
+import { DiscoverLocationButton } from "../components/DiscoverLocationButton"
+
+import DiscoverPanel from "./DiscoverMap"
 
 const joyrideStyle = {
     backgroundColor: "#fff",
@@ -37,7 +41,8 @@ export const MainApp = props => {
 
     const [tabValue, setTabValue] = useState(0)
     const [locationList, setLocationList] = useState([])
-    const [activities, setActivities] = useState([])
+    const [allLocationList, setAllLocationList] = useState([])
+    const [userHome, setUserHome] = useState()
     const { loading, getTokenSilently, user } = useAuth0()
     const [weatherData, setWeatherData] = useState(null)
 
@@ -46,8 +51,15 @@ export const MainApp = props => {
     }
 
     const getLocationList = setLocationList => {
-        console.count()
         RetrieveUserLocations(setLocationList, getTokenSilently, user)
+    }
+
+    const getAllLocationList = setAllLocationList => {
+        getLocations(setAllLocationList)
+    }
+
+    const getUserHome = setUserHome => {
+        GetUserHome(setUserHome, getTokenSilently, user)
     }
 
     const walkThroughCallback = data => {
@@ -65,7 +77,8 @@ export const MainApp = props => {
     useEffect(() => {
         if (!loading) {
             getLocationList(setLocationList)
-            getActivities(setActivities)
+            getAllLocationList(setAllLocationList)
+            getUserHome(setUserHome)
         }
     }, [loading])
 
@@ -92,6 +105,11 @@ export const MainApp = props => {
             event: "hover",
         },
         {
+            target: ".discover",
+            content: blurbs["discover"],
+            event: "hover",
+        },
+        {
             target: ".add-location",
             content: blurbs["new_location"],
             event: "hover",
@@ -108,7 +126,6 @@ export const MainApp = props => {
                     <header>
                         <NavBar />
                     </header>
-
                     <Tabs
                         value={tabValue}
                         onChange={handleChange}
@@ -121,8 +138,8 @@ export const MainApp = props => {
                         <Tab className="locations" label="Your Locations" {...a11yProps(0)} />
                         <Tab className="rain_graph" label="Precipitation Graph" {...a11yProps(1)} />
                         <Tab className="compare" label="Compare Weather" {...a11yProps(2)} />
+                        <Tab className="discover" label="Discover New Locations" {...a11yProps(3)} />
                     </Tabs>
-
                     <TabPanel value={tabValue} index={0} icon={<PhoneIcon />}>
                         <LocationGrid
                             locationList={locationList}
@@ -130,7 +147,6 @@ export const MainApp = props => {
                             setLocationList={setLocationList}
                         />
                     </TabPanel>
-
                     <TabPanel value={tabValue} index={1} icon={<PhoneIcon />}>
                         <Graph
                             locationList={locationList}
@@ -138,7 +154,6 @@ export const MainApp = props => {
                             setLocationList={setLocationList}
                         />
                     </TabPanel>
-
                     <TabPanel value={tabValue} index={2} icon={<PhoneIcon />}>
                         <WeatherComparison
                             weatherData={weatherData}
@@ -146,13 +161,24 @@ export const MainApp = props => {
                             setLocationList={setLocationList}
                         />
                     </TabPanel>
-                    <AddLocationButton
-                        setLocationList={setLocationList}
-                        getLocationList={getLocationList}
-                        setActivityList={setActivities}
-                        getActivityList={getActivities}
-                        activities={activities}
-                    />
+                    <TabPanel value={tabValue} index={3}>
+                        <DiscoverPanel
+                            userHome={userHome}
+                            locationList={locationList}
+                            allLocationList={allLocationList}
+                            user={user}
+                            getTokenSilently={getTokenSilently}
+                            refreshLocations={() => {
+                                {
+                                    console.count("refresh")
+                                }
+                                getLocationList(setLocationList)
+                            }}
+                        />
+                    </TabPanel>
+                    <div>
+                        <AddLocationButton setLocationList={setLocationList} getLocationList={getLocationList} />
+                    </div>
                     {!hasToured && (
                         <Joyride
                             steps={steps}

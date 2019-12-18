@@ -1,29 +1,20 @@
-import React, { useState } from "react"
-import GoogleMapReact from "google-map-react"
+import React, { useState, Fragment } from "react"
+import GoogleMap from "./GoogleMap"
 
 import Chip from "@material-ui/core/Chip"
 import { locationMapper } from "../LocationGrid"
 import LocationDetail from "../LocationDetail"
 import Entry from "../../data/locations"
 import Tooltip from "@material-ui/core/Tooltip"
-import TextField from "@material-ui/core/TextField"
+import { activityIcons } from "../activityIcons"
 
-const ChipMarker = ({ text, tooltipText, handleClick }) => (
+const ChipMarker = ({ text, tooltipText, handleClick, ...props }) => (
     <Tooltip title={tooltipText}>
-        <Chip color="primary" style={{ opacity: 0.8 }} label={text} onClick={() => handleClick(text)} />
+        <Chip color="primary" style={{ opacity: 0.8 }} label={text} onClick={() => handleClick(text)} {...props} />
     </Tooltip>
 )
 
 const MapView = props => {
-    const onSearchInputChange = event => {
-        console.log("Search changed ..." + event.target.value)
-        if (event.target.value) {
-            setSearchString(event.target.value)
-        } else {
-            setSearchString("")
-        }
-    }
-
     const [open, setOpen] = useState(false)
     const [selectedCard, setSelectedCard] = useState("")
     const [searchString, setSearchString] = useState("")
@@ -34,23 +25,16 @@ const MapView = props => {
     const locationMap = props.locationList ? locationAtoms.reduce(locationMapper, {}) : null
 
     return (
-        <div>
-            {" "}
+        <Fragment>
             {props.locationList ? (
                 <div style={{ height: props.height ? props.height : "80vh", width: "100%" }}>
-                    {/* <TextField style={{padding: 24}}
-                            id="searchInputMapView"
-                            placeholder="Filter Locations"   
-                            margin="normal"
-                            onChange={onSearchInputChange}
-                            /> */}
-
-                    <GoogleMapReact
+                    <GoogleMap
                         id="mapview"
                         defaultCenter={center}
                         defaultZoom={zoom}
                         bootstrapURLKeys={{
                             key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+                            libraries: ["places", "geometry"],
                         }}
                     >
                         {props.locationList
@@ -61,13 +45,14 @@ const MapView = props => {
                                     lng={location.long}
                                     text={location.name}
                                     tooltipText={location.activities.join(",")}
+                                    icon={activityIcons[location.activities[0]]}
                                     handleClick={title => {
                                         setOpen(true)
                                         setSelectedCard(title)
                                     }}
                                 />
                             ))}
-                    </GoogleMapReact>
+                    </GoogleMap>
                 </div>
             ) : (
                 "Loading"
@@ -78,7 +63,7 @@ const MapView = props => {
                 location={selectedCard}
                 locationMap={locationMap}
             />
-        </div>
+        </Fragment>
     )
 }
 
