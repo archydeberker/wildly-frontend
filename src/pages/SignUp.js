@@ -133,8 +133,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
         const data = { user: user, home_location: location, activities: userActivities, locations: userLocations }
 
-        AddUser(console.log, getTokenSilently, data)
-        onFinish()
+        AddUser(onFinish, getTokenSilently, data)
         setOnboarded(true)
     }
 
