@@ -26,17 +26,13 @@ export default function AccountDetails(props) {
                     <CardContent>
                         <Grid>Logged in user is {userID}</Grid>
                         <Grid>
-                            <ExternalAPI />
-                        </Grid>
-                        <Grid>
                             <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={() => onLogout()}
                                 style={{ marginTop: 20 }}
                             >
-                                {" "}
-                                Logout{" "}
+                                Logout
                             </Button>
                         </Grid>
                     </CardContent>

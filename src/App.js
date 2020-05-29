@@ -60,11 +60,11 @@ function AppRouter() {
         return <Loading />
     }
 
+    console.log(isAuthenticated)
     return (
         <Router>
             <div>
                 <Route exact path="/">
-                    {" "}
                     {!isAuthenticated ? (
                         <Redirect to="/splash" />
                     ) : (
