@@ -47,7 +47,7 @@ export default function RecommendedLocations(props) {
         return a.distance - b.distance
     })
 
-    return data ? (
+    return data && data.length > 0 ? (
         <div className={classes.tableWrapper}>
             <Table stickyHeader className={classes.table}>
                 <TableHead>
@@ -84,6 +84,8 @@ export default function RecommendedLocations(props) {
             </Table>
         </div>
     ) : (
-        <div></div>
+        <div>
+            We don't seem to have any locations in that region, you'll be the first Wildly user in your neighbourhood!
+        </div>
     )
 }
