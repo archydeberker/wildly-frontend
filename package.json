@@ -12,7 +12,7 @@
         "helmet": "^3.20.0",
         "lodash": "^4.17.15",
         "plotly": "^1.0.6",
-        "plotly.js": "^1.49.5",
+        "plotly.js": "^2.25.2",
         "postscribe": "^2.0.8",
         "prettier": "^1.19.1",
         "react": "^16.9.0",
